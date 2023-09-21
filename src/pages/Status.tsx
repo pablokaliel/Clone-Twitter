@@ -46,9 +46,9 @@ export function Status() {
   ]);
 
   const newAnswerObj: AnswerProps = {
-    userAvatar: "https://github.com/maik-emanoel.png",
-    userName: "Maik Emanoel",
-    userLogin: "maik_emanoel",
+    userAvatar: "https://github.com/pablokaliel.png",
+    userName: "Pablo Kaliel",
+    userLogin: "pablokalyell",
     content: newAnswer,
     comments: 0,
     retweets: 0,

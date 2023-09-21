@@ -1,4 +1,3 @@
-import { DotsThree } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { TweetProps } from "../pages/Timeline";
 import Buttons from "./Buttons";
@@ -14,12 +13,9 @@ export function Tweet({
   likes,
   id,
 }: TweetProps) {
- 
-
   return (
     <Link
       to={`/status/${id}`}
-     
       className="w-full py-6 px-5 grid grid-cols-[max-content_1fr] gap-3 border-b-[1px] border-grayBorder transition-colors duration-200 dark:border-grayBorderDark 
       data-[istouchsupported=false]:hover:bg-black/[0.03] 
       data-[istouchsupported=false]:hover:dark:bg-white/[0.03]"
@@ -34,21 +30,6 @@ export function Tweet({
               @{userLogin}
             </span>
           </div>
-
-          <div
-            
-            className="absolute -top-2 right-0 w-[34.75px] h-[34.75px] group rounded-full grid place-items-center 
-            data-[istouchsupported=false]:hover:bg-twitterBlue/10"
-            
-          >
-            <DotsThree
-              weight="bold"
-              size={18.75}
-              
-              className="text-black/50 dark:text-white/50 data-[istouchsupported=false]:group-hover:text-twitterBlue"
-            />
-          </div>
-
 
         </div>
 
@@ -68,8 +49,6 @@ export function Tweet({
               />
             </div>
           )}
-
-          
         </div>
         <Buttons
           id={id}
