@@ -18,7 +18,6 @@ export interface TweetProps {
 }
 
 export function Timeline() {
-  
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
     userAvatar: "https://github.com/pablokaliel.png",
@@ -35,6 +34,8 @@ export function Timeline() {
 
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
+    if (newTweet.content.trim() === "") return; // Verifica se o conteúdo do tweet está vazio ou apenas contém espaços em branco.
+  
     setTweets((prevTweets) => [newTweet, ...prevTweets]);
     setNewTweet({
       id: uuidv4(),
@@ -49,11 +50,21 @@ export function Timeline() {
     });
   }
 
-
   function handleHotKeySubmit(e: KeyboardEvent) {
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+    if ((e.key === "Enter" && (e.ctrlKey || e.metaKey)) && newTweet.content.trim() !== "") {
+      e.preventDefault();
       setTweets((prevTweets) => [newTweet, ...prevTweets]);
-      // Não defina um novo tweet vazio aqui, a menos que você queira isso.
+      setNewTweet({
+        id: uuidv4(),
+        userAvatar: "https://github.com/pablokaliel.png",
+        userName: "PabloKaliel",
+        userLogin: "pablokalyell",
+        content: "",
+        comments: 0,
+        retweets: 0,
+        likes: 0,
+        imageUrl: undefined,
+      });
     }
   }
 
@@ -85,7 +96,8 @@ export function Timeline() {
 
         <button
           type="submit"
-          className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90"
+          className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90  disabled:opacity-60 disabled:pointer-events-none"
+          disabled={newTweet.content.trim() === ""}
         >
           Tweet
         </button>

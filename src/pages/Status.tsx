@@ -8,7 +8,6 @@ import NotFound from "./NotFound";
 import Separator from "../components/Separator";
 import { useTweetContext } from "../context/TweetContext";
 
-
 interface AnswerProps {
   userAvatar: string;
   userName: string;
@@ -21,7 +20,7 @@ interface AnswerProps {
 
 export function Status() {
   const { id } = useParams();
-  const { tweets } = useTweetContext()
+  const { tweets } = useTweetContext();
 
   const [newAnswer, setNewAnswer] = useState("");
   const [answers, setAnswers] = useState<AnswerProps[]>([
@@ -74,8 +73,8 @@ export function Status() {
 
   const tweet = tweets.concat(initialTweets).find((tweet) => tweet.id === id);
 
-  if(!tweet) {
-    return <NotFound />
+  if (!tweet) {
+    return <NotFound />;
   }
 
   return (
@@ -83,16 +82,16 @@ export function Status() {
       <Header title="Tweet" />
 
       <Tweet
-          id={tweet.id}
-          userAvatar={tweet.userAvatar}
-          userName={tweet.userName}
-          userLogin={tweet.userLogin}
-          content={tweet.content}
-          imageUrl={tweet.imageUrl}
-          comments={tweet.comments}
-          retweets={tweet.retweets}
-          likes={tweet.likes}
-        />
+        id={tweet.id}
+        userAvatar={tweet.userAvatar}
+        userName={tweet.userName}
+        userLogin={tweet.userLogin}
+        content={tweet.content}
+        imageUrl={tweet.imageUrl}
+        comments={tweet.comments}
+        retweets={tweet.retweets}
+        likes={tweet.likes}
+      />
 
       <Separator />
 

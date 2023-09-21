@@ -29,7 +29,7 @@ function Buttons(props: ButtonsProps) {
   return (
     <div className="flex items-center gap-12 mt-3">
       <button
-      title="comment"
+        title="comment"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -47,7 +47,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
-      title="retweet"
+        title="retweet"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -64,7 +64,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
-      title="like/unlike"
+        title="like/unlike"
         type="button"
         onClick={handleIncreaseLike}
         className="flex items-center gap-2 text-sm text-slate-400 group"
@@ -82,7 +82,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
-      title="views"
+        title="views"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -100,7 +100,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
-      title="share"
+        title="share"
         type="button"
         onClick={(event) => {
           event.preventDefault();

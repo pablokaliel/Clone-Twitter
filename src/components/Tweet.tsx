@@ -22,7 +22,7 @@ export function Tweet({
     >
       <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full" />
 
-      <div className="flex flex-col gap-[2px] max-w-[500px]">
+      <div className="flex flex-col gap-[2px]">
         <div className="flex items-center justify-between relative">
           <div className="flex items-center gap-1">
             <strong>{userName}</strong>
@@ -30,7 +30,6 @@ export function Tweet({
               @{userLogin}
             </span>
           </div>
-
         </div>
 
         <div>
@@ -41,7 +40,7 @@ export function Tweet({
             {content}
           </p>
           {imageUrl && (
-            <div className="max-w-[500px] w-full mt-2 min-w-0">
+            <div className=" w-full mt-2 min-w-0">
               <img
                 src={imageUrl}
                 alt="Imagem aleatória"
