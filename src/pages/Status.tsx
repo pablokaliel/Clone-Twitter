@@ -105,7 +105,7 @@ export function Status() {
           className="flex items-center gap-3 flex-1 sm:w-full"
         >
           <img
-            src="https://github.com/maik-emanoel.png"
+            src="https://github.com/pablokaliel.png"
             alt="Maik Emanoel"
             className="w-12 h-12 rounded-full sm:w-10 sm:h-10"
           />

@@ -22,10 +22,6 @@ export const router = createBrowserRouter([
                 element: <Timeline />
             },
             {
-                path: '/status',
-                element: <Status />
-            },
-            {
                 path: '/bookmarks',
                 element: <BookMarks />
             },

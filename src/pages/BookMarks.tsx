@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Sidebar } from "../components/SiderBar";
 import { Header } from "../components/Header";
 
 

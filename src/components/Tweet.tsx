@@ -1,4 +1,4 @@
-import { ArrowsClockwise, ChatCircle, DotsThree, Heart } from "@phosphor-icons/react";
+import { DotsThree } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { TweetProps } from "../pages/Timeline";
 import Buttons from "./Buttons";
