@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import More from "./pages/More";
 import Notifications from "./pages/Notifications";
 import { Status } from "./pages/Status";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/more" element={<More />} />
         <Route path="/status/:id" element={<Status />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

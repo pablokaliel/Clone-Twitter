@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Separator from "../components/Separator";
 import Tweet from "../components/Tweet";
 import { initialTweets } from "../utils/InitialTweets";
 import { FormEvent } from "react";
 import SideBar from "../components/SiderBar";
+import { v4 as uuidv4 } from "uuid";
 
 interface AnswerProps {
   id: string;
@@ -16,6 +17,7 @@ interface AnswerProps {
   comments: number;
   retweets: number;
   likes: number;
+  views:number;
 }
 
 export function Status() {
@@ -32,6 +34,7 @@ export function Status() {
       comments: 1,
       retweets: 9,
       likes: 2004,
+      views:3
     },
     {
       id: "1",
@@ -42,24 +45,38 @@ export function Status() {
       comments: 13,
       retweets: 46,
       likes: 3021,
+      views:4
     },
   ]);
 
   const newAnswerObj: AnswerProps = {
     id: "1",
-    userAvatar: "https://github.com/maik-emanoel.png",
-    userName: "Maik Emanoel",
-    userLogin: "maik_emanoel",
+    userAvatar: "https://github.com/pablokaliel.png",
+    userName: "Pablo Kaliel",
+    userLogin: "pablokalyell",
     content: newAnswer,
     comments: 0,
     retweets: 0,
     likes: 0,
+    views: 0,
   };
 
   function createNewAnswer(e: FormEvent) {
     e.preventDefault();
     if (newAnswer === "") return;
 
+    const newAnswerObj: AnswerProps = {
+      id: uuidv4(), // Gere um ID único para cada nova resposta
+      userAvatar: "https://github.com/pablokaliel.png",
+      userName: "Pablo Kaliel",
+      userLogin: "pablokalyell",
+      content: newAnswer,
+      comments: 0,
+      retweets: 0,
+      likes: 0,
+      views: 0,
+    };
+  
     setAnswers([newAnswerObj, ...answers]);
     setNewAnswer("");
   }
@@ -80,7 +97,7 @@ export function Status() {
     return (
       <div>
         <p>Oops! O tweet não foi encontrado.</p>
-        <button onClick={() => "olá"}>Voltar para a página inicial</button>
+        <Link to={"/"}>Voltar para a página inicial</Link>
       </div>
     );
   }
@@ -101,6 +118,7 @@ export function Status() {
           comments={tweet.comments}
           retweets={tweet.retweets}
           likes={tweet.likes}
+          views={tweet.views}
         />
 
         <Separator />
@@ -114,7 +132,7 @@ export function Status() {
             className="flex items-center gap-3 flex-1 sm:w-full"
           >
             <img
-              src="https://github.com/maik-emanoel.png"
+              src="https://github.com/pablokaliel.png"
               alt="Maik Emanoel"
               className="w-12 h-12 rounded-full sm:w-10 sm:h-10"
             />
@@ -129,7 +147,7 @@ export function Status() {
 
           <button
             type="submit"
-            className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black transition-all duration-300 ease-in-out  disabled:opacity-60 disabled:pointer-events-none sm:py-2 sm:px-5 data-[istouchsupported=false]:hover:brightness-90"
+            className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black transition-all duration-300 ease-in-out disabled:opacity-60 disabled:pointer-events-none sm:py-2 sm:px-5 data-[istouchsupported=false]:hover:brightness-90"
             disabled={newAnswer === "" ? true : false}
           >
             Answer
@@ -149,6 +167,7 @@ export function Status() {
                 comments={answer.comments}
                 retweets={answer.retweets}
                 likes={answer.likes}
+                views={answer.views}
               />
             );
           })}

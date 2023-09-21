@@ -11,6 +11,7 @@ export interface TweetProps {
   comments: number;
   retweets: number;
   likes: number;
+  views:number
 }
 
 function Tweet(props: TweetProps) {
@@ -43,6 +44,7 @@ function Tweet(props: TweetProps) {
           comments={props.comments}
           retweets={props.retweets}
           likes={props.likes}
+          views={props.views}
         />
       </div>
     </Link>

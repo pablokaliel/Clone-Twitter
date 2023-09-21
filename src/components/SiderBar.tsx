@@ -1,21 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  House,
-  Hash,
-  Bell,
-  EnvelopeSimple,
-  BookmarkSimple,
-  File,
-  User,
-  DotsThreeCircle,
-  TwitterLogo,
-  DotsThree,
-} from "@phosphor-icons/react";
+import { Link, NavLink } from "react-router-dom";
+import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
 
 const links = [
   { id: "", name: "Home", icon: <House size={32} /> },
-  { id: "explore", name: "Explore", icon: <Hash size={32} /> },
+  { id: "explore", name: "Explore", icon: <MagnifyingGlass size={32} /> },
   { id: "notifications", name: "Notifications", icon: <Bell size={32} /> },
   { id: "messages", name: "Messages", icon: <EnvelopeSimple size={32} /> },
   { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
@@ -62,7 +51,7 @@ function SideBar(props: SideBarProps) {
         </Link>
         <nav className="flex flex-col gap-1 ">
           {links.map((link) => (
-            <Link
+            <NavLink
               key={link.id}
               className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
               to={`/${link.id}`}
@@ -73,7 +62,7 @@ function SideBar(props: SideBarProps) {
                 ? React.cloneElement(link.icon, { weight: "fill" })
                 : React.cloneElement(link.icon, { weight: "regular" })}
               {link.name} {/* Nome do link */}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

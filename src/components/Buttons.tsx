@@ -12,6 +12,7 @@ interface ButtonsProps {
   comments: number;
   retweets: number;
   likes: number;
+  views:number
 }
 
 function Buttons(props: ButtonsProps) {
@@ -29,6 +30,7 @@ function Buttons(props: ButtonsProps) {
   return (
     <div className="flex items-center gap-12 mt-3">
       <button
+      title="comment"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -46,6 +48,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
+      title="retweet"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -62,6 +65,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
+      title="like/unlike"
         type="button"
         onClick={handleIncreaseLike}
         className="flex items-center gap-2 text-sm text-slate-400 group"
@@ -79,6 +83,7 @@ function Buttons(props: ButtonsProps) {
       </button>
 
       <button
+      title="views"
         type="button"
         onClick={(event) => {
           event.preventDefault();
@@ -91,11 +96,12 @@ function Buttons(props: ButtonsProps) {
           <ChartLine size={20} />
         </div>
         <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
-          1.2k
+          {props.views}k
         </p>
       </button>
 
       <button
+      title="share"
         type="button"
         onClick={(event) => {
           event.preventDefault();
