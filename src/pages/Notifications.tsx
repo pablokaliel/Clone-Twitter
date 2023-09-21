@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import SideBar from "../components/SiderBar";
-import Header from "../components/Header";
+import {Header} from "../components/Header";
+import { Sidebar } from "../components/SiderBar";
 
 function Notifications() {
   return (
 
-    <main className="mx-auto max-w-[1000px] grid grid-cols-[300px_1fr]">
-    <SideBar userLogin="pablokalyell" userName="Pablo Kaliel" />
+    <main className="mx-auto flex-1">
     <div>
       <Header title="Notifications" />
 

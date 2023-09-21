@@ -12,7 +12,6 @@ interface ButtonsProps {
   comments: number;
   retweets: number;
   likes: number;
-  views:number
 }
 
 function Buttons(props: ButtonsProps) {
@@ -72,7 +71,7 @@ function Buttons(props: ButtonsProps) {
       >
         <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-likePink hover:text-likePink group-hover:bg-likePink/10 -m-2 transition-colors duration-200 ">
           {isLiked ? (
-            <Heart size={18.75} weight="fill" />
+            <Heart size={18.75} weight="fill" color="#f00" />
           ) : (
             <Heart size={18.75} />
           )}
@@ -96,7 +95,7 @@ function Buttons(props: ButtonsProps) {
           <ChartLine size={20} />
         </div>
         <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
-          {props.views}k
+          1.2k
         </p>
       </button>
 

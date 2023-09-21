@@ -1,101 +1,61 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
+import { NavLink } from "react-router-dom";
+import {
+  Bell,
+  TwitterLogo,
+  BookmarkSimple,
+  DotsThreeCircle,
+  Envelope,
+  FileText,
+  Hash,
+  House,
+  Pencil,
+  User,
+} from "@phosphor-icons/react";
 
-const links = [
-  { id: "", name: "Home", icon: <House size={32} /> },
-  { id: "explore", name: "Explore", icon: <MagnifyingGlass size={32} /> },
-  { id: "notifications", name: "Notifications", icon: <Bell size={32} /> },
-  { id: "messages", name: "Messages", icon: <EnvelopeSimple size={32} /> },
-  { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
-  { id: "lists", name: "Lists", icon: <File size={32} /> },
-  { id: "profile", name: "Profile", icon: <User size={32} /> },
-  { id: "more", name: "More", icon: <DotsThreeCircle size={32} /> },
-];
-interface SideBarProps {
-  userName: string;
-  userLogin: string;
-}
-
-function SideBar(props: SideBarProps) {
-  const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
-    {}
-  );
-
-  const handleLinkFocus = (linkId: string) => {
-    setFocusedLinks((prevFocusedLinks) => ({
-      ...prevFocusedLinks,
-      [linkId]: true,
-    }));
-  };
-
-  const handleLinkBlur = (linkId: string) => {
-    setFocusedLinks((prevFocusedLinks) => ({
-      ...prevFocusedLinks,
-      [linkId]: false,
-    }));
-  };
-
-  const isLinkFocused = (linkId: string) => {
-    return focusedLinks[linkId];
-  };
-
+export function Sidebar() {
   return (
-    <aside className="pt-6 px-5 flex flex-col md:items-center justify-between h-screen sticky top-0 md:px-0 sm:hidden">
-      <div className="flex flex-col  gap-8">
-        <Link
-          className="flex justify-center items-center w-fit text-xl font-bold rounded-full py-2 px-2 hover:bg-zinc-100"
-          to={"/"}
-        >
-          <TwitterLogo weight="fill" size={32} color="#1da1f2" />
-        </Link>
-        <nav className="flex flex-col gap-1 ">
-          {links.map((link) => (
-            <NavLink
-              key={link.id}
-              className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
-              to={`/${link.id}`}
-              onFocus={() => handleLinkFocus(link.id)}
-              onBlur={() => handleLinkBlur(link.id)}
-            >
-              {isLinkFocused(link.id)
-                ? React.cloneElement(link.icon, { weight: "fill" })
-                : React.cloneElement(link.icon, { weight: "regular" })}
-              {link.name} {/* Nome do link */}
-            </NavLink>
-          ))}
-        </nav>
+    <aside className="py-6 px-5 flex flex-col gap-8 md:items-center">
+      <TwitterLogo color="" className="w-8 h-8" />
 
-        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full text-white text-lg font-bold border-0 p-4 hover:brightness-90 transition-all">
-          Tweet
-        </button>
-      </div>
+      <nav className="flex flex-col gap-8">
+        <NavLink to="/" className="flex items-center gap-5 text-xl font-bold">
+          <House className="w-8 h-8" weight="fill" />
+          <span className="md:hidden">Home</span>
+        </NavLink>
+        <NavLink to={"/explorer"} className="flex items-center gap-5 text-xl font-bold">
+          <Hash className="w-8 h-8" />
+          <span className="md:hidden">Explorer</span>
+        </NavLink>
+        <NavLink to={"/notifications"} className="flex items-center gap-5 text-xl font-bold">
+          <Bell className="w-8 h-8" />
+          <span className="md:hidden">Notifications</span>
+        </NavLink>
+        <NavLink to={"/messages"} className="flex items-center gap-5 text-xl font-bold">
+          <Envelope className="w-8 h-8" />
+          <span className="md:hidden">Messages</span>
+        </NavLink>
+        <NavLink to={"/bookmarks"} className="flex items-center gap-5 text-xl font-bold">
+          <BookmarkSimple className="w-8 h-8" />
+          <span className="md:hidden">Bookmarks</span>
+        </NavLink>
+        <NavLink to={"/lists"} className="flex items-center gap-5 text-xl font-bold">
+          <FileText className="w-8 h-8" />
+          <span className="md:hidden">Lists</span>
+        </NavLink>
+        <NavLink to={"/profile"} className="flex items-center gap-5 text-xl font-bold">
+          <User className="w-8 h-8" />
+          <span className="md:hidden">Profile</span>
+        </NavLink>
+        <NavLink to={"/more"} className="flex items-center gap-5 text-xl font-bold">
+          <DotsThreeCircle className="w-8 h-8" />
+          <span className="md:hidden">More</span>
+        </NavLink>
+      </nav>
 
-      <div
-        className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer
-        md:w-16 md:h-16 md:p-3 
-        data-[istouchsupported=false]:hover:bg-zinc-100 
-        data-[istouchsupported=false]:hover:dark:bg-zinc-800"
-      >
-        <img
-          src="https://github.com/pabloKaliel.png"
-          alt="Foto de perfil do usuário"
-          className="w-10 h-10 rounded-full"
-        />
-        <div className="flex flex-1 justify-between items-center md:hidden">
-          <div className="flex flex-col flex-shrink-0 text-sm">
-            <span className="font-bold">{props.userName}</span>
-            <span className="opacity-70 dark:opacity-50">
-              @{props.userLogin}
-            </span>
-          </div>
-          <div>
-            <DotsThree weight="bold" size={18.75} />
-          </div>
-        </div>
-      </div>
+      <button className="bg-twitterBlue rounded-full p-4 flex justify-center w-full text-white text-xl font-black hover:brightness-90 md:p-2">
+        <Pencil className="w-6 h-6" />
+        <span className="md:hidden">Tweet</span>
+      </button>
     </aside>
   );
 }
-
-export default SideBar;
