@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import Tweet from "../components/Tweet";
 import SideBar from "../components/SiderBar";
 import Header from "../components/Header";
@@ -7,9 +7,22 @@ import { initialTweets } from "../utils/InitialTweets";
 import { v4 as uuidv4 } from "uuid";
 
 
+export interface newTweetProps {
+  id: string;
+  userAvatar: string;
+  userName: string;
+  userLogin: string;
+  content: string;
+  imageUrl?: string | undefined;
+  comments: number;
+  retweets: number;
+  likes: number;
+  views: number; // Adicione esta linha
+}
 function Home() {
   const [newTweet,setNewTweet] = useState('')
   const [tweets,setTweets] = useState(initialTweets)
+
 
 
   function handleCreateNewTweet(e: FormEvent) {
@@ -26,6 +39,7 @@ function Home() {
       comments: 0,
       retweets: 0,
       likes: 0,
+      views:0,
     };
   
     // Adicione o novo tweet ao array de tweets existente

@@ -13,6 +13,7 @@ interface AnswerProps {
   userAvatar: string;
   userName: string;
   userLogin: string;
+  imageUrl?:string;
   content: string;
   comments: number;
   retweets: number;
@@ -49,18 +50,7 @@ export function Status() {
     },
   ]);
 
-  const newAnswerObj: AnswerProps = {
-    id: "1",
-    userAvatar: "https://github.com/pablokaliel.png",
-    userName: "Pablo Kaliel",
-    userLogin: "pablokalyell",
-    content: newAnswer,
-    comments: 0,
-    retweets: 0,
-    likes: 0,
-    views: 0,
-  };
-
+  
   function createNewAnswer(e: FormEvent) {
     e.preventDefault();
     if (newAnswer === "") return;
@@ -81,14 +71,7 @@ export function Status() {
     setNewAnswer("");
   }
 
-  function handleHotKeySubmit(e: KeyboardEvent) {
-    if (newAnswer === "") return;
-
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-      setAnswers([newAnswerObj, ...answers]);
-      setNewAnswer("");
-    }
-  }
+ 
   const allTweets = [...initialTweets, ...answers]; // Combine os tweets iniciais com outras respostas, se necessário.
 
   const tweet = allTweets.find((t) => t.id === id);
