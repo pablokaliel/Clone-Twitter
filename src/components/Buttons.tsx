@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import {
-  ChatCircle,
-  ArrowClockwise,
-  Heart,
-  ChartLine,
-  Export,
-} from "@phosphor-icons/react";
+import { ChatCircle, ArrowClockwise, Heart, ChartLine, Export } from "@phosphor-icons/react";
 
 interface ButtonsProps {
   id: string;
   comments: number;
   retweets: number;
   likes: number;
+  views: number;
 }
 
 function Buttons(props: ButtonsProps) {
@@ -95,7 +90,7 @@ function Buttons(props: ButtonsProps) {
           <ChartLine size={20} />
         </div>
         <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
-          1.2k
+          {props.views}
         </p>
       </button>
 

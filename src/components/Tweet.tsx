@@ -12,6 +12,7 @@ export function Tweet({
   retweets,
   likes,
   id,
+  views,
 }: TweetProps) {
   return (
     <Link
@@ -20,7 +21,11 @@ export function Tweet({
       data-[istouchsupported=false]:hover:bg-black/[0.03] 
       data-[istouchsupported=false]:hover:dark:bg-white/[0.03]"
     >
-      <img src={userAvatar} alt={userName} className="w-10 h-10 rounded-full" />
+      <img
+        src={userAvatar}
+        alt={userName}
+        className="w-10 h-10 rounded-full object-cover"
+      />
 
       <div className="flex flex-col gap-[2px]">
         <div className="flex items-center justify-between relative">
@@ -54,6 +59,7 @@ export function Tweet({
           comments={comments}
           retweets={retweets}
           likes={likes}
+          views={views}
         />
       </div>
     </Link>

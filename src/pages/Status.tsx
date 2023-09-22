@@ -17,6 +17,7 @@ interface AnswerProps {
   retweets: number;
   likes: number;
   id: string;
+  views: number;
 }
 
 export function Status() {
@@ -26,24 +27,26 @@ export function Status() {
   const [newAnswer, setNewAnswer] = useState("");
   const [answers, setAnswers] = useState<AnswerProps[]>([
     {
-      userAvatar: "https://github.com/maykbrito.png",
-      userName: "Mayk Brito",
-      userLogin: "maykbrito",
-      content: "Estamos fazendo progresso",
+      userAvatar: "https://source.unsplash.com/random/?men/94",
+      userName: "Gabriel Martins",
+      userLogin: "gabriell_mart",
+      content: "A busca pelo conhecimento é uma jornada incrível!",
       comments: 1,
-      retweets: 9,
+      retweets: 46,
       likes: 2004,
       id: uuidv4(),
+      views: 3,
     },
     {
-      userAvatar: "https://github.com/diego3g.png",
-      userName: "Diego Fernandes",
-      userLogin: "diego_3g",
-      content: "Realmente, faz sentido",
+      userAvatar: "https://source.unsplash.com/random/?woman/94",
+      userName: "Sophia Rodriguez",
+      userLogin: "sophiarod_099",
+      content: "Que ótimo ouvir isso! 😃",
       comments: 13,
-      retweets: 46,
       likes: 3021,
+      retweets: 9,
       id: uuidv4(),
+      views: 6,
     },
   ]);
 
@@ -56,6 +59,7 @@ export function Status() {
     retweets: 0,
     likes: 0,
     id: uuidv4(),
+    views: 0,
   };
 
   function createNewAnswer(e: FormEvent) {
@@ -71,6 +75,7 @@ export function Status() {
       retweets: 0,
       likes: 0,
       id: uuidv4(),
+      views: 0,
     };
 
     setAnswers([newAnswerObj, ...answers]);
@@ -91,12 +96,12 @@ export function Status() {
   }
 
   const tweet = tweets.find((tweet) => tweet.id === id);
-console.log("Tweet encontrado:", tweet);
+  console.log("Tweet encontrado:", tweet);
 
   if (!tweet) {
     return <NotFound />;
   }
-  
+
   return (
     <main>
       <Header title="Tweet" />
@@ -111,6 +116,7 @@ console.log("Tweet encontrado:", tweet);
         comments={tweet.comments}
         retweets={tweet.retweets}
         likes={tweet.likes}
+        views={tweet.views}
       />
 
       <Separator />
@@ -126,7 +132,7 @@ console.log("Tweet encontrado:", tweet);
           <img
             src="https://github.com/pablokaliel.png"
             alt="Maik Emanoel"
-            className="w-12 h-12 rounded-full sm:w-10 sm:h-10"
+            className="w-12 h-12 rounded-full sm:w-10 sm:h-10 object-cover"
           />
           <textarea
             id="tweet"
@@ -159,6 +165,7 @@ console.log("Tweet encontrado:", tweet);
             comments={answer.comments}
             retweets={answer.retweets}
             likes={answer.likes}
+            views={answer.views}
           />
         ))}
       </div>

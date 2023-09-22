@@ -16,6 +16,7 @@ export interface TweetProps {
   comments: number;
   retweets: number;
   likes: number;
+  views: number;
 }
 
 export function Timeline() {
@@ -28,6 +29,7 @@ export function Timeline() {
     comments: 0,
     retweets: 0,
     likes: 0,
+    views: 0,
     imageUrl: undefined,
   });
 
@@ -36,12 +38,12 @@ export function Timeline() {
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
     if (newTweet.content.trim() === "") return;
-  
+
     const newTweetWithId = {
       ...newTweet,
       id: uuidv4(), // Gera um ID exclusivo
     };
-  
+
     setTweets((prevTweets) => [newTweetWithId, ...prevTweets]);
     setNewTweet({
       id: uuidv4(),
@@ -52,6 +54,7 @@ export function Timeline() {
       comments: 0,
       retweets: 0,
       likes: 0,
+      views: 0,
       imageUrl: undefined,
     });
 
@@ -59,7 +62,11 @@ export function Timeline() {
   }
 
   function handleHotKeySubmit(e: KeyboardEvent) {
-    if ((e.key === "Enter" && (e.ctrlKey || e.metaKey)) && newTweet.content.trim() !== "") {
+    if (
+      e.key === "Enter" &&
+      (e.ctrlKey || e.metaKey) &&
+      newTweet.content.trim() !== ""
+    ) {
       e.preventDefault();
       setTweets((prevTweets) => [newTweet, ...prevTweets]);
       setNewTweet({
@@ -71,6 +78,7 @@ export function Timeline() {
         comments: 0,
         retweets: 0,
         likes: 0,
+        views: 0,
         imageUrl: undefined,
       });
     }
@@ -125,6 +133,7 @@ export function Timeline() {
           likes={tweet.likes}
           userName={tweet.userName}
           imageUrl={tweet.imageUrl}
+          views={tweet.views}
         />
       ))}
     </main>
