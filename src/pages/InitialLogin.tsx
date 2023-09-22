@@ -7,7 +7,7 @@ import {
 
 function InitalLogin() {
   return (
-    <div className="w-full h-screen bg-gray-900 grid place-content-center">
+    <div className="w-full h-screen bg-gray-300/50 grid place-content-center">
       <div className="bg-black w-[600px] h-[650px] rounded-3xl relative">
         <header className="p-4 flex items-center justify-center">
           <TwitterLogo color="#fff" size={38} />

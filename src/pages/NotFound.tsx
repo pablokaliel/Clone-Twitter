@@ -1,6 +1,6 @@
 function NotFound() {
   return ( 
-    <h1>Error 404</h1>
+    <h1>Tweet n encontrado</h1>
    );
 }
 

@@ -60,7 +60,7 @@ export function Status() {
 
   function createNewAnswer(e: FormEvent) {
     e.preventDefault();
-    if (newAnswer === "") return;
+    if (newAnswer.trim() === "") return;
 
     const newAnswerObj: AnswerProps = {
       userAvatar: "https://github.com/pablokaliel.png",
@@ -91,10 +91,12 @@ export function Status() {
   }
 
   const tweet = tweets.find((tweet) => tweet.id === id);
+console.log("Tweet encontrado:", tweet);
 
   if (!tweet) {
     return <NotFound />;
   }
+  
   return (
     <main>
       <Header title="Tweet" />
@@ -139,7 +141,7 @@ export function Status() {
         <button
           type="submit"
           className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black transition-all duration-300 ease-in-out disabled:opacity-60 disabled:pointer-events-none sm:py-2 sm:px-5 data-[istouchsupported=false]:hover:brightness-90"
-          disabled={newAnswer === "" ? true : false}
+          disabled={newAnswer.trim() === "" ? true : false}
         >
           Answer
         </button>

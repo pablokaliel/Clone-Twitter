@@ -1,4 +1,4 @@
-import { createBrowserRouter  } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { Timeline } from "./pages/Timeline";
 import { Status } from "./pages/Status";
 import { Default } from "./layouts/Default";
@@ -13,54 +13,52 @@ import NotFound from "./pages/NotFound";
 import InitalLogin from "./pages/InitialLogin";
 
 export const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Default />,
-        children: [
-            {
-                path: '/',
-                element: <Timeline />
-            },
-            {
-                path: '/bookmarks',
-                element: <BookMarks />
-            },
-            {
-                path: '/explorer',
-                element: <Explorer />
-            },
-            {
-                path: '/lists',
-                element: <Lists />
-            },
-            {
-                path: '/messages',
-                element: <Messages />
-            },
-            {
-                path: '/more',
-                element: <More />
-            },
-            {
-                path: '/notifications',
-                element: <Notifications />
-            },
-            {
-                path: '/profile',
-                element: <Profile />
-            },
-            {
-                path: '/login',
-                element: <InitalLogin />
-            },
-            {
-                path: '/status/:id',
-                element: <Status />
-            },
-            {
-                path: '*',
-                element: <NotFound />
-            },
-        ]
-    }
-])
+  {
+    path: "/",
+    element: <Default />,
+    children: [
+      {
+        path: "/",
+        element: <Timeline />,
+      },
+      {
+        path: "/bookmarks",
+        element: <BookMarks />,
+      },
+      {
+        path: "/explorer",
+        element: <Explorer />,
+      },
+      {
+        path: "/lists",
+        element: <Lists />,
+      },
+      {
+        path: "/messages",
+        element: <Messages />,
+      },
+      {
+        path: "/more",
+        element: <More />,
+      },
+      {
+        path: "/notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+
+      {
+        path: "/status/:id",
+        element: <Status />,
+      },
+    ],
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <InitalLogin />,
+  },
+]);
