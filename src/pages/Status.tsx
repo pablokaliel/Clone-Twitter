@@ -94,10 +94,8 @@ export function Status() {
   if (!tweets) {
     return <div>Carregando...</div>;
   }
-
   const tweet = tweets.find((tweet) => tweet.id === id);
   console.log("Tweet encontrado:", tweet);
-
   if (!tweet) {
     return <NotFound />;
   }
