@@ -15,58 +15,58 @@ import {
 export function Sidebar() {
   return (
     <aside className="py-6 px-5 flex flex-col gap-8 md:items-center">
-      <TwitterLogo color="" className="w-8 h-8" />
+      <TwitterLogo className="w-8 h-8" weight="fill" color="#1da1f2" />
 
       <nav className="flex flex-col gap-8">
-        <NavLink to="/" className="flex items-center gap-5 text-xl font-bold">
+        <NavLink to="/" className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue">
           <House className="w-8 h-8" weight="fill" />
           <span className="md:hidden">Home</span>
         </NavLink>
         <NavLink
           to={"/explorer"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <Hash className="w-8 h-8" />
           <span className="md:hidden">Explorer</span>
         </NavLink>
         <NavLink
           to={"/notifications"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <Bell className="w-8 h-8" />
           <span className="md:hidden">Notifications</span>
         </NavLink>
         <NavLink
           to={"/messages"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <Envelope className="w-8 h-8" />
           <span className="md:hidden">Messages</span>
         </NavLink>
         <NavLink
           to={"/bookmarks"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <BookmarkSimple className="w-8 h-8" />
           <span className="md:hidden">Bookmarks</span>
         </NavLink>
         <NavLink
           to={"/lists"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <FileText className="w-8 h-8" />
           <span className="md:hidden">Lists</span>
         </NavLink>
         <NavLink
           to={"/profile"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <User className="w-8 h-8" />
           <span className="md:hidden">Profile</span>
         </NavLink>
         <NavLink
           to={"/more"}
-          className="flex items-center gap-5 text-xl font-bold"
+          className="flex items-center gap-5 text-xl font-bold active:text-twitterBlue"
         >
           <DotsThreeCircle className="w-8 h-8" />
           <span className="md:hidden">More</span>

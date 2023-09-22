@@ -4,6 +4,7 @@ import { Tweet } from "../components/Tweet";
 import Separator from "../components/Separator";
 import { initialTweets } from "../utils/InitialTweets";
 import { v4 as uuidv4 } from "uuid";
+import { saveTweets } from "../utils/TweetUtils";
 
 export interface TweetProps {
   id: string;
@@ -34,9 +35,14 @@ export function Timeline() {
 
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
-    if (newTweet.content.trim() === "") return; // Verifica se o conteúdo do tweet está vazio ou apenas contém espaços em branco.
+    if (newTweet.content.trim() === "") return;
   
-    setTweets((prevTweets) => [newTweet, ...prevTweets]);
+    const newTweetWithId = {
+      ...newTweet,
+      id: uuidv4(), // Gera um ID exclusivo
+    };
+  
+    setTweets((prevTweets) => [newTweetWithId, ...prevTweets]);
     setNewTweet({
       id: uuidv4(),
       userAvatar: "https://github.com/pablokaliel.png",
@@ -48,6 +54,8 @@ export function Timeline() {
       likes: 0,
       imageUrl: undefined,
     });
+
+    saveTweets([newTweetWithId, ...tweets]);
   }
 
   function handleHotKeySubmit(e: KeyboardEvent) {

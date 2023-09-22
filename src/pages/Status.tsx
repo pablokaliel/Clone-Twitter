@@ -3,10 +3,10 @@ import { Header } from "../components/Header";
 
 import { Tweet } from "../components/Tweet";
 import { useParams } from "react-router-dom";
-import { initialTweets } from "../utils/InitialTweets";
 import NotFound from "./NotFound";
 import Separator from "../components/Separator";
 import { useTweetContext } from "../context/TweetContext";
+import { v4 as uuidv4 } from "uuid";
 
 interface AnswerProps {
   userAvatar: string;
@@ -16,6 +16,7 @@ interface AnswerProps {
   comments: number;
   retweets: number;
   likes: number;
+  id: string;
 }
 
 export function Status() {
@@ -32,6 +33,7 @@ export function Status() {
       comments: 1,
       retweets: 9,
       likes: 2004,
+      id: uuidv4(),
     },
     {
       userAvatar: "https://github.com/diego3g.png",
@@ -41,6 +43,7 @@ export function Status() {
       comments: 13,
       retweets: 46,
       likes: 3021,
+      id: uuidv4(),
     },
   ]);
 
@@ -52,11 +55,23 @@ export function Status() {
     comments: 0,
     retweets: 0,
     likes: 0,
+    id: uuidv4(),
   };
 
   function createNewAnswer(e: FormEvent) {
     e.preventDefault();
     if (newAnswer === "") return;
+
+    const newAnswerObj: AnswerProps = {
+      userAvatar: "https://github.com/pablokaliel.png",
+      userName: "Pablo Kaliel",
+      userLogin: "pablokalyell",
+      content: newAnswer,
+      comments: 0,
+      retweets: 0,
+      likes: 0,
+      id: uuidv4(),
+    };
 
     setAnswers([newAnswerObj, ...answers]);
     setNewAnswer("");
@@ -71,12 +86,15 @@ export function Status() {
     }
   }
 
-  const tweet = tweets.concat(initialTweets).find((tweet) => tweet.id === id);
+  if (!tweets) {
+    return <div>Carregando...</div>;
+  }
+
+  const tweet = tweets.find((tweet) => tweet.id === id);
 
   if (!tweet) {
     return <NotFound />;
   }
-
   return (
     <main>
       <Header title="Tweet" />
@@ -120,7 +138,7 @@ export function Status() {
 
         <button
           type="submit"
-          className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black transition-all duration-300 ease-in-out  disabled:opacity-60 disabled:pointer-events-none sm:py-2 sm:px-5 data-[istouchsupported=false]:hover:brightness-90"
+          className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black transition-all duration-300 ease-in-out disabled:opacity-60 disabled:pointer-events-none sm:py-2 sm:px-5 data-[istouchsupported=false]:hover:brightness-90"
           disabled={newAnswer === "" ? true : false}
         >
           Answer
@@ -128,21 +146,19 @@ export function Status() {
       </form>
 
       <div className="sm:mb-12">
-        {answers.map((answer) => {
-          return (
-            <Tweet
-              id=""
-              key={answer.content}
-              userAvatar={answer.userAvatar}
-              userName={answer.userName}
-              userLogin={answer.userLogin}
-              content={answer.content}
-              comments={answer.comments}
-              retweets={answer.retweets}
-              likes={answer.likes}
-            />
-          );
-        })}
+        {answers.map((answer) => (
+          <Tweet
+            key={answer.id}
+            id={answer.id}
+            userAvatar={answer.userAvatar}
+            userName={answer.userName}
+            userLogin={answer.userLogin}
+            content={answer.content}
+            comments={answer.comments}
+            retweets={answer.retweets}
+            likes={answer.likes}
+          />
+        ))}
       </div>
     </main>
   );
