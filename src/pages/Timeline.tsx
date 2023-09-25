@@ -28,8 +28,8 @@ export function Timeline() {
     content: "",
     comments: 0,
     retweets: 0,
-    likes: 0,
-    views: 0,
+    likes: 1,
+    views: 2,
     imageUrl: undefined,
   });
 
@@ -38,13 +38,11 @@ export function Timeline() {
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
     if (newTweet.content.trim() === "") return;
-
-    const newTweetWithId = {
-      ...newTweet,
-      id: uuidv4(), // Gera um ID exclusivo
-    };
-
-    setTweets((prevTweets) => [newTweetWithId, ...prevTweets]);
+  
+    // Adicione o novo tweet ao início do array de tweets existente
+    setTweets((prevTweets) => [newTweet, ...prevTweets]);
+  
+    // Limpe o estado do novo tweet
     setNewTweet({
       id: uuidv4(),
       userAvatar: "https://github.com/pablokaliel.png",
@@ -57,10 +55,10 @@ export function Timeline() {
       views: 0,
       imageUrl: undefined,
     });
-
-    saveTweets([newTweetWithId, ...tweets]);
+  
+    // Salve os tweets atualizados (não é necessário passar o mesmo array novamente)
+    saveTweets([...tweets, newTweet]);
   }
-
   function handleHotKeySubmit(e: KeyboardEvent) {
     if (
       e.key === "Enter" &&
@@ -77,15 +75,15 @@ export function Timeline() {
         content: "",
         comments: 0,
         retweets: 0,
-        likes: 0,
-        views: 0,
+        likes: 1,
+        views: 2,
         imageUrl: undefined,
       });
     }
   }
 
   return (
-    <main>
+    <main className="w-full">
       <Header title="Home" />
 
       <form onSubmit={createNewTweet} className="py-6 px-5 flex flex-col gap-2">

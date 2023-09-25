@@ -27,7 +27,7 @@ export function Tweet({
         className="w-10 h-10 rounded-full object-cover"
       />
 
-      <div className="flex flex-col gap-[2px]">
+      <div className="flex flex-col gap-[2px] w-full">
         <div className="flex items-center justify-between relative">
           <div className="flex items-center gap-1">
             <strong>{userName}</strong>

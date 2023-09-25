@@ -146,7 +146,7 @@ export const initialTweets = [
     comments: 21,
     retweets: 5,
     likes: 1303,
-    imageUrl: "https://source.unsplash.com/random/?film?movie?cinema",
+    imageUrl: "https://source.unsplash.com/random/?cinema",
     views: 6543,
   },
   {
