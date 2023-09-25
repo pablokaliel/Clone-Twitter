@@ -5,7 +5,7 @@ import {  House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, Us
 const links = [
   { id: "", name: "Home", icon: <House size={32} /> },
   { id: "explorer", name: "Explore", icon: <MagnifyingGlass size={32} /> },
-  { id: "notifications", name: "Notifications", icon: <Bell size={32} /> },
+  { id: "login", name: "Notifications", icon: <Bell size={32} /> },
   { id: "messages", name: "Messages", icon: <EnvelopeSimple size={32} /> },
   { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
   { id: "lists", name: "Lists", icon: <File size={32} /> },
