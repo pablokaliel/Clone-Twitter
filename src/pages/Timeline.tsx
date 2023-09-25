@@ -5,6 +5,7 @@ import Separator from "../components/Separator";
 import { initialTweets } from "../utils/InitialTweets";
 import { v4 as uuidv4 } from "uuid";
 import { saveTweets } from "../utils/TweetUtils";
+import { useTweetContext } from "../context/TweetContext";
 
 export interface TweetProps {
   id: string;
@@ -33,7 +34,7 @@ export function Timeline() {
     imageUrl: undefined,
   });
 
-  const [tweets, setTweets] = useState<TweetProps[]>(initialTweets);
+  const { tweets, setTweets } = useTweetContext();
 
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
