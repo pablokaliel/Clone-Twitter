@@ -10,6 +10,7 @@ export default {
       colors: {
         twitterBlue: '#1da1f2',
         grayBorder: '#ebeef0',
+        grayBorderLight: '#CBD1D3',
         grayBorderDark: '#2F2F2F',
         separatorColor: '#f7f9fa',
         bodyDark: '#121214',
