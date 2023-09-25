@@ -2,7 +2,6 @@ import { FormEvent, KeyboardEvent, useState } from "react";
 import { Header } from "../components/Header";
 import { Tweet } from "../components/Tweet";
 import Separator from "../components/Separator";
-import { initialTweets } from "../utils/InitialTweets";
 import { v4 as uuidv4 } from "uuid";
 import { saveTweets } from "../utils/TweetUtils";
 import { useTweetContext } from "../context/TweetContext";
