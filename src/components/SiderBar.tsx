@@ -72,7 +72,7 @@ function SideBar(props: SideBarProps) {
         >
           <TwitterLogo weight="fill" size={32} color="#1da1f2" />
         </Link>
-        <nav className="flex flex-col gap-1 md:items-center">
+        <nav className="flex flex-col gap-1 md:items-center ">
           {links.map((link) => (
             <NavLink
               key={link.id}
@@ -89,14 +89,14 @@ function SideBar(props: SideBarProps) {
           ))}
         </nav>
 
-        <button  className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
+        <button  className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 ">
           <Pencil className="w-6 h-6 hidden md:block" />
           <span className="md:hidden">Tweet</span>
         </button>
       </div>
 
       <div
-        className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 data-[istouchsupported=false]:hover:bg-zinc-100 data-[istouchsupported=false]:hover:dark:bg-zinc-800"
+        className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 "
       >
         {isAuthenticated ? (
           <>
