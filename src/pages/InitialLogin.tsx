@@ -2,6 +2,7 @@ import { AppleLogo, GoogleLogo, TwitterLogo, X } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utils/AuthContext";
 
 function InitalLogin() {
   const [googleErrorMessage, setGoogleErrorMessage] = useState("");
@@ -9,6 +10,7 @@ function InitalLogin() {
   const [emailError, setEmailError] = useState("");
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleAdvanceClick = () => {
     const emailInput = document.getElementById(
@@ -17,6 +19,8 @@ function InitalLogin() {
     if (emailInput) {
       const email = emailInput.value;
       if (email === "twitterlogin@gmail.com") {
+        // Simule a autenticação de sucesso
+        login(); // Chame a função de login do contexto
         navigate("/");
       } else {
         setEmailError("Email incorreto. Tente novamente.");
@@ -24,7 +28,7 @@ function InitalLogin() {
     } else {
       setEmailError("Campo de email não encontrado.");
     }
-  };
+  }
 
   const handleGoogleLogin = () => {
     setGoogleErrorMessage("Temporariamente indisponível");
