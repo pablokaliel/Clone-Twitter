@@ -1,7 +1,7 @@
 import { AppleLogo, GoogleLogo, TwitterLogo, X } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/AuthContext";
 
 function InitalLogin() {
@@ -28,7 +28,7 @@ function InitalLogin() {
     } else {
       setEmailError("Campo de email não encontrado.");
     }
-  }
+  };
 
   const handleGoogleLogin = () => {
     setGoogleErrorMessage("Temporariamente indisponível");
@@ -44,17 +44,17 @@ function InitalLogin() {
     }, 2000);
   };
   return (
-    <div className="w-full h-screen bg-[#999] grid place-content-center">
+    <div className="w-full h-screen bg-[#999] flex items-center justify-center">
       <motion.div
         initial={{ scale: 0.3, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.7 }}
-        className="bg-white w-[600px] h-[650px] rounded-3xl relative"
+        className="bg-white sm:w-full sm:h-full sm:rounded-none w-[600px] h-[650px] rounded-3xl relative"
       >
         <header className="p-4 flex items-center justify-center">
           <TwitterLogo color="#1da1f2" weight="fill" size={40} />
         </header>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center sm:py-[129px] ">
           <div className="flex flex-col gap-5">
             <div className=" py-5">
               <h1 className="text-3xl font-black">Entrar no Twitter</h1>
@@ -121,9 +121,12 @@ function InitalLogin() {
             </div>
           </div>
         </div>
-        <button className="absolute left-[10px] hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] ">
+        <Link
+          to="/"
+          className="absolute left-[10px] hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] "
+        >
           <X color="#000" size={18} />
-        </button>
+        </Link>
       </motion.div>
     </div>
   );

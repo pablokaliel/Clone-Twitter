@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import { TweetProvider } from "../context/TweetContext";
 import SideBar from "../components/SiderBar";
+import { BottomMobile } from "../components/BottomMobile";
 
 export function Default() {
   return (
@@ -12,6 +13,7 @@ export function Default() {
         <div className="border-l-[1px] border-r-[1px] border-grayBorder w-full dark:border-grayBorderDark sm:border-none">
           <Outlet />
         </div>
+        <BottomMobile />
       </TweetProvider>
     </div>
   );

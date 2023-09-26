@@ -22,7 +22,7 @@ function Buttons(props: ButtonsProps) {
   }
 
   return (
-    <div className="flex items-center gap-12 mt-3">
+    <div className="flex items-center gap-12 sm:gap-0 sm:justify-between mt-3">
       <button
         title="comment"
         type="button"
@@ -102,7 +102,7 @@ function Buttons(props: ButtonsProps) {
 
           console.log(`Ação do botão Export`);
         }}
-        className="flex items-center gap-2 text-sm text-slate-400 group ml-auto"
+        className="flex items-center gap-2 text-sm text-slate-400 group ml-auto sm:hidden"
       >
         <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
           <Export size={20} />

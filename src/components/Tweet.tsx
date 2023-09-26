@@ -37,7 +37,7 @@ export function Tweet({
           </div>
         </div>
 
-        <div>
+        <div className="w-full">
           <p
             className="leading-5 dark:text-tweetColor w-full whitespace-pre-line"
             style={{ overflowWrap: "anywhere" }}
@@ -45,8 +45,9 @@ export function Tweet({
             {content}
           </p>
           {imageUrl && (
-            <div className=" w-full mt-2 min-w-0">
+            <div className=" w-full mt-2">
               <img
+                loading="lazy"
                 src={imageUrl}
                 alt="Imagem aleatória"
                 className="rounded-2xl aspect-square w-full object-cover"

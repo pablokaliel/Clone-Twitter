@@ -41,11 +41,9 @@ export function Timeline() {
   function createNewTweet(e: FormEvent) {
     e.preventDefault();
     if (newTweet.content.trim() === "") return;
-  
-    // Adicione o novo tweet ao início do array de tweets existente
+
     setTweets((prevTweets) => [newTweet, ...prevTweets]);
-  
-    // Limpe o estado do novo tweet
+
     setNewTweet({
       id: uuidv4(),
       userAvatar: "https://github.com/pablokaliel.png",
@@ -58,8 +56,7 @@ export function Timeline() {
       views: 0,
       imageUrl: undefined,
     });
-  
-    // Salve os tweets atualizados (não é necessário passar o mesmo array novamente)
+
     saveTweets([...tweets, newTweet]);
   }
   function handleHotKeySubmit(e: KeyboardEvent) {
@@ -91,8 +88,11 @@ export function Timeline() {
         <>
           <Header title="Home" />
 
-          <form onSubmit={createNewTweet} className="py-6 px-5 flex flex-col gap-2">
-            <label htmlFor="tweet" className="flex gap-3">
+          <form
+            onSubmit={createNewTweet}
+            className="py-6 px-5 flex flex-col gap-2"
+          >
+            <label htmlFor="tweet" className="flex gap-3 max-">
               <img
                 src="https://github.com/pablokaliel.png"
                 alt="user"
@@ -112,7 +112,7 @@ export function Timeline() {
                 }
               />
             </label>
-    
+
             <button
               type="submit"
               className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90  disabled:opacity-60 disabled:pointer-events-none"
@@ -121,9 +121,9 @@ export function Timeline() {
               Tweet
             </button>
           </form>
-    
+
           <Separator />
-    
+
           {tweets.map((tweet) => (
             <Tweet
               key={tweet.id}
@@ -139,14 +139,13 @@ export function Timeline() {
               views={tweet.views}
             />
           ))}
-          </>
-      ) :(
+        </>
+      ) : (
         <div>
-        <p>Para navegar e ver os novos tweets, logue e fique por dentro!</p>
-        <Link to="/login">Logar</Link>
-      </div>
+          <p>Para navegar e ver os novos tweets, logue e fique por dentro!</p>
+          <Link to="/login">Logar</Link>
+        </div>
       )}
-    
     </main>
   );
 }
