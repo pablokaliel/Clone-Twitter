@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
+import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple,Pencil, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
 const links = [
@@ -89,8 +89,9 @@ function SideBar(props: SideBarProps) {
           ))}
         </nav>
 
-        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full text-white text-lg font-bold border-0 p-4 hover:brightness-90 transition-all">
-          Tweet
+        <button  className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
+          <Pencil className="w-6 h-6 hidden md:block" />
+          <span className="md:hidden">Tweet</span>
         </button>
       </div>
 
