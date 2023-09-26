@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple,Pencil, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
+import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, Pencil, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
 const links = [
@@ -48,18 +48,16 @@ function SideBar(props: SideBarProps) {
     setShowModal(!showModal);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const handleLogout = () => {
     logout();
-    closeModal();
+    setShowModal(!showModal)
   };
 
-  const handleCloseModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleCloseModalClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (e.target === e.currentTarget) {
-      closeModal();
+      setShowModal(!showModal)
     }
   };
 
@@ -72,6 +70,7 @@ function SideBar(props: SideBarProps) {
         >
           <TwitterLogo weight="fill" size={32} color="#1da1f2" />
         </Link>
+
         <nav className="flex flex-col gap-1 md:items-center ">
           {links.map((link) => (
             <NavLink
@@ -89,15 +88,13 @@ function SideBar(props: SideBarProps) {
           ))}
         </nav>
 
-        <button  className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 ">
+        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 ">
           <Pencil className="w-6 h-6 hidden md:block" />
           <span className="md:hidden">Tweet</span>
         </button>
       </div>
 
-      <div
-        className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 "
-      >
+      <div className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 ">
         {isAuthenticated ? (
           <>
             <img
@@ -112,7 +109,11 @@ function SideBar(props: SideBarProps) {
                   @{props.userLogin}
                 </span>
               </div>
-              <button onClick={toggleModal} className="hover:bg-gray-400/30 p-2 rounded-full">
+
+              <button
+                onClick={toggleModal}
+                className="hover:bg-gray-400/30 p-2 rounded-full"
+              >
                 <DotsThree weight="bold" size={18.75} />
               </button>
             </div>
@@ -124,8 +125,12 @@ function SideBar(props: SideBarProps) {
               <div className="flex flex-col flex-shrink-0 text-sm">
                 <span className="font-bold">usuário</span>
                 <span className="opacity-70 dark:opacity-50">@user</span>
-              </div>
-              <button onClick={toggleModal} className="hover:bg-gray-400/30 p-2 rounded-full">
+               </div>
+
+              <button
+                onClick={toggleModal}
+                className="hover:bg-gray-400/30 p-2 rounded-full"
+              >
                 <DotsThree weight="bold" size={18.75} />
               </button>
             </div>
@@ -133,15 +138,19 @@ function SideBar(props: SideBarProps) {
         )}
 
         {showModal && (
-          <div className="absolute right-[3%] flex bottom-[10%] items-center justify-center z-50" onClick={handleCloseModalClick}>
+          <div
+            className="absolute right-[3%] flex bottom-[10%] items-center justify-center z-50"
+            onClick={handleCloseModalClick}
+          >
             <div className="bg-gray-400/30 rounded-lg p-4">
               <div className="flex justify-end">
                 <button
                   className="text-twitterBlue font-semibold mr-4 relative"
-                  onClick={closeModal}
+                  onClick={toggleModal}
                 >
                   Cancelar
                 </button>
+
                 <button
                   className="text-red-500 font-semibold"
                   onClick={handleLogout}

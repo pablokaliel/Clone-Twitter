@@ -1,11 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import {
-  House,
-  MagnifyingGlass,
-  Bell,
-  EnvelopeSimple,
-  IconProps,
-} from "@phosphor-icons/react";
+import { House, MagnifyingGlass, Bell, EnvelopeSimple, IconProps } from "@phosphor-icons/react";
 
 interface NavLinkMobileProps {
   to: string;
