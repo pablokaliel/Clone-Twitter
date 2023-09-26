@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -26,12 +26,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = () => {
     // Lógica para realizar o login do usuário, por exemplo, através de uma API.
     setIsAuthenticated(true);
+    localStorage.setItem('isAuthenticated', 'true'); // Salvar no localStorage
   };
 
   const logout = () => {
     // Lógica para realizar o logout do usuário.
     setIsAuthenticated(false);
+    localStorage.removeItem('isAuthenticated'); // Remover do localStorage
   };
+
+  // Verificar o localStorage ao inicializar
+  useEffect(() => {
+    const savedIsAuthenticated = localStorage.getItem('isAuthenticated');
+    if (savedIsAuthenticated === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
