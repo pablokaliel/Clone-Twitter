@@ -29,7 +29,7 @@ export function NavLinkMobile({ to, icon: Icon }: NavLinkMobileProps) {
 
 export function BottomMobile() {
   return (
-    <nav className="hidden fixed bottom-0 w-full h-14 bg-white border-t-[1px] border-grayBorder dark:bg-bodyDark dark:border-grayBorderDark sm:block">
+    <nav className="hidden fixed bottom-0 w-full h-14 bg-white border-t-[1px] border-grayBorder sm:block">
       <div className="flex items-center h-full justify-around">
         <NavLinkMobile to="/" icon={House} />
         <NavLinkMobile to="/explorer" icon={MagnifyingGlass} />
