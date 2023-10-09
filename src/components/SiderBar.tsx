@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, Pencil, File, User, DotsThreeCircle, TwitterLogo, DotsThree } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
@@ -23,6 +23,44 @@ function SideBar(props: SideBarProps) {
   const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>({});
   const { logout } = useAuth();
   const isAuthenticated = useAuth().isAuthenticated;
+  const [showModal, setShowModal] = useState(false);
+
+  const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
+
+  // Função para fechar o modal quando a tecla "Esc" for pressionada
+  const handleEscapeKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setIsEscapeKeyPressed(true);
+    }
+  };
+
+  // Efeito para adicionar e remover o event listener
+  useEffect(() => {
+    const closeModalOnEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowModal(false);
+        setIsEscapeKeyPressed(false);
+      }
+    };
+
+    // Adicione o event listener quando o modal estiver aberto
+    if (showModal) {
+      window.addEventListener("keydown", closeModalOnEscape);
+    }
+
+    // Remova o event listener quando o modal for fechado
+    return () => {
+      window.removeEventListener("keydown", closeModalOnEscape);
+    };
+  }, [showModal]);
+
+  // Lidar com o fechamento do modal quando a tecla "Esc" for pressionada
+  useEffect(() => {
+    if (isEscapeKeyPressed && showModal) {
+      setShowModal(false);
+      setIsEscapeKeyPressed(false);
+    }
+  }, [isEscapeKeyPressed, showModal]);
 
   const handleLinkFocus = (linkId: string) => {
     setFocusedLinks((prevFocusedLinks) => ({
@@ -42,58 +80,41 @@ function SideBar(props: SideBarProps) {
     return focusedLinks[linkId];
   };
 
-  const [showModal, setShowModal] = useState(false);
-
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
   const handleLogout = () => {
     logout();
-    setShowModal(!showModal)
+    setShowModal(!showModal);
   };
 
   const handleCloseModalClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     if (e.target === e.currentTarget) {
-      setShowModal(!showModal)
+      setShowModal(!showModal);
     }
   };
 
   return (
     <aside className="pt-6 px-5 flex flex-col md:items-center justify-between h-screen sticky top-0 md:px-0 sm:hidden">
-      <div className="flex flex-col md:items-center gap-8">
-        <Link
-          className="flex justify-center items-center w-fit text-xl font-bold rounded-full py-2 px-2 hover:bg-zinc-100"
-          to={"/"}
-        >
-          <TwitterLogo weight="fill" size={32} color="#1da1f2" />
-        </Link>
-
-        <nav className="flex flex-col gap-1 md:items-center ">
-          {links.map((link) => (
-            <NavLink
-              key={link.id}
-              className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
-              to={`/${link.id}`}
-              onFocus={() => handleLinkFocus(link.id)}
-              onBlur={() => handleLinkBlur(link.id)}
-            >
-              {isLinkFocused(link.id)
-                ? React.cloneElement(link.icon, { weight: "fill" })
-                : React.cloneElement(link.icon, { weight: "regular" })}
-              <p className="md:hidden">{link.name}</p>
-            </NavLink>
-          ))}
-        </nav>
-
-        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 ">
-          <Pencil className="w-6 h-6 hidden md:block" />
-          <span className="md:hidden">Tweet</span>
-        </button>
-      </div>
-
+      <nav className="flex flex-col gap-1 md:items-center ">
+  {links.map((link) => (
+    <NavLink
+      key={link.id}
+      className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+      to={`/${link.id}`}
+      onFocus={() => handleLinkFocus(link.id)}
+      onBlur={() => handleLinkBlur(link.id)}
+    >
+      {isLinkFocused(link.id)
+        ? React.cloneElement(link.icon, { weight: "fill" })
+        : React.cloneElement(link.icon, { weight: "regular" })}
+      <p className="md:hidden">{link.name}</p>
+    </NavLink>
+  ))}
+</nav>
       <div className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 ">
         {isAuthenticated ? (
           <>
@@ -125,7 +146,7 @@ function SideBar(props: SideBarProps) {
               <div className="flex flex-col flex-shrink-0 text-sm">
                 <span className="font-bold">usuário</span>
                 <span className="opacity-70 dark:opacity-50">@user</span>
-               </div>
+              </div>
 
               <button
                 onClick={toggleModal}
@@ -150,13 +171,19 @@ function SideBar(props: SideBarProps) {
                 >
                   Cancelar
                 </button>
-
-                <button
-                  className="text-red-500 font-semibold"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
+                {/* Conditional rendering based on authentication status */}
+                {isAuthenticated ? (
+                  <button
+                    className="text-red-500 font-semibold"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link to="/login" className="text-twitterBlue font-semibold">
+                    Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>
