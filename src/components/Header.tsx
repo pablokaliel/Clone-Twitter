@@ -1,6 +1,6 @@
 import { Sparkle, X, Plus } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
-import { Users, BookmarkSimple, File, TwitterLogo, User, DotsThree } from "@phosphor-icons/react";
+import { Users, BookmarkSimple, File, TwitterLogo, User } from "@phosphor-icons/react";
 
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
@@ -46,14 +46,6 @@ export function Header({ title }: HeaderProps) {
 
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
-  // Função para fechar o modal quando a tecla "Esc" for pressionada
-  const handleEscapeKey = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      setIsEscapeKeyPressed(true);
-    }
-  };
-
-  // Efeito para adicionar e remover o event listener
   useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -62,18 +54,15 @@ export function Header({ title }: HeaderProps) {
       }
     };
 
-    // Adicione o event listener quando o modal estiver aberto
     if (showModal) {
       window.addEventListener("keydown", closeModalOnEscape);
     }
 
-    // Remova o event listener quando o modal for fechado
     return () => {
       window.removeEventListener("keydown", closeModalOnEscape);
     };
   }, [showModal]);
 
-  // Lidar com o fechamento do modal quando a tecla "Esc" for pressionada
   useEffect(() => {
     if (isEscapeKeyPressed && showModal) {
       setShowModal(false);
