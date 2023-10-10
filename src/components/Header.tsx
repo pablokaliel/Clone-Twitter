@@ -125,7 +125,7 @@ export function Header({ title }: HeaderProps) {
                 </div>
                 <div>
                   <nav className="flex flex-col gap-1 ">
-                    <div>
+                    <div className="mt-4">
                     {links.map((link) => (
                       <NavLink
                         key={link.id}
