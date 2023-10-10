@@ -1,20 +1,20 @@
-import { Sparkle, X, Plus } from "@phosphor-icons/react";
 import React, { useState, useEffect } from "react";
-import { Users, BookmarkSimple, File, TwitterLogo, User } from "@phosphor-icons/react";
+import { Users, BookmarkSimple, File, TwitterLogo, User, Sparkle, X, Plus, ChartLine, RocketLaunch, ArrowSquareUpRight, Gear, Question, SignOut } from "@phosphor-icons/react";
 
 import { motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Accordion } from "./Acorddion";
 
 interface HeaderProps {
   title: string;
 }
 
 const links = [
-  { id: "pablokaliel", name: "Profile", icon: <User size={32} /> },
-  { id: "", name: "TwitterBlue", icon: <TwitterLogo size={32} /> },
-  { id: "", name: "Lists", icon: <File size={32} /> },
-  { id: "", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
-  { id: "", name: "Communities", icon: <Users size={32} /> },
+  { id: "pablokaliel", name: "Profile", icon: <User size={24} /> },
+  { id: "", name: "TwitterBlue", icon: <TwitterLogo size={24} /> },
+  { id: "", name: "Lists", icon: <File size={24} /> },
+  { id: "", name: "Bookmarks", icon: <BookmarkSimple size={24} /> },
+  { id: "", name: "Communities", icon: <Users size={24} /> },
 ];
 
 export function Header({ title }: HeaderProps) {
@@ -87,9 +87,11 @@ export function Header({ title }: HeaderProps) {
               className="bg-white h-screen w-[70%] rounded-lg p-4 "
               initial={{ x: "-100%" }} // Define a posição inicial à esquerda
               animate={{ x: 0 }} // Define a posição final
+              exit={{ x: "-100%" }} // Define a posição ao sair (fechar)
+              transition={{ type: "tween", duration: 0.3 }} 
             >
               <div className=" flex  justify-between">
-                <h1>Account Info</h1>
+                <span className="text-base">Account Info</span>
                 <button onClick={toggleModal}>
                   <X />
                 </button>
@@ -126,7 +128,7 @@ export function Header({ title }: HeaderProps) {
                     {links.map((link) => (
                       <NavLink
                         key={link.id}
-                        className="flex gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+                        className="flex gap-5 w-fit text-xl font-bold rounded-full py-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
                         to={`/${link.id}`}
                         onFocus={() => handleLinkFocus(link.id)}
                         onBlur={() => handleLinkBlur(link.id)}
@@ -141,6 +143,50 @@ export function Header({ title }: HeaderProps) {
                     ))}
                   </nav>
                 </div>
+                <div>
+                  <Accordion title="Creator Studio">
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <ChartLine size={18} />
+                      <span className="leading-5 text-base">Analytics</span>
+                    </Link>
+                  </Accordion>
+                  <Accordion title="Professional Tools">
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <RocketLaunch size={18} />
+                      <span className="leading-5 text-base"> Twitter for Professionals </span>
+                    </Link>
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <ArrowSquareUpRight size={18} />
+                      <span className="leading-5 text-base">Twitter Ads</span>
+                    </Link>
+                  </Accordion>
+                  <Accordion title="Settings and Support">
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <Gear size={18} />
+                      <span className="leading-5 text-base">Settings</span>
+                    </Link>
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <Question size={18} />
+                      <span className="leading-5 text-base">Help Center</span>
+                    </Link>
+                    <Link to="/errors"
+                      className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                    >
+                      <SignOut size={18} />
+                      <span className="leading-5 text-base">Log Out</span>
+                    </Link>
+                  </Accordion>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -148,12 +194,12 @@ export function Header({ title }: HeaderProps) {
       </div>
       <div>
         <p className="sm:hidden">{title}</p>
-        <TwitterLogo
+        <Link to="/"><TwitterLogo
           className="hidden sm:block"
           size={28}
           weight="fill"
           color="#1da1f2"
-        />
+        /></Link>
       </div>
       <Sparkle className="w-6 h-6 text-twitterBlue" />
     </div>

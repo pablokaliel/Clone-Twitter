@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, DotsThree } from "@phosphor-icons/react";
+import {
+  House,
+  MagnifyingGlass,
+  Bell,
+  EnvelopeSimple,
+  BookmarkSimple,
+  File,
+  User,
+  DotsThreeCircle,
+  DotsThree,
+} from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
 const links = [
@@ -26,9 +36,8 @@ function SideBar(props: SideBarProps) {
   const { logout } = useAuth();
   const isAuthenticated = useAuth().isAuthenticated;
   const [showModal, setShowModal] = useState(false);
-
+  
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
-
 
 
   useEffect(() => {
