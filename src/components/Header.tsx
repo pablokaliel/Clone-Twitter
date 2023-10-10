@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Users, BookmarkSimple, File, TwitterLogo, User, Sparkle, X, Plus, ChartLine, RocketLaunch, ArrowSquareUpRight, Gear, Question, SignOut } from "@phosphor-icons/react";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import { Accordion } from "./Acorddion";
 
@@ -70,6 +70,17 @@ export function Header({ title }: HeaderProps) {
     }
   }, [isEscapeKeyPressed, showModal]);
 
+  const drawerVariants = {
+    open: {
+      x: 0,
+      transition: {type: "tween", duration: 0.3  },
+    },
+    closed: {
+      x: "-100%",
+      transition: {type: "tween", duration: 0.3  },
+    },
+  };
+
   return (
     <div className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b border-b-grayBorder sticky top-0 backdrop-blur-md z-10 ">
       <div className="sm:block hidden">
@@ -80,15 +91,16 @@ export function Header({ title }: HeaderProps) {
             alt=""
           />
         </button>
+        <AnimatePresence onExitComplete={() => setIsEscapeKeyPressed(false)}>
 
         {showModal && (
           <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
             <motion.div
               className="bg-white h-screen w-[70%] rounded-lg  "
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.3 }} 
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={drawerVariants}
             >
               <div className=" flex  justify-between p-4">
                 <span className="text-base">Account Info</span>
@@ -193,6 +205,7 @@ export function Header({ title }: HeaderProps) {
             </motion.div>
           </div>
         )}
+        </AnimatePresence>
       </div>
       <div>
         <p className="sm:hidden">{title}</p>
