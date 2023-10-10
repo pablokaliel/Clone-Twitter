@@ -82,12 +82,12 @@ export function Header({ title }: HeaderProps) {
         </button>
 
         {showModal && (
-          <div className="h-screen w-full bg-gray-400/30 inset-0 absolute backdrop-blur-sm ">
+          <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
             <motion.div
               className="bg-white h-screen w-[70%] rounded-lg p-4 "
-              initial={{ x: "-100%" }} // Define a posição inicial à esquerda
-              animate={{ x: 0 }} // Define a posição final
-              exit={{ x: "-100%" }} // Define a posição ao sair (fechar)
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }} 
             >
               <div className=" flex  justify-between">
@@ -128,7 +128,7 @@ export function Header({ title }: HeaderProps) {
                     {links.map((link) => (
                       <NavLink
                         key={link.id}
-                        className="flex gap-5 w-fit text-xl font-bold rounded-full py-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+                        className="flex gap-5 w-full text-xl font-bold py-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
                         to={`/${link.id}`}
                         onFocus={() => handleLinkFocus(link.id)}
                         onBlur={() => handleLinkBlur(link.id)}
