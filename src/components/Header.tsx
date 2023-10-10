@@ -84,20 +84,20 @@ export function Header({ title }: HeaderProps) {
         {showModal && (
           <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
             <motion.div
-              className="bg-white h-screen w-[70%] rounded-lg p-4 "
+              className="bg-white h-screen w-[70%] rounded-lg  "
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }} 
             >
-              <div className=" flex  justify-between">
+              <div className=" flex  justify-between p-4">
                 <span className="text-base">Account Info</span>
                 <button onClick={toggleModal}>
                   <X />
                 </button>
               </div>
               <div>
-                <div className="pt-4 flex justify-between">
+                <div className="pt-4 px-4 flex justify-between">
                   <img
                     className="w-10 h-10 rounded-full"
                     src="https://github.com/pablokaliel.png"
@@ -107,11 +107,11 @@ export function Header({ title }: HeaderProps) {
                     <Plus size={17} color="#777a7d" />
                   </div>
                 </div>
-                <div className="flex flex-col mt-2">
+                <div className="flex flex-col mt-2 px-4">
                   <span className="font-bold leading-5">Pablo Kaliel</span>
                   <span className="text-sm opacity-80">@pablokalyell</span>
                 </div>
-                <div className="flex mt-3 text-sm gap-5">
+                <div className="flex mt-3 text-sm gap-5 px-4">
                   <div>
                     <span className="font-bold mr-1 opacity-80">
                       <span>9</span> Following
@@ -124,11 +124,12 @@ export function Header({ title }: HeaderProps) {
                   </div>
                 </div>
                 <div>
-                  <nav className="flex flex-col gap-1  ">
+                  <nav className="flex flex-col gap-1 ">
+                    <div>
                     {links.map((link) => (
                       <NavLink
                         key={link.id}
-                        className="flex gap-5 w-full text-xl font-bold py-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+                        className="flex gap-5  w-full text-xl font-bold py-2 px-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:px-5 active:text-twitterBlue"
                         to={`/${link.id}`}
                         onFocus={() => handleLinkFocus(link.id)}
                         onBlur={() => handleLinkBlur(link.id)}
@@ -141,9 +142,10 @@ export function Header({ title }: HeaderProps) {
                         <p className="">{link.name}</p>
                       </NavLink>
                     ))}
+                    </div>
                   </nav>
                 </div>
-                <div>
+                <div className="px-4">
                   <Accordion title="Creator Studio">
                     <Link to="/errors"
                       className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
