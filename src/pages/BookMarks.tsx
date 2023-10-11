@@ -7,7 +7,7 @@ function BookMarks() {
   return (
     <main className="mx-auto flex-1">
       <div>
-        <Header title="BookMarks" />
+        <Header title="BookMarks"></Header>
         {isAuthenticated ? (
           <div className="flex items-center justify-center h-screen flex-col gap-5">
             <h1>

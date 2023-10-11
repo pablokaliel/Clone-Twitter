@@ -11,6 +11,14 @@ import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import InitalLogin from "./pages/InitialLogin";
+import { initialUser } from "./utils/InitialUser";
+import Verified from "./pages/subpages/Verified";
+import ProfilePosts from "./pages/subpages/ProfilePosts";
+import ProfileReplies from "./pages/subpages/ProfileReplies";
+import ProfileHighlights from "./pages/subpages/ProfileHighlights";
+import ProfileMedia from "./pages/subpages/ProfileMedia";
+import ProfileLikes from "./pages/subpages/ProfileLikes";
+import Mentions from "./pages/subpages/Mentions";
 
 export const router = createBrowserRouter([
   {
@@ -34,31 +42,69 @@ export const router = createBrowserRouter([
         element: <Lists />,
       },
       {
-        path: "/messages",
-        element: <Messages />,
-      },
-      {
         path: "/more",
         element: <More />,
       },
       {
-        path: "/notifications",
-        element: <Notifications />,
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-      },
-
-      {
         path: "/status/:id",
         element: <Status />,
       },
+      {
+        path: "/notifications",
+        element: <Notifications />,
+        children: [
+          {
+            path: "/notifications/",
+            element: <Notifications />,
+          },
+          {
+            path: "/notifications/verified",
+            element: <Verified />,
+          },
+          {
+            path: "/notifications/mentions",
+            element: <Mentions />,
+          },
+        ],
+      },
+      {
+        path: "/messages",
+        element: <Messages />,
+      },
+      {
+        path: `/${initialUser.login}`,
+        element: <Profile />,
+        children: [
+          {
+            path: `/${initialUser.login}`,
+            element: <ProfilePosts />,
+          },
+          {
+            path: `/${initialUser.login}/with_replies`,
+            element: <ProfileReplies />,
+          },
+          {
+            path: `/${initialUser.login}/highlights`,
+            element: <ProfileHighlights />,
+          },
+          {
+            path: `/${initialUser.login}/media`,
+            element: <ProfileMedia />,
+          },
+          {
+            path: `/${initialUser.login}/likes`,
+            element: <ProfileLikes />,
+          },
+        ],
+      },
     ],
-    errorElement: <NotFound />,
   },
   {
     path: "/login",
     element: <InitalLogin />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);

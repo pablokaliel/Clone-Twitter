@@ -10,6 +10,8 @@ import {
   User,
   DotsThreeCircle,
   DotsThree,
+  TwitterLogo,
+  Pencil,
 } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
@@ -20,7 +22,7 @@ const links = [
   { id: "messages", name: "Messages", icon: <EnvelopeSimple size={32} /> },
   { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
   { id: "lists", name: "Lists", icon: <File size={32} /> },
-  { id: "profile", name: "Profile", icon: <User size={32} /> },
+  { id: "pablokalyell", name: "Profile", icon: <User size={32} /> },
   { id: "more", name: "More", icon: <DotsThreeCircle size={32} /> },
 ];
 
@@ -101,11 +103,13 @@ function SideBar(props: SideBarProps) {
 
   return (
     <aside className="pt-6 px-5 flex flex-col md:items-center justify-between h-screen sticky top-0 md:px-0 sm:hidden">
-      <nav className="flex flex-col gap-1 md:items-center ">
+      <nav className="flex flex-col gap-8 md:items-center ">
+        <TwitterLogo size={32} weight="fill" color="#1da1f2"/>
+        <div>
         {links.map((link) => (
           <NavLink
             key={link.id}
-            className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pl-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+            className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
             to={`/${link.id}`}
             onFocus={() => handleLinkFocus(link.id)}
             onBlur={() => handleLinkBlur(link.id)}
@@ -116,6 +120,11 @@ function SideBar(props: SideBarProps) {
             <p className="md:hidden">{link.name}</p>
           </NavLink>
         ))}
+        </div>
+         <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
+          <Pencil className="w-6 h-6 hidden md:block" />
+          <span className="md:hidden">Tweet</span>
+        </button>
       </nav>
       <div className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 ">
         {isAuthenticated ? (
@@ -173,7 +182,6 @@ function SideBar(props: SideBarProps) {
                 >
                   Cancelar
                 </button>
-                {/* Conditional rendering based on authentication status */}
                 {isAuthenticated ? (
                   <button
                     className="text-red-500 font-semibold"
