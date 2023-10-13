@@ -54,15 +54,14 @@ export const router = createBrowserRouter([
         element: <Notifications />,
         children: [
           {
-            path: "/notifications/",
-            element: <Notifications />,
+            path: "",
           },
           {
-            path: "/notifications/verified",
+            path: "verified",
             element: <Verified />,
           },
           {
-            path: "/notifications/mentions",
+            path: "mentions",
             element: <Mentions />,
           },
         ],

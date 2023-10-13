@@ -1,26 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Header } from "../components/Header";
 import { useAuth } from "../utils/AuthContext";
+import { PersonalLink } from "../components/Link";
 
-function Notifications() {
+export default function Notifications() {
   const { isAuthenticated } = useAuth();
   return (
     <main className="mx-auto flex-1">
       <div>
-        <Header title="Notifications" />
         {isAuthenticated ? (
-          <div className="flex items-center justify-center h-screen flex-col gap-5">
-            <h1>
-              Desculpe, esta página ainda está em desenvolvimento. Por favor,
-              clique no botão abaixo para voltar à página inicial.
-            </h1>
-            <Link
-              className="bg-twitterBlue px-5 py-3 hover:brightness-90 text-white rounded-full"
-              to={"/"}
-            >
-              Home
-            </Link>
-          </div>
+          <>
+            <Header title="Notifications" />
+            <div className="flex h-[53px] items-center justify-around">
+              <PersonalLink path="/notifications" name="All" />
+              <PersonalLink path="/notifications/verified" name="Verified" />
+              <PersonalLink path="/notifications/mentions" name="Mentions" />
+            </div>
+            <Outlet /> {/* This will render the appropriate child component */}
+          </>
         ) : (
           <Link to="/Login">Logar</Link>
         )}
@@ -29,4 +26,7 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+
+
+
+
