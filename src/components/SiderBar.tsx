@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import {
-  House,
-  MagnifyingGlass,
-  Bell,
-  EnvelopeSimple,
-  BookmarkSimple,
-  File,
-  User,
-  DotsThreeCircle,
-  DotsThree,
-  TwitterLogo,
-  Pencil,
-} from "@phosphor-icons/react";
+import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, DotsThree, TwitterLogo, Pencil } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
 const links = [

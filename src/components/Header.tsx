@@ -1,20 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import {
-  Users,
-  BookmarkSimple,
-  File,
-  TwitterLogo,
-  User,
-  Sparkle,
-  X,
-  Plus,
-  ChartLine,
-  RocketLaunch,
-  ArrowSquareUpRight,
-  Gear,
-  Question,
-  SignOut,
-} from "@phosphor-icons/react";
+import { Users, BookmarkSimple, File, TwitterLogo, User, Sparkle, X, Plus, ChartLine, RocketLaunch, ArrowSquareUpRight, Gear, Question, SignOut, Moon, Sun } from "@phosphor-icons/react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
@@ -37,19 +22,27 @@ const links = [
 
 export function Header({ title }: HeaderProps) {
   const [showModal, setShowModal] = useState(false);
+
   const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
     {}
   );
   const { logout } = useAuth();
+
+  const [theme, setTheme] = useState("light");
 
   const handleLogout = () => {
     logout();
     setShowModal(!showModal);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
   const handleLinkFocus = (linkId: string) => {
     setFocusedLinks((prevFocusedLinks) => ({
       ...prevFocusedLinks,
@@ -106,7 +99,7 @@ export function Header({ title }: HeaderProps) {
   };
 
   return (
-    <div className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b border-b-grayBorder sticky top-0 backdrop-blur-md z-10 ">
+    <div  className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b border-b-grayBorder sticky top-0 backdrop-blur-md z-10 ">
       <div className="sm:block hidden">
         <button onClick={toggleModal}>
           <img
@@ -131,7 +124,7 @@ export function Header({ title }: HeaderProps) {
                     <X />
                   </button>
                 </div>
-                <div>
+                <div className="h-screen">
                   <div className="pt-4 px-4 flex justify-between">
                     <img
                       className="w-10 h-10 rounded-full"
@@ -165,25 +158,24 @@ export function Header({ title }: HeaderProps) {
                   <div>
                     <nav className="flex flex-col gap-1 ">
                       <div className="mt-4">
-                      {links.map((link) => (
-  <NavLink
-    key={link.id}
-    className="flex gap-5  w-full text-xl font-bold py-2 px-2 hover:bg-zinc-100 hover:dark:bg-zinc-800 md:px-5 active:text-twitterBlue"
-    to={link.id === "TwitterBlue" ? "/" : `/${link.id}`}
-    onFocus={() => handleLinkFocus(link.id)}
-    onBlur={() => handleLinkBlur(link.id)}
-  >
-    {isLinkFocused(link.id)
-      ? React.cloneElement(link.icon, {
-          weight: "fill",
-        })
-      : React.cloneElement(link.icon, {
-          weight: "regular",
-        })}
-    <p className="">{link.name}</p>
-  </NavLink>
-))}
-
+                        {links.map((link) => (
+                          <NavLink
+                            key={link.id}
+                            className="flex gap-5 w-full text-xl font-bold py-2 px-2 hover:bg-zinc-100 md:px-5 active:text-twitterBlue"
+                            to={link.id === "TwitterBlue" ? "/" : `/${link.id}`}
+                            onFocus={() => handleLinkFocus(link.id)}
+                            onBlur={() => handleLinkBlur(link.id)}
+                          >
+                            {isLinkFocused(link.id)
+                              ? React.cloneElement(link.icon, {
+                                  weight: "fill",
+                                })
+                              : React.cloneElement(link.icon, {
+                                  weight: "regular",
+                                })}
+                            <p className="">{link.name}</p>
+                          </NavLink>
+                        ))}
                       </div>
                     </nav>
                   </div>
@@ -237,6 +229,20 @@ export function Header({ title }: HeaderProps) {
                       >
                         <SignOut size={18} />
                         <span className="leading-5 text-base">Log Out</span>
+                      </button>
+                      <button
+                        onClick={toggleTheme}
+                        className="flex w-full items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
+                      >
+                        {theme === "light" ? (
+                          <Sun size={18} />
+                        ) : (
+                          <Moon size={18} />
+                        )}
+
+                        <span className="leading-5 text-base">
+                          Theme {theme}{" "}
+                        </span>
                       </button>
                     </Accordion>
                   </div>

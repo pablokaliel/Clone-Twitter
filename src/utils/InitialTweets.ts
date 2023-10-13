@@ -77,7 +77,7 @@ export const initialTweets = [
     comments: 30,
     retweets: 9,
     likes: 2124,
-    imageUrl: "https://source.unsplash.com/random/?drinks?champanhe",
+    imageUrl: "https://source.unsplash.com/random/?drinks?party?champanhe",
     views: 9876,
   },
   {

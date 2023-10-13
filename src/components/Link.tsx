@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
 
-
 interface LinkProps {
   path: string;
   name: string;
