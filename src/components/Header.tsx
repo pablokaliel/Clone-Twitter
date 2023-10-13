@@ -6,6 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Accordion } from "./Acorddion";
 import { useAuth } from "../utils/AuthContext";
 import { initialUser } from "../utils/InitialUser";
+import { useScrollDirection } from "../context/ScrollContext";
 
 interface HeaderProps extends React.HTMLProps<HTMLDivElement> {
   title: string;
@@ -22,6 +23,7 @@ const links = [
 
 export function Header({ title }: HeaderProps) {
   const [showModal, setShowModal] = useState(false);
+  const scrollDirection = useScrollDirection();
 
   const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
     {}
@@ -99,7 +101,7 @@ export function Header({ title }: HeaderProps) {
   };
 
   return (
-    <div  className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b border-b-grayBorder sticky top-0 backdrop-blur-md z-10 ">
+    <div  data-isscrolldown={scrollDirection === "down"} className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b transition-transform duration-200 border-b-grayBorder sticky top-0 backdrop-blur-md z-10 sm:data-[isscrolldown=true]:-translate-y-[100%]">
       <div className="sm:block hidden">
         <button onClick={toggleModal}>
           <img
