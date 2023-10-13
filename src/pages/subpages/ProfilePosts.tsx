@@ -1,6 +1,8 @@
 function ProfilePosts() {
   return ( 
-    <h1>ProfilePosts</h1>
+    <div className="flex-1 grid place-content-center h-full">
+      <h1>ProfilePosts</h1>
+    </div>
    );
 }
 
