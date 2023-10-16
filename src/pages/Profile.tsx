@@ -4,6 +4,8 @@ import { ArrowLeft, CalendarCheck } from "@phosphor-icons/react";
 import { initialUser } from "../utils/InitialUser";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useTweetContext } from "../context/TweetContext";
+import { useEffect, useState } from "react";
+import { TweetProps } from "./Timeline";
 
 function Profile() {
   const { tweets } = useTweetContext();
@@ -12,11 +14,21 @@ function Profile() {
   let message: string;
   let number: number;
 
-  // Filtrar tweets apenas para o usuário atual
   const userTweets = tweets.filter((tweet) => tweet.userLogin === initialUser.login);
 
-  const likedTweets = userTweets.filter((tweet) => tweet.isLiked);
-  const tweetsWithImages = userTweets.filter((tweet) => tweet.imageUrl);
+  const [likedTweetIds, setLikedTweetIds] = useState<string[]>([]);
+  const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
+
+  useEffect(() => {
+    const likedTweetsIds = JSON.parse(localStorage.getItem("likedTweets") || "[]");
+    setLikedTweetIds(likedTweetsIds);
+
+    // Aqui você pode encontrar os tweets correspondentes aos IDs curtidos
+    const likedTweets = userTweets.filter((tweet) => likedTweetsIds.includes(tweet.id));
+    setLikedTweets(likedTweets);
+  }, [userTweets]);
+
+  const tweetsWithImages = likedTweets.filter((tweet) => tweet.imageUrl);
 
   console.log("location: ", location);
   console.log("likedTweets: ", likedTweets);
@@ -71,14 +83,14 @@ function Profile() {
                 />
               </div>
               <div className="w-full flex justify-end">
-                <div className="flex items-center justify-center hover:bg-gray-300 mt-3 w-28 h-9 rounded-full font-bold dark:text-textDark border border-black/10 dark:border-white/40 transition-all duration-200">
+                <div className="flex items-center justify-center hover:bg-gray-300 mt-3 w-28 h-9 rounded-full font-bold dark-text-textDark border border-black/10 dark-border-white/40 transition-all duration-200">
                   <button className="">Editar Perfil</button>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex flex-col px-4">
-                <span className="text-xl font-bold leading-6 dark:text-textDark">
+                <span className="text-xl font-bold leading-6 dark-text-textDark">
                   {initialUser.name}
                 </span>
                 <span className="text-gray-600">@{initialUser.login}</span>
@@ -88,26 +100,26 @@ function Profile() {
               </div>
               <div className="px-4 flex gap-1 items-center">
                 <CalendarCheck size={18} />
-                <span className="text-base text-[#7a8791] dark:text-muteDark ">
+                <span className="text-base text-[#7a8791] dark-text-muteDark ">
                   Joined {initialUser.created_at}
                 </span>
               </div>
               <div className="px-4 flex gap-2">
                 <span className="font-bold text-sm">
                   {initialUser.followers}{" "}
-                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark-text-muteDark">
                     following
                   </span>
                 </span>
                 <span className="font-bold text-sm">
                   {initialUser.following}{" "}
-                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark-text-muteDark">
                     followers
                   </span>
                 </span>
               </div>
             </div>
-            <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
+            <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark-border-grayBorderDark">
               <PersonalLink path={`/${initialUser.login}`} name="Posts" />
               <PersonalLink
                 path={`/${initialUser.login}/with_replies`}
