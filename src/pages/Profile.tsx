@@ -2,9 +2,34 @@ import { PersonalLink } from "../components/Link";
 import { useAuth } from "../utils/AuthContext";
 import { ArrowLeft, CalendarCheck } from "@phosphor-icons/react";
 import { initialUser } from "../utils/InitialUser";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { useTweetContext } from "../context/TweetContext";
 
 function Profile() {
+  const { tweets } = useTweetContext();
+  const location = useLocation().pathname;
+
+  let message: string;
+  let number: number;
+
+  // Filtrar tweets apenas para o usuário atual
+  const userTweets = tweets.filter((tweet) => tweet.userLogin === initialUser.login);
+
+  const likedTweets = userTweets.filter((tweet) => tweet.isLiked);
+  const tweetsWithImages = userTweets.filter((tweet) => tweet.imageUrl);
+
+  if (location === `/${initialUser.login}/media`) {
+    message =
+      tweetsWithImages.length === 1 ? "Foto e vídeo" : "Fotos e vídeos";
+    number = tweetsWithImages.length;
+  } else if (location === `/${initialUser.login}/likes`) {
+    message = likedTweets.length === 1 ? "Curtida" : "Curtidas";
+    number = likedTweets.length;
+  } else {
+    message = userTweets.length === 1 ? "Post" : "Posts";
+    number = userTweets.length;
+  }
+
   const { isAuthenticated } = useAuth();
   return (
     <main className="mx-auto flex-1">
@@ -19,7 +44,7 @@ function Profile() {
           {isAuthenticated ? (
             <div className="flex flex-col">
               <span>{initialUser.name}</span>
-              <span className="text-xs font-normal opacity-70">2 posts</span>
+              <span className="text-xs font-normal opacity-70">{number} {message}</span>
             </div>
           ) : (
             <>Profile</>
@@ -30,10 +55,10 @@ function Profile() {
             <div className="w-full h-52 bg-[#015b5d] flex-shrink-0" />
 
             <div className="grid items-start relative min-h-[48px] p-4">
-              <div className="w-[135px] ml-4 absolute h-[135px] rounded-full bg-white p-1 -translate-y-[52%]">
+              <div className="w-[135px] dark:bg-bodyDark ml-4 absolute h-[135px] rounded-full bg-white p-1 -translate-y-[52%]">
                 <img
                   src={initialUser.avatarURL}
-                  alt=""
+                  alt={`foto de perfil de ${initialUser.name}`}
                   className="rounded-full"
                 />
               </div>
@@ -55,20 +80,20 @@ function Profile() {
               </div>
               <div className="px-4 flex gap-1 items-center">
                 <CalendarCheck size={18} />
-                <span className="text-base text-[#7a8791]  dark:text-muteDark ">
+                <span className="text-base text-[#7a8791] dark:text-muteDark ">
                   Joined {initialUser.created_at}
                 </span>
               </div>
               <div className="px-4 flex gap-2">
                 <span className="font-bold text-sm">
                   {initialUser.followers}{" "}
-                  <span className="font-normal text-sm text-[#7a8791]  dark:text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
                     following
                   </span>
                 </span>
                 <span className="font-bold text-sm">
                   {initialUser.following}{" "}
-                  <span className="font-normal text-sm text-[#7a8791]  dark:text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
                     followers
                   </span>
                 </span>

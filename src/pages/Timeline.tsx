@@ -19,6 +19,7 @@ export interface TweetProps {
   retweets: number;
   likes: number;
   views: number;
+  isLiked?:number;
 }
 
 export function Timeline() {
@@ -31,8 +32,8 @@ export function Timeline() {
     content: "",
     comments: 0,
     retweets: 0,
-    likes: 1,
-    views: 2,
+    likes: 0,
+    views: 0,
     imageUrl: undefined,
   });
 
@@ -75,8 +76,8 @@ export function Timeline() {
         content: "",
         comments: 0,
         retweets: 0,
-        likes: 1,
-        views: 2,
+        likes: 0,
+        views: 0,
         imageUrl: undefined,
       });
     }
@@ -137,6 +138,7 @@ export function Timeline() {
               userName={tweet.userName}
               imageUrl={tweet.imageUrl}
               views={tweet.views}
+              isLiked={tweet.isLiked}
             />
           ))}
         </>

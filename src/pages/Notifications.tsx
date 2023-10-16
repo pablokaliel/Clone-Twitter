@@ -17,7 +17,7 @@ export default function Notifications() {
               <PersonalLink path="/notifications/verified" name="Verified" />
               <PersonalLink path="/notifications/mentions" name="Mentions" />
             </div>
-            <Outlet /> {/* This will render the appropriate child component */}
+            <Outlet />
           </>
         ) : (
           <Link to="/Login">Logar</Link>

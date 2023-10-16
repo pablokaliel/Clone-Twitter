@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { ChatCircle, ArrowClockwise, Heart, ChartLine, Export } from "@phosphor-icons/react";
 
 interface ButtonsProps {
@@ -13,13 +13,52 @@ function Buttons(props: ButtonsProps) {
   const [likes, setLikes] = useState(props.likes);
   const [isLiked, setIsLiked] = useState(false);
 
-  function handleIncreaseLike(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
+  useEffect(() => {
+    const savedLikeState = localStorage.getItem(`like_${props.id}`);
+    if (savedLikeState !== null) {
+      setIsLiked(JSON.parse(savedLikeState));
+    }
+  
+    // Carregue a quantidade correta de "likes" do localStorage ao inicializar o componente.
+    const savedLikes = localStorage.getItem(`likes_${props.id}`);
+    if (savedLikes !== null) {
+      setLikes(parseInt(savedLikes));
+    }
+  }, [props.id]);
+  
+
+  function handleIncreaseLike(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
-    setIsLiked((prevIsLiked) => !prevIsLiked);
-    setLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
+    const newLikeState = !isLiked;
+  
+    // Atualize o estado de "like".
+    setIsLiked(newLikeState);
+  
+    // Atualize a quantidade de "likes" com base no estado de "like".
+    const updatedLikes = newLikeState ? likes + 1 : likes - 1;
+  
+    // Adicione ou remova o tweet da lista de tweets "liked" no localStorage.
+    const likedTweets = JSON.parse(localStorage.getItem('likedTweets') || '[]');
+    if (newLikeState) {
+      likedTweets.push(props.id);
+    } else {
+      const index = likedTweets.indexOf(props.id);
+      if (index !== -1) {
+        likedTweets.splice(index, 1);
+      }
+    }
+    localStorage.setItem('likedTweets', JSON.stringify(likedTweets));
+
+    // Salve o estado de "like" e a quantidade de "likes" atualizada no localStorage.
+    localStorage.setItem(`like_${props.id}`, JSON.stringify(newLikeState));
+    localStorage.setItem(`likes_${props.id}`, updatedLikes.toString());
+  
+    // Atualize o estado local com a quantidade de "likes" atualizada.
+    setLikes(updatedLikes);
   }
+
+  
+  
 
   return (
     <div className="flex items-center gap-12 sm:gap-0 sm:justify-between mt-3">
