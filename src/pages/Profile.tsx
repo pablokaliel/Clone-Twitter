@@ -18,18 +18,26 @@ function Profile() {
   const likedTweets = userTweets.filter((tweet) => tweet.isLiked);
   const tweetsWithImages = userTweets.filter((tweet) => tweet.imageUrl);
 
+  console.log("location: ", location);
+  console.log("likedTweets: ", likedTweets);
+  console.log("tweetsWithImages: ", tweetsWithImages);
+  console.log("userTweets: ", userTweets);
+  
   if (location === `/${initialUser.login}/media`) {
+    console.log("Entering media");
     message =
       tweetsWithImages.length === 1 ? "Foto e vídeo" : "Fotos e vídeos";
     number = tweetsWithImages.length;
   } else if (location === `/${initialUser.login}/likes`) {
+    console.log("Entering likes");
     message = likedTweets.length === 1 ? "Curtida" : "Curtidas";
     number = likedTweets.length;
   } else {
+    console.log("Entering default");
     message = userTweets.length === 1 ? "Post" : "Posts";
     number = userTweets.length;
   }
-
+  
   const { isAuthenticated } = useAuth();
   return (
     <main className="mx-auto flex-1">

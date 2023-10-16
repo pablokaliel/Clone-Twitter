@@ -1,14 +1,47 @@
-function ProfileLikes() {
+import { useEffect, useState } from "react";
+import { useTweetContext } from "../../context/TweetContext";
+import { Tweet } from "../../components/Tweet";
 
-  return ( 
-  
-      <div className="max-w-[400px] my-8 mx-auto px-8 min-h-[50vh]">
-        <h2 className="text-3xl font-extrabold mb-2">Nothing here -</h2>
+function ProfileLikes() {
+  const { tweets } = useTweetContext();
+  const [likedTweetIds, setLikedTweetIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const likedTweets = JSON.parse(localStorage.getItem("likedTweets") || "[]");
+    setLikedTweetIds(likedTweets);
+  }, []);
+
+  const likedTweets = likedTweetIds.map((likedTweetId) =>
+    tweets.find((tweet) => tweet?.id === likedTweetId)
+  );
+
+  return (
+    <div className=" min-h-[50vh]">
+      {likedTweets.length > 0 ? (
+        likedTweets.map((tweet) =>
+          tweet ? (
+            <Tweet
+              key={tweet.id}
+              userAvatar={tweet.userAvatar}
+              userName={tweet.userName}
+              userLogin={tweet.userLogin}
+              content={tweet.content}
+              imageUrl={tweet.imageUrl}
+              comments={tweet.comments}
+              retweets={tweet.retweets}
+              likes={tweet.likes}
+              id={tweet.id}
+              views={tweet.views}
+            />
+          ) : null
+        )
+      ) : (
         <p className="text-sm dark:text-muteDark">
-          When you like tweets, they will show up here.
+          Quando você curtir tweets, eles aparecerão aqui.
         </p>
-      </div>
-   );
+      )}
+    </div>
+  );
 }
 
 export default ProfileLikes;
