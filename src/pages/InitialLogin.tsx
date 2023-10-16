@@ -19,8 +19,7 @@ function InitalLogin() {
     if (emailInput) {
       const email = emailInput.value;
       if (email === "twitterlogin@gmail.com") {
-        // Simule a autenticação de sucesso
-        login(); // Chame a função de login do contexto
+        login();
         navigate("/");
       } else {
         setEmailError("Email incorreto. Tente novamente.");

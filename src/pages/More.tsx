@@ -4,6 +4,7 @@ import { useAuth } from "../utils/AuthContext";
 
 function More() {
   const { isAuthenticated } = useAuth();
+
   return (
     <main className="mx-auto flex-1">
       <div>

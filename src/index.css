@@ -3,47 +3,62 @@
 @tailwind utilities;
 
 @layer base {
-    html, body, #root {
-        min-height: 100vh;
-        width:100%;
-    }
+  html,
+  body,
+  #root {
+    min-height: 100vh;
+    scroll-behavior: smooth;
+  }
 
-    body {
-        color: #0f1419;
-        -webkit-font-smoothing: antialiased;
-        -webkit-tap-highlight-color: transparent;
-        font-family: 'Roboto',sans-serif;
-        width:100%;
-    }
+  body {
+    color: #0f1419;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    font-family: "Roboto", sans-serif;
+  }
 
-    textarea {
-        background: transparent;
-    }
+  textarea {
+    background: transparent;
+  }
 
-    a {
-        color: inherit;
-    }
+  a {
+    color: inherit;
+  }
 
-    html.dark .tooltip {
-        color: white;
-        background: rgba(240, 240, 240, .4);
-    }
+  html.dark .tooltip {
+    color: white;
+    background: rgba(240, 240, 240, 0.4);
+  }
 
-    .tooltip {
-        position: absolute;
-        bottom: -80%;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        padding: 2px 4px;
-        border-radius: 3px;
-        font-size: .75rem;
-        white-space: nowrap;
-        pointer-events: none;
-    }
+  .tooltip {
+    position: absolute;
+    bottom: -80%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .bg-gradient {
+    background: conic-gradient(
+      var(--fillColor) var(--progress, 0),
+      #eff3f4 0deg
+    );
+  }
+
+  .bg-gradient-dark {
+    background: conic-gradient(
+      var(--fillColor) var(--progress, 0),
+      #2f3336 0deg
+    );
+  }
 }
 
 @layer components {
-    .active {
-        @apply text-twitterBlue
-    }
+  .active {
+    @apply text-twitterBlue;
+  }
 }

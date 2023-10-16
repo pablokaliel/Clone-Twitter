@@ -1,14 +1,7 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 const ScrollDirectionContext = createContext<undefined | string>(undefined);
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useScrollDirection() {
   return useContext(ScrollDirectionContext);
 }
@@ -18,7 +11,9 @@ interface ScrollDirectionProps {
 }
 
 export function ScrollDirectionProvider({ children }: ScrollDirectionProps) {
-  const [scrollDirection, setScrollDirection] = useState<string | undefined>("up");
+  const [scrollDirection, setScrollDirection] = useState<string | undefined>(
+    "up"
+  );
 
   useEffect(() => {
     let lastScrollPosition = window.scrollY;

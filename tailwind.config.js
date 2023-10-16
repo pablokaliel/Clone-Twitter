@@ -10,14 +10,15 @@ export default {
       colors: {
         twitterBlue: '#1da1f2',
         grayBorder: '#ebeef0',
-        grayBorderLight: '#CBD1D3',
         grayBorderDark: '#2F2F2F',
         separatorColor: '#f7f9fa',
-        bodyDark: '#121214',
+        bodyDark: '#000',
         tweetColor: '#E1E1E6',
+        textDark: '#E7E9EA',
+        mute: '#536471',
+        muteDark: '#71767B',
         retweetGreen: 'rgb(0, 186, 124)',
-        likePink: 'rgb(249, 24, 128)',
-        separatorDark:"#202020"
+        likePink: 'rgb(249, 24, 128)'
       },
       boxShadow: {
         floatButton: 'rgba(217, 217, 217, 0.2) 0px 0px 5px, rgba(217, 217, 217, 0.25) 0px 1px 4px 1px'

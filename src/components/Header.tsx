@@ -1,5 +1,22 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import { Users, BookmarkSimple, File, TwitterLogo, User, Sparkle, X, Plus, ChartLine, RocketLaunch, ArrowSquareUpRight, Gear, Question, SignOut, Moon, Sun } from "@phosphor-icons/react";
+import {
+  Users,
+  BookmarkSimple,
+  File,
+  TwitterLogo,
+  User,
+  Sparkle,
+  X,
+  Plus,
+  ChartLine,
+  RocketLaunch,
+  ArrowSquareUpRight,
+  Gear,
+  Question,
+  SignOut,
+  Moon,
+  SunDim,
+} from "@phosphor-icons/react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
@@ -7,6 +24,7 @@ import { Accordion } from "./Acorddion";
 import { useAuth } from "../utils/AuthContext";
 import { initialUser } from "../utils/InitialUser";
 import { useScrollDirection } from "../context/ScrollContext";
+import { loadDarkModeValue, saveDarkModeValue } from "../utils/DarkModeUtils";
 
 interface HeaderProps extends React.HTMLProps<HTMLDivElement> {
   title: string;
@@ -30,16 +48,35 @@ export function Header({ title }: HeaderProps) {
   );
   const { logout } = useAuth();
 
-  const [theme, setTheme] = useState("light");
+  const [isDark, setIsDark] = useState<boolean>(loadDarkModeValue());
 
   const handleLogout = () => {
     logout();
     setShowModal(!showModal);
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  function handleToggleTheme() {
+    const html = document.querySelector("html");
+    setIsDark((prevState) => !prevState);
+
+    if (isDark) {
+      html?.classList.remove("dark");
+    } else {
+      html?.classList.add("dark");
+    }
+  }
+
+  useEffect(() => {
+    saveDarkModeValue(isDark);
+
+    const html = document.querySelector("html");
+
+    if (isDark) {
+      html?.classList.remove("dark");
+    } else {
+      html?.classList.add("dark");
+    }
+  }, [isDark]);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -101,7 +138,10 @@ export function Header({ title }: HeaderProps) {
   };
 
   return (
-    <div  data-isscrolldown={scrollDirection === "down"} className="py-6 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b transition-transform duration-200 border-b-grayBorder sticky top-0 backdrop-blur-md z-10 sm:data-[isscrolldown=true]:-translate-y-[100%]">
+    <div
+      data-isscrolldown={scrollDirection === "down"}
+      className="py-6 dark:border-b-grayBorderDark dark:text-tweetColor dark:bg-bodyDark/60 sm:p-3 px-5 flex items-center justify-between text-xl w-full font-bold border-b transition-transform duration-200 border-b-grayBorder sticky top-0 backdrop-blur-md z-10 sm:data-[isscrolldown=true]:-translate-y-[100%]"
+    >
       <div className="sm:block hidden">
         <button onClick={toggleModal}>
           <img
@@ -112,15 +152,15 @@ export function Header({ title }: HeaderProps) {
         </button>
         <AnimatePresence onExitComplete={() => setIsEscapeKeyPressed(false)}>
           {showModal && (
-            <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
+            <div className="h-screen w-full  bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
               <motion.div
-                className="bg-white h-screen w-[70%] rounded-lg  "
+                className="bg-white  dark:bg-bodyDark dark:shadow-zinc-800 h-screen w-[70%] rounded-lg  "
                 initial="closed"
                 animate="open"
                 exit="closed"
                 variants={drawerVariants}
               >
-                <div className=" flex  justify-between p-4">
+                <div className=" flex justify-between p-4">
                   <span className="text-base">Account Info</span>
                   <button onClick={toggleModal}>
                     <X />
@@ -226,25 +266,20 @@ export function Header({ title }: HeaderProps) {
                         <span className="leading-5 text-base">Help Center</span>
                       </Link>
                       <button
+                        onClick={handleToggleTheme}
+                        className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800 "
+                      >
+                        {isDark ? <SunDim size={24} /> : <Moon size={24} />}
+                        <span className="leading-5 text-base">
+                          {isDark ? "Dark" : "Light"}
+                        </span>
+                      </button>
+                      <button
                         onClick={handleLogout}
                         className="flex items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
                       >
                         <SignOut size={18} />
                         <span className="leading-5 text-base">Log Out</span>
-                      </button>
-                      <button
-                        onClick={toggleTheme}
-                        className="flex w-full items-center gap-2 p-3 active:bg-zinc-100 active:dark:bg-zinc-800"
-                      >
-                        {theme === "light" ? (
-                          <Sun size={18} />
-                        ) : (
-                          <Moon size={18} />
-                        )}
-
-                        <span className="leading-5 text-base">
-                          Theme {theme}{" "}
-                        </span>
                       </button>
                     </Accordion>
                   </div>
@@ -265,7 +300,19 @@ export function Header({ title }: HeaderProps) {
           />
         </Link>
       </div>
-      <Sparkle className="w-6 h-6 text-twitterBlue" />
+      <div className="flex gap-4 items-center">
+        <button
+          onClick={handleToggleTheme}
+          className="outline outline-transparent outline-8 hover:outline-twitterBlue/10 hover:bg-twitterBlue/10 rounded-full"
+        >
+          {isDark ? (
+            <SunDim size={24} className="text-twitterBlue" />
+          ) : (
+            <Moon size={24} className="text-twitterBlue" />
+          )}
+        </button>
+        <Sparkle className="w-6 h-6 text-twitterBlue" />
+      </div>
     </div>
   );
 }

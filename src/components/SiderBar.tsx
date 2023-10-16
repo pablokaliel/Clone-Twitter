@@ -26,9 +26,8 @@ function SideBar(props: SideBarProps) {
   const { logout } = useAuth();
   const isAuthenticated = useAuth().isAuthenticated;
   const [showModal, setShowModal] = useState(false);
-  
-  const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
+  const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
   useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent) => {
@@ -92,24 +91,24 @@ function SideBar(props: SideBarProps) {
   return (
     <aside className="pt-6 px-5 flex flex-col md:items-center justify-between h-screen sticky top-0 md:px-0 sm:hidden">
       <nav className="flex flex-col gap-8 md:items-center ">
-        <TwitterLogo size={32} weight="fill" color="#1da1f2"/>
+        <TwitterLogo size={32} weight="fill" color="#1da1f2" />
         <div>
-        {links.map((link) => (
-          <NavLink
-            key={link.id}
-            className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
-            to={`/${link.id}`}
-            onFocus={() => handleLinkFocus(link.id)}
-            onBlur={() => handleLinkBlur(link.id)}
-          >
-            {isLinkFocused(link.id)
-              ? React.cloneElement(link.icon, { weight: "fill" })
-              : React.cloneElement(link.icon, { weight: "regular" })}
-            <p className="md:hidden">{link.name}</p>
-          </NavLink>
-        ))}
+          {links.map((link) => (
+            <NavLink
+              key={link.id}
+              className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
+              to={`/${link.id}`}
+              onFocus={() => handleLinkFocus(link.id)}
+              onBlur={() => handleLinkBlur(link.id)}
+            >
+              {isLinkFocused(link.id)
+                ? React.cloneElement(link.icon, { weight: "fill" })
+                : React.cloneElement(link.icon, { weight: "regular" })}
+              <p className="md:hidden">{link.name}</p>
+            </NavLink>
+          ))}
         </div>
-         <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
+        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
           <Pencil className="w-6 h-6 hidden md:block" />
           <span className="md:hidden">Tweet</span>
         </button>

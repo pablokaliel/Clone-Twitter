@@ -9,7 +9,7 @@ function Profile() {
   return (
     <main className="mx-auto flex-1">
       <div>
-        <header className="px-5 h-[76px] flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal py-0 gap-9">
+        <header className="px-5 h-[76px] dark:border-b-grayBorderDark dark:text-tweetColor dark:bg-bodyDark/60 flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal py-0 gap-9">
           <button
             onClick={() => window.history.back()}
             className="w-9 h-9 grid place-items-center rounded-full :hover:bg-black/10 "
@@ -55,26 +55,26 @@ function Profile() {
               </div>
               <div className="px-4 flex gap-1 items-center">
                 <CalendarCheck size={18} />
-                <span className="text-base text-[#7a8791] ">
+                <span className="text-base text-[#7a8791]  dark:text-muteDark ">
                   Joined {initialUser.created_at}
                 </span>
               </div>
               <div className="px-4 flex gap-2">
                 <span className="font-bold text-sm">
                   {initialUser.followers}{" "}
-                  <span className="font-normal text-sm text-[#7a8791]">
+                  <span className="font-normal text-sm text-[#7a8791]  dark:text-muteDark">
                     following
                   </span>
                 </span>
                 <span className="font-bold text-sm">
                   {initialUser.following}{" "}
-                  <span className="font-normal text-sm text-[#7a8791]">
+                  <span className="font-normal text-sm text-[#7a8791]  dark:text-muteDark">
                     followers
                   </span>
                 </span>
               </div>
             </div>
-            <nav className="flex h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
+            <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
               <PersonalLink path={`/${initialUser.login}`} name="Posts" />
               <PersonalLink
                 path={`/${initialUser.login}/with_replies`}
@@ -87,9 +87,8 @@ function Profile() {
               <PersonalLink path={`/${initialUser.login}/media`} name="Media" />
               <PersonalLink path={`/${initialUser.login}/likes`} name="Likes" />
             </nav>
-            <Outlet/>
+            <Outlet />
           </div>
-
         ) : (
           <Link to="/login">Logar</Link>
         )}

@@ -5,6 +5,7 @@ import { PersonalLink } from "../components/Link";
 
 export default function Notifications() {
   const { isAuthenticated } = useAuth();
+
   return (
     <main className="mx-auto flex-1">
       <div>
@@ -25,8 +26,3 @@ export default function Notifications() {
     </main>
   );
 }
-
-
-
-
-
