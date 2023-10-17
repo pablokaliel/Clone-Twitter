@@ -16,6 +16,7 @@ export function Default() {
             <Outlet />
           </div>
           <BottomMobile />
+
         </ScrollDirectionProvider>
       </TweetProvider>
     </div>

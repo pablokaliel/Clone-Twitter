@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { House, MagnifyingGlass, Bell, EnvelopeSimple, BookmarkSimple, File, User, DotsThreeCircle, DotsThree, TwitterLogo, Pencil } from "@phosphor-icons/react";
+import {House,MagnifyingGlass,Bell,EnvelopeSimple,BookmarkSimple,File,User,DotsThreeCircle,DotsThree,TwitterLogo,Pencil } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 
 const links = [
@@ -108,11 +108,13 @@ function SideBar(props: SideBarProps) {
             </NavLink>
           ))}
         </div>
+
         <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
           <Pencil className="w-6 h-6 hidden md:block" />
           <span className="md:hidden">Tweet</span>
         </button>
       </nav>
+
       <div className="p-4 flex items-center gap-3 my-3 rounded-full transition-colors duration-200 select-none cursor-pointer md:w-16 md:h-16 md:p-3 ">
         {isAuthenticated ? (
           <>
@@ -139,7 +141,7 @@ function SideBar(props: SideBarProps) {
           </>
         ) : (
           <>
-            <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+            <div className="w-10 h-10 bg-gray-300 rounded-full"/>
             <div className="flex flex-1 justify-between items-center md:hidden">
               <div className="flex flex-col flex-shrink-0 text-sm">
                 <span className="font-bold">usuário</span>
@@ -169,6 +171,7 @@ function SideBar(props: SideBarProps) {
                 >
                   Cancelar
                 </button>
+
                 {isAuthenticated ? (
                   <button
                     className="text-red-500 font-semibold"

@@ -5,11 +5,10 @@ import { initialUser } from "../../utils/InitialUser";
 
 function ProfilePosts() {
   const { tweets } = useTweetContext();
-  const userLogin = initialUser.login; // Get the user's login
+  const userLogin = initialUser.login;
 
-  // Filter tweets to include only the user's tweets
   const userTweets = tweets.filter((tweet) => tweet.userLogin === userLogin);
-  
+
   return (
     <div className="min-h-[50vh]">
       {userTweets.map((tweet) => {

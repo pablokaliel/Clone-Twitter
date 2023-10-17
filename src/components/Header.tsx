@@ -1,23 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import {
-  Users,
-  BookmarkSimple,
-  File,
-  TwitterLogo,
-  User,
-  Sparkle,
-  X,
-  Plus,
-  ChartLine,
-  RocketLaunch,
-  ArrowSquareUpRight,
-  Gear,
-  Question,
-  SignOut,
-  Moon,
-  SunDim,
-} from "@phosphor-icons/react";
-
+import { Users, BookmarkSimple, File, TwitterLogo, User, Sparkle, X, Plus, ChartLine, RocketLaunch, ArrowSquareUpRight, Gear, Question, SignOut, Moon, SunDim } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import { Accordion } from "./Acorddion";
@@ -150,6 +132,7 @@ export function Header({ title }: HeaderProps) {
             alt=""
           />
         </button>
+
         <AnimatePresence onExitComplete={() => setIsEscapeKeyPressed(false)}>
           {showModal && (
             <div className="h-screen w-full  bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
@@ -166,6 +149,7 @@ export function Header({ title }: HeaderProps) {
                     <X />
                   </button>
                 </div>
+
                 <div className="h-screen">
                   <div className="pt-4 px-4 flex justify-between">
                     <img
@@ -177,6 +161,7 @@ export function Header({ title }: HeaderProps) {
                       <Plus size={17} color="#777a7d" />
                     </div>
                   </div>
+
                   <div className="flex flex-col mt-2 px-4">
                     <span className="font-bold leading-5">
                       {initialUser.name}
@@ -185,6 +170,7 @@ export function Header({ title }: HeaderProps) {
                       @{initialUser.login}
                     </span>
                   </div>
+
                   <div className="flex mt-3 text-sm gap-5 px-4">
                     <div>
                       <span className="font-bold mr-1 opacity-80">
@@ -197,6 +183,7 @@ export function Header({ title }: HeaderProps) {
                       </span>
                     </div>
                   </div>
+
                   <div>
                     <nav className="flex flex-col gap-1 ">
                       <div className="mt-4">
@@ -221,6 +208,7 @@ export function Header({ title }: HeaderProps) {
                       </div>
                     </nav>
                   </div>
+
                   <div className="px-4">
                     <Accordion title="Creator Studio">
                       <Link
@@ -231,6 +219,7 @@ export function Header({ title }: HeaderProps) {
                         <span className="leading-5 text-base">Analytics</span>
                       </Link>
                     </Accordion>
+
                     <Accordion title="Professional Tools">
                       <Link
                         to="/errors"
@@ -250,6 +239,7 @@ export function Header({ title }: HeaderProps) {
                         <span className="leading-5 text-base">Twitter Ads</span>
                       </Link>
                     </Accordion>
+
                     <Accordion title="Settings and Support">
                       <Link
                         to="/errors"
@@ -282,6 +272,7 @@ export function Header({ title }: HeaderProps) {
                         <span className="leading-5 text-base">Log Out</span>
                       </button>
                     </Accordion>
+
                   </div>
                 </div>
               </motion.div>
@@ -300,6 +291,7 @@ export function Header({ title }: HeaderProps) {
           />
         </Link>
       </div>
+
       <div className="flex gap-4 items-center">
         <button
           onClick={handleToggleTheme}

@@ -42,6 +42,7 @@ function InitalLogin() {
       setAppleErrorMessage("");
     }, 2000);
   };
+
   return (
     <div className="w-full h-screen bg-[#999] flex items-center justify-center">
       <motion.div
@@ -53,11 +54,13 @@ function InitalLogin() {
         <header className="p-4 flex items-center justify-center">
           <TwitterLogo color="#1da1f2" weight="fill" size={40} />
         </header>
+
         <div className="flex flex-col items-center sm:py-[129px] ">
           <div className="flex flex-col gap-5">
             <div className=" py-5">
               <h1 className="text-3xl font-black">Entrar no Twitter</h1>
             </div>
+
             <div className="flex flex-col gap-6">
               <button
                 onClick={handleGoogleLogin}
@@ -84,11 +87,13 @@ function InitalLogin() {
                 </div>
               )}
             </div>
+
             <div className="flex gap-2 items-center">
               <div className="bg-grayBorderLight w-full h-[1px]" />
               <p>ou</p>
               <div className="bg-grayBorderLight w-full h-[1px]" />
             </div>
+
             <div>
               <input
                 id="emailInput"
@@ -99,6 +104,7 @@ function InitalLogin() {
                 <div className="text-red-500 mt-1 text-xs">{emailError}</div>
               )}
             </div>
+
             <div className="flex flex-col gap-6">
               <button
                 onClick={handleAdvanceClick}
@@ -110,6 +116,7 @@ function InitalLogin() {
                 esqueceu sua senha?
               </button>
             </div>
+
             <div className="mt-3">
               <span className="font-bold text-">
                 Não tem conta?{" "}
@@ -120,6 +127,7 @@ function InitalLogin() {
             </div>
           </div>
         </div>
+
         <Link
           to="/"
           className="absolute left-[10px] hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] "

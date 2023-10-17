@@ -19,6 +19,7 @@ import ProfileHighlights from "./pages/subpages/ProfileHighlights";
 import ProfileMedia from "./pages/subpages/ProfileMedia";
 import ProfileLikes from "./pages/subpages/ProfileLikes";
 import Mentions from "./pages/subpages/Mentions";
+import AllNotifications from "./pages/AllNotifications";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
           {
             path: "verified",
             element: <Verified />,
+          },
+          {
+            path: "all",
+            element: <AllNotifications />,
           },
           {
             path: "mentions",

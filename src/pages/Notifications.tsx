@@ -13,7 +13,7 @@ export default function Notifications() {
           <>
             <Header title="Notifications" />
             <div className="flex h-[53px] items-center justify-around">
-              <PersonalLink path="/notifications" name="All" />
+              <PersonalLink path="/notifications/all" name="All" />
               <PersonalLink path="/notifications/verified" name="Verified" />
               <PersonalLink path="/notifications/mentions" name="Mentions" />
             </div>

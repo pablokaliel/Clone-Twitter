@@ -37,9 +37,9 @@ function ProfileLikes() {
         )
       ) : (
         <div className="min-h-[50vh] grid place-content-center">
-        <h1 className="dark:text-muteDark">
-          Quando você curtir tweets, eles aparecerão aqui.
-        </h1>
+          <h1 className="dark:text-muteDark">
+            Quando você curtir tweets, eles aparecerão aqui.
+          </h1>
         </div>
       )}
     </div>
