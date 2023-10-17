@@ -5,17 +5,13 @@ import { useAuth } from "../utils/AuthContext";
 import { LinkSidebar } from "./LinkSidebar";
 import { initialUser } from "../utils/InitialUser";
 
-
-
 interface SideBarProps {
   userName: string | null;
   userLogin: string | null;
 }
 
 function SideBar(props: SideBarProps) {
-  const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+
   const { logout } = useAuth();
   const isAuthenticated = useAuth().isAuthenticated;
   const [showModal, setShowModal] = useState(false);
@@ -46,23 +42,6 @@ function SideBar(props: SideBarProps) {
     }
   }, [isEscapeKeyPressed, showModal]);
 
-  const handleLinkFocus = (linkId: string) => {
-    setFocusedLinks((prevFocusedLinks) => ({
-      ...prevFocusedLinks,
-      [linkId]: true,
-    }));
-  };
-
-  const handleLinkBlur = (linkId: string) => {
-    setFocusedLinks((prevFocusedLinks) => ({
-      ...prevFocusedLinks,
-      [linkId]: false,
-    }));
-  };
-
-  const isLinkFocused = (linkId: string) => {
-    return focusedLinks[linkId];
-  };
 
   const toggleModal = () => {
     setShowModal(!showModal);
