@@ -88,7 +88,7 @@ function Profile() {
             <div className="w-full h-52 bg-[#015b5d] flex-shrink-0" />
 
             <div className="grid items-start relative min-h-[48px] p-4">
-              <div className="w-[135px] dark-bg-bodyDark ml-4 absolute h-[135px] rounded-full bg-white p-1 -translate-y-[52%]">
+              <div className="w-[135px] dark:bg-bodyDark ml-4 absolute h-[135px] rounded-full bg-white p-1 -translate-y-[52%]">
                 <img
                   src={initialUser.avatarURL}
                   alt={`foto de perfil de ${initialUser.name}`}

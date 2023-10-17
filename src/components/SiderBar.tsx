@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import {House,MagnifyingGlass,Bell,EnvelopeSimple,BookmarkSimple,File,User,DotsThreeCircle,DotsThree,TwitterLogo,Pencil } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
+import {House,MagnifyingGlass,Bell,BookmarkSimple,User,DotsThreeCircle,DotsThree,TwitterLogo,Pencil, FileText, Envelope } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
+import { LinkSidebar } from "./LinkSidebar";
+import { initialUser } from "../utils/InitialUser";
 
-const links = [
-  { id: "", name: "Home", icon: <House size={32} /> },
-  { id: "explorer", name: "Explore", icon: <MagnifyingGlass size={32} /> },
-  { id: "notifications", name: "Notifications", icon: <Bell size={32} /> },
-  { id: "messages", name: "Messages", icon: <EnvelopeSimple size={32} /> },
-  { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={32} /> },
-  { id: "lists", name: "Lists", icon: <File size={32} /> },
-  { id: "pablokalyell", name: "Profile", icon: <User size={32} /> },
-  { id: "more", name: "More", icon: <DotsThreeCircle size={32} /> },
-];
+
 
 interface SideBarProps {
   userName: string | null;
@@ -93,20 +86,22 @@ function SideBar(props: SideBarProps) {
       <nav className="flex flex-col gap-8 md:items-center ">
         <TwitterLogo size={32} weight="fill" color="#1da1f2" />
         <div>
-          {links.map((link) => (
-            <NavLink
-              key={link.id}
-              className="flex items-center gap-5 w-fit text-xl font-bold rounded-full py-2 pr-6 hover:bg-zinc-100  hover:dark:bg-zinc-800 md:p-2 active:text-twitterBlue"
-              to={`/${link.id}`}
-              onFocus={() => handleLinkFocus(link.id)}
-              onBlur={() => handleLinkBlur(link.id)}
-            >
-              {isLinkFocused(link.id)
-                ? React.cloneElement(link.icon, { weight: "fill" })
-                : React.cloneElement(link.icon, { weight: "regular" })}
-              <p className="md:hidden">{link.name}</p>
-            </NavLink>
-          ))}
+        <LinkSidebar path="/" icon={House} text="Home" />
+          <LinkSidebar
+            path="/explorer"
+            icon={MagnifyingGlass}
+            text="Explorer"
+          />
+          <LinkSidebar path="/notifications" icon={Bell} text="Notifications" />
+          <LinkSidebar path="/messages" icon={Envelope} text="Messages" />
+          <LinkSidebar
+            path="/bookmarks"
+            icon={BookmarkSimple}
+            text="Bookmarks"
+          />
+          <LinkSidebar path="/lists" icon={FileText} text="Lists" />
+          <LinkSidebar path={`/${initialUser.login}`} icon={User} text="Profile" />
+          <LinkSidebar path="" icon={DotsThreeCircle} text="More" isNotAlink />
         </div>
 
         <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">

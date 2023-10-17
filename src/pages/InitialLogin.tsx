@@ -44,12 +44,12 @@ function InitalLogin() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#999] flex items-center justify-center">
+    <div className="w-full h-screen dark:bg-slate-900/40 bg-[#999] flex items-center justify-center">
       <motion.div
         initial={{ scale: 0.3, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.7 }}
-        className="bg-white sm:w-full sm:h-full sm:rounded-none w-[600px] h-[650px] rounded-3xl relative"
+        className="bg-white dark:bg-bodyDark sm:w-full sm:h-full sm:rounded-none w-[600px] h-[650px] rounded-3xl relative"
       >
         <header className="p-4 flex items-center justify-center">
           <TwitterLogo color="#1da1f2" weight="fill" size={40} />
@@ -89,9 +89,9 @@ function InitalLogin() {
             </div>
 
             <div className="flex gap-2 items-center">
-              <div className="bg-grayBorderLight w-full h-[1px]" />
+              <div className="bg-grayBorderLight w-full h-[1px] dark:bg-slate-300" />
               <p>ou</p>
-              <div className="bg-grayBorderLight w-full h-[1px]" />
+              <div className="bg-grayBorderLight w-full h-[1px] dark:bg-slate-300" />
             </div>
 
             <div>
@@ -108,7 +108,7 @@ function InitalLogin() {
             <div className="flex flex-col gap-6">
               <button
                 onClick={handleAdvanceClick}
-                className="flex bg-black font-bold text-sm items-center gap-3 w-[300px] rounded-3xl text-white h-[36px] justify-center"
+                className="flex bg-black dark:bg-white dark:text-black font-bold text-sm items-center gap-3 w-[300px] rounded-3xl text-white h-[36px] justify-center"
               >
                 avançar
               </button>
@@ -130,9 +130,9 @@ function InitalLogin() {
 
         <Link
           to="/"
-          className="absolute left-[10px] hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] "
+          className="absolute left-[10px] text-black dark:text-white hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] "
         >
-          <X color="#000" size={18} />
+          <X  size={18} />
         </Link>
       </motion.div>
     </div>

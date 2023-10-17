@@ -85,9 +85,9 @@ export function Timeline() {
 
   return (
     <main className="w-full">
+      <Header title="Home" />
       {isAuthenticated ? (
         <>
-          <Header title="Home" />
 
           <form
             onSubmit={createNewTweet}

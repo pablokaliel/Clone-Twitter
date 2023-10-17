@@ -9,9 +9,9 @@ export default function Notifications() {
   return (
     <main className="mx-auto flex-1">
       <div>
+        <Header title="Notifications" />
         {isAuthenticated ? (
           <>
-            <Header title="Notifications" />
             <div className="flex h-[53px] items-center justify-around">
               <PersonalLink path="/notifications/all" name="All" />
               <PersonalLink path="/notifications/verified" name="Verified" />
