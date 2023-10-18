@@ -28,13 +28,24 @@ function Profile() {
     const likedTweetsIds = JSON.parse(
       localStorage.getItem("likedTweets") || "[]"
     );
-    setLikedTweetIds(likedTweetsIds);
-
-    const likedTweets = userTweets.filter((tweet) =>
-      likedTweetsIds.includes(tweet.id)
-    );
-    setLikedTweets(likedTweets);
-  }, [userTweets]);
+  
+    if (!arraysAreEqual(likedTweetsIds, likedTweetIds)) {
+      setLikedTweetIds(likedTweetsIds);
+  
+      const likedTweets = userTweets.filter((tweet) =>
+        likedTweetsIds.includes(tweet.id)
+      );
+      setLikedTweets(likedTweets);
+    }
+  }, [userTweets, likedTweetIds]);
+  
+  function arraysAreEqual(arr1: any[], arr2: any[]): boolean {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+  }
 
   const allLikedTweets = likedTweets.concat(
     initialTweets.filter((tweet) => likedTweetIds.includes(tweet.id))
@@ -43,15 +54,12 @@ function Profile() {
   const tweetsWithImages = allLikedTweets.filter((tweet) => tweet.imageUrl);
 
   if (location === `/${initialUser.login}/media`) {
-    console.log("Entering media");
     message = tweetsWithImages.length === 1 ? "Foto e vídeo" : "Fotos e vídeos";
     number = tweetsWithImages.length;
   } else if (location === `/${initialUser.login}/likes`) {
-    console.log("Entering likes");
     message = allLikedTweets.length === 1 ? "Curtida" : "Curtidas";
     number = allLikedTweets.length;
   } else {
-    console.log("Entering default");
     message = userTweets.length === 1 ? "Post" : "Posts";
     number = userTweets.length;
   }
@@ -63,7 +71,7 @@ function Profile() {
       <div>
         <header
           data-isscrolldown={scrollDirection === "down"}
-          className="px-5 h-[76px] dark:border-b-grayBorderDark dark-text-tweetColor dark-bg-bodyDark/60 flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal dark:bg-bodyDark/60 py-0 gap-9 sm:data-[isscrolldown=true]:-translate-y-[100%]"
+          className="px-5 h-[76px] dark:border-b-grayBorderDark dark:text-tweetColor dark:bg-bodyDark/60 flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal dark:bg-bodyDark/60 py-0 gap-9 sm:data-[isscrolldown=true]:-translate-y-[100%]"
         >
           <button
             onClick={() => window.history.back()}
@@ -96,15 +104,15 @@ function Profile() {
                 />
               </div>
               <div className="w-full flex justify-end">
-                <div className="flex items-center justify-center hover-bg-gray-300 mt-3 w-28 h-9 rounded-full font-bold dark-text-textDark border border-black/10 dark-border-white/40 transition-all duration-200">
-                  <button className="">Editar Perfil</button>
+                <div className="flex items-center justify-center hover-bg-gray-300 mt-3 w-28 h-9 rounded-full font-bold dark:text-textDark border border:black/10 dark:border-white/40 transition-all duration-200">
+                  <button>Editar Perfil</button>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
               <div className="flex flex-col px-4">
-                <span className="text-xl font-bold leading-6 dark-text-textDark">
+                <span className="text-xl font-bold leading-6 dark:text-textDark">
                   {initialUser.name}
                 </span>
                 <span className="text-gray-600">@{initialUser.login}</span>
@@ -116,7 +124,7 @@ function Profile() {
 
               <div className="px-4 flex gap-1 items-center">
                 <CalendarCheck size={18} />
-                <span className="text-base text-[#7a8791] dark-text-muteDark ">
+                <span className="text-base text-[#7a8791] dark:text-muteDark ">
                   Joined {initialUser.created_at}
                 </span>
               </div>
@@ -124,14 +132,14 @@ function Profile() {
               <div className="px-4 flex gap-2">
                 <span className="font-bold text-sm">
                   {initialUser.followers}{" "}
-                  <span className="font-normal text-sm text-[#7a8791] dark-text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
                     following
                   </span>
                 </span>
 
                 <span className="font-bold text-sm">
                   {initialUser.following}{" "}
-                  <span className="font-normal text-sm text-[#7a8791] dark-text-muteDark">
+                  <span className="font-normal text-sm text-[#7a8791] dark:text-muteDark">
                     followers
                   </span>
                 </span>
@@ -139,7 +147,7 @@ function Profile() {
               </div>
             </div>
 
-            <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark-border-grayBorderDark">
+            <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
               <PersonalLink path={`/${initialUser.login}`} name="Posts" />
               <PersonalLink
                 path={`/${initialUser.login}/with_replies`}

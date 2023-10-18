@@ -303,7 +303,7 @@ export function Header({ title }: HeaderProps) {
             <Moon size={24} className="text-twitterBlue" />
           )}
         </button>
-        <Sparkle className="w-6 h-6 text-twitterBlue" />
+        <Sparkle className="w-6 h-6 text-twitterBlue sm:hidden " />
       </div>
     </div>
   );

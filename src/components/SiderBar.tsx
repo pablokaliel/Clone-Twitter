@@ -65,22 +65,22 @@ function SideBar(props: SideBarProps) {
       <nav className="flex flex-col gap-8 md:items-center ">
         <TwitterLogo size={32} weight="fill" color="#1da1f2" />
         <div>
-        <LinkSidebar path="/" icon={House} text="Home" />
-          <LinkSidebar
+        <LinkSidebar  path="/" icon={House} text="Home" />
+          <LinkSidebar 
             path="/explorer"
             icon={MagnifyingGlass}
             text="Explorer"
           />
-          <LinkSidebar path="/notifications" icon={Bell} text="Notifications" />
-          <LinkSidebar path="/messages" icon={Envelope} text="Messages" />
-          <LinkSidebar
+          <LinkSidebar  path="/notifications" icon={Bell} text="Notifications" />
+          <LinkSidebar  path="/messages" icon={Envelope} text="Messages" />
+          <LinkSidebar 
             path="/bookmarks"
             icon={BookmarkSimple}
             text="Bookmarks"
           />
-          <LinkSidebar path="/lists" icon={FileText} text="Lists" />
-          <LinkSidebar path={`/${initialUser.login}`} icon={User} text="Profile" />
-          <LinkSidebar path="" icon={DotsThreeCircle} text="More" isNotAlink />
+          <LinkSidebar  path="/lists" icon={FileText} text="Lists" />
+          <LinkSidebar  path={`/${initialUser.login}`} icon={User} text="Profile" />
+          <LinkSidebar  path="/more" icon={DotsThreeCircle} text="More"  />
         </div>
 
         <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
