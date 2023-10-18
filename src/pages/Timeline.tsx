@@ -1,4 +1,4 @@
-import { FormEvent, KeyboardEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, useState, ChangeEvent } from "react";
 import { Header } from "../components/Header";
 import { Tweet } from "../components/Tweet";
 import Separator from "../components/Separator";
@@ -7,6 +7,7 @@ import { saveTweets } from "../utils/TweetUtils";
 import { useTweetContext } from "../context/TweetContext";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
+import { Image } from "@phosphor-icons/react";
 
 export interface TweetProps {
   id: string;
@@ -19,7 +20,8 @@ export interface TweetProps {
   retweets: number;
   likes: number;
   views: number;
-  isLiked?:number;
+  isLiked?: number;
+  imageTitle?:string;
 }
 
 export function Timeline() {
@@ -60,6 +62,7 @@ export function Timeline() {
 
     saveTweets([...tweets, newTweet]);
   }
+
   function handleHotKeySubmit(e: KeyboardEvent) {
     if (
       e.key === "Enter" &&
@@ -83,16 +86,26 @@ export function Timeline() {
     }
   }
 
+  function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+
+      setNewTweet({
+        ...newTweet,
+        imageUrl,
+        imageTitle: file.name,
+      });
+    }
+  }
+
   return (
     <main className="w-full">
       <Header title="Home" />
       {isAuthenticated ? (
         <>
-
-          <form
-            onSubmit={createNewTweet}
-            className="py-6 px-5 flex flex-col gap-2"
-          >
+          <form onSubmit={createNewTweet} className="py-6 px-5 flex flex-col gap-2">
             <label htmlFor="tweet" className="flex gap-3 max-">
               <img
                 src="https://github.com/pablokaliel.png"
@@ -113,7 +126,22 @@ export function Timeline() {
                 }
               />
             </label>
-
+            <label
+              htmlFor="img"
+              className="cursor-pointer"
+            >
+              <Image size={24} />
+              <input
+                className="hidden"
+                type="file"
+                accept="image/*"
+                id="img"
+                onChange={(e) => handleImageUpload(e)}
+              />
+            </label>
+            {newTweet.imageUrl && (
+              <p className="text-sm leading-relaxed text-[#828282]"> {newTweet.imageTitle}</p>
+            )}
             <button
               type="submit"
               className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90  disabled:opacity-60 disabled:pointer-events-none"

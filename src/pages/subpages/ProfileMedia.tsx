@@ -1,25 +1,21 @@
-import  { useEffect, useState } from "react";
 import { useTweetContext } from "../../context/TweetContext";
 import { Tweet } from "../../components/Tweet";
+import { initialUser } from "../../utils/InitialUser";
 
 function ProfileMedia() {
   const { tweets } = useTweetContext();
-  const [likedTweetIds, setLikedTweetIds] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const likedTweets = JSON.parse(localStorage.getItem("likedTweets") || "[]");
-    setLikedTweetIds(likedTweets);
-  }, []);
+  const userLogin = initialUser.login;
 
-  const likedTweetsWithMedia = likedTweetIds
-    .map((likedTweetId) => tweets.find((tweet) => tweet?.id === likedTweetId))
-    .filter((tweet) => tweet && tweet.imageUrl);
+  // Filter tweets with images
+  const userTweetsWithMedia = tweets.filter(
+    (tweet) => tweet.userLogin === userLogin && tweet.imageUrl
+  );
 
   return (
     <div className="min-h-[50vh]">
       <div>
-        {likedTweetsWithMedia.length > 0 ? (
-          likedTweetsWithMedia.map((tweet) => (
+        {userTweetsWithMedia.length > 0 ? (
+          userTweetsWithMedia.map((tweet) => (
             <Tweet
               key={tweet?.id}
               userAvatar={tweet?.userAvatar || ""}
@@ -37,7 +33,7 @@ function ProfileMedia() {
         ) : (
           <div className="min-h-[50vh] grid place-content-center">
             <h1 className="dark:text-muteDark">
-              No liked tweets with images found in your profile.
+              No tweets with images found in your profile.
             </h1>
           </div>
         )}
