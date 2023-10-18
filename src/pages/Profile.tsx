@@ -71,7 +71,7 @@ function Profile() {
       <div>
         <header
           data-isscrolldown={scrollDirection === "down"}
-          className="px-5 h-[76px] dark:border-b-grayBorderDark dark:text-tweetColor dark:bg-bodyDark/60 flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal dark:bg-bodyDark/60 py-0 gap-9 sm:data-[isscrolldown=true]:-translate-y-[100%]"
+          className="px-5 h-[76px] dark:border-b-grayBorderDark dark:text-tweetColor dark:bg-bodyDark/60 flex items-center text-xl font-bold border-b border-b-grayBorder bg-white/75 sticky top-0 backdrop-blur-md z-10 transition-transform duration-200 justify-normal py-0 gap-9 sm:data-[isscrolldown=true]:-translate-y-[100%]"
         >
           <button
             onClick={() => window.history.back()}
