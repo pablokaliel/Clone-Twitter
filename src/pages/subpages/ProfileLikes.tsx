@@ -1,25 +1,35 @@
+// profileLikes.tsx
 import { useEffect, useState } from "react";
 import { useTweetContext } from "../../context/TweetContext";
 import { Tweet } from "../../components/Tweet";
-import { getUserLikes } from "../../services/firebase"; // Importe a função getUserLikes
+import { getUserLikes } from "../../services/firebase";
+import { TweetProps } from "../Timeline";
+import { initialTweets } from "../../utils/InitialTweets";
 
 function ProfileLikes() {
   const { tweets } = useTweetContext();
-  const [likedTweetIds, setLikedTweetIds] = useState<string[]>([]);
+  const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
 
   useEffect(() => {
     // Obtenha os IDs dos tweets curtidos pelo usuário atual
     const fetchLikedTweets = async () => {
       const userId = "ID_DO_USUARIO_ATUAL"; // Substitua pelo ID do usuário atual
       const userLikes = await getUserLikes(userId);
-      setLikedTweetIds(userLikes);
+
+      // Filtrar apenas os tweets iniciais que foram curtidos
+      const initialTweetsLiked = initialTweets.filter((tweet) => userLikes.includes(tweet.id));
+
+      // Combine os IDs de todos os tweets curtidos com os IDs dos tweets do usuário
+      const allLikedTweetsIds = [...userLikes, ...tweets.map((tweet) => tweet.id)];
+
+      // Filtrar os tweets do usuário e adicionar os tweets iniciais curtidos
+      const userLikedTweets = [...tweets, ...initialTweetsLiked].filter((tweet) => allLikedTweetsIds.includes(tweet.id));
+
+      setLikedTweets(userLikedTweets);
     };
 
     fetchLikedTweets();
-  }, []);
-
-  // Filtrar os tweets curtidos com base nos IDs
-  const likedTweets = tweets.filter((tweet) => likedTweetIds.includes(tweet.id));
+  }, [tweets]);
 
   return (
     <div className="min-h-[50vh]">
