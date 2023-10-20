@@ -10,8 +10,6 @@ import {
   getFirestore,
   doc,
   getDoc,
-  updateDoc,
-  FieldValue,
   setDoc,
 } from "firebase/firestore";
 
