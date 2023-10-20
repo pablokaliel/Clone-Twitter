@@ -1,13 +1,13 @@
-import { FormEvent, KeyboardEvent, useState, ChangeEvent } from "react";
+import { FormEvent, KeyboardEvent, useState, ChangeEvent, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Tweet } from "../components/Tweet";
 import Separator from "../components/Separator";
 import { v4 as uuidv4 } from "uuid";
-import { saveTweets } from "../utils/TweetUtils";
-import { useTweetContext } from "../context/TweetContext";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
 import { Image } from "@phosphor-icons/react";
+import { addTweet, getTweets, uploadImage } from "../services/firebase";
+import { initialTweets } from "../utils/InitialTweets";
 
 export interface TweetProps {
   id: string;
@@ -15,13 +15,13 @@ export interface TweetProps {
   userName: string;
   userLogin: string;
   content: string;
-  imageUrl?: string | undefined;
+  imageUrl?: string | null;
   comments: number;
   retweets: number;
   likes: number;
   views: number;
   isLiked?: number;
-  imageTitle?:string;
+  imageTitle?: string;
 }
 
 export function Timeline() {
@@ -37,66 +37,117 @@ export function Timeline() {
     likes: 0,
     views: 0,
     imageUrl: undefined,
+    imageTitle: undefined,
   });
 
-  const { tweets, setTweets } = useTweetContext();
+  const [tweets, setTweets] = useState<TweetProps[]>([]);
 
-  function createNewTweet(e: FormEvent) {
-    e.preventDefault();
-    if (newTweet.content.trim() === "") return;
-
-    setTweets((prevTweets) => [newTweet, ...prevTweets]);
-
-    setNewTweet({
-      id: uuidv4(),
-      userAvatar: "https://github.com/pablokaliel.png",
-      userName: "PabloKaliel",
-      userLogin: "pablokalyell",
-      content: "",
-      comments: 0,
-      retweets: 0,
-      likes: 0,
-      views: 0,
-      imageUrl: undefined,
-    });
-
-    saveTweets([...tweets, newTweet]);
+  async function fetchTweets() {
+    const tweetsFromFirestore = await getTweets();
+    const mergedTweets = [ ...tweetsFromFirestore,...initialTweets,];
+    setTweets(mergedTweets);
   }
 
-  function handleHotKeySubmit(e: KeyboardEvent) {
-    if (
-      e.key === "Enter" &&
-      (e.ctrlKey || e.metaKey) &&
-      newTweet.content.trim() !== ""
-    ) {
-      e.preventDefault();
-      setTweets((prevTweets) => [newTweet, ...prevTweets]);
-      setNewTweet({
-        id: uuidv4(),
-        userAvatar: "https://github.com/pablokaliel.png",
-        userName: "PabloKaliel",
-        userLogin: "pablokalyell",
-        content: "",
-        comments: 0,
-        retweets: 0,
-        likes: 0,
-        views: 0,
-        imageUrl: undefined,
-      });
+  useEffect(() => {
+    if (tweets.length === 0) {
+      fetchTweets();
+    }
+  }, [tweets]);
+
+  async function createNewTweet(e: FormEvent) {
+    e.preventDefault();
+  
+    if (newTweet.content.trim() === "") {
+      return;
+    }
+  
+    try {
+      const isDuplicate = tweets.some((tweet) => tweet.content === newTweet.content);
+  
+      if (isDuplicate) {
+        console.log("Este tweet já existe localmente.");
+      } else {
+        let imageUrl: string | null = null;
+  
+        if (newTweet.imageUrl) {
+          if (typeof newTweet.imageUrl === "string") {
+            imageUrl = newTweet.imageUrl;
+          } else {
+            imageUrl = await uploadImage(newTweet.imageUrl);
+          }
+        }
+  
+        const tweetToSave = {
+          id: newTweet.id,
+          userAvatar: newTweet.userAvatar,
+          userName: newTweet.userName,
+          userLogin: newTweet.userLogin,
+          content: newTweet.content,
+          imageUrl: imageUrl,
+          comments: 0,
+          retweets: 0,
+          likes: 0,
+          views: 0,
+        };
+  
+        await addTweet(tweetToSave);
+  
+        setTweets((prevTweets) => [tweetToSave, ...prevTweets]);
+  
+        setNewTweet({
+          id: uuidv4(),
+          userAvatar: "https://github.com/pablokaliel.png",
+          userName: "PabloKaliel",
+          userLogin: "pablokalyell",
+          content: "",
+          comments: 0,
+          retweets: 0,
+          likes: 0,
+          views: 0,
+          imageUrl: null, // Reset imageUrl to null
+          imageTitle: undefined,
+        });
+  
+        console.log("Tweet adicionado com sucesso.");
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar tweet: ", error);
     }
   }
+  
+  
+  
 
   function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+    e.preventDefault();
+    const input = e ? e.target : null; // Verificar se e é definido
+  
+    if (input && input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = function (e) {
+        const imageUrl = e.target ? e.target.result as string : null; // Verificar se e.target é definido
+        if (imageUrl) {
+          setNewTweet((prevTweet) => ({
+            ...prevTweet,
+            imageUrl: imageUrl,
+            imageTitle: file.name,
+          }));
+        }
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  
+  
 
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-
-      setNewTweet({
-        ...newTweet,
-        imageUrl,
-        imageTitle: file.name,
-      });
+  function handleHotKeySubmit(e: KeyboardEvent) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey) && newTweet.content.trim() !== "") {
+      e.preventDefault();
+      createNewTweet(e);
     }
   }
 
@@ -106,7 +157,7 @@ export function Timeline() {
       {isAuthenticated ? (
         <>
           <form onSubmit={createNewTweet} className="py-6 px-5 flex flex-col gap-2">
-            <label htmlFor="tweet" className="flex gap-3 max-">
+            <label htmlFor="tweet" className="flex gap-3">
               <img
                 src="https://github.com/pablokaliel.png"
                 alt="user"
@@ -126,10 +177,7 @@ export function Timeline() {
                 }
               />
             </label>
-            <label
-              htmlFor="img"
-              className="cursor-pointer"
-            >
+            <label htmlFor="img" className="cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] w-fit p-2 rounded-full">
               <Image size={24} />
               <input
                 className="hidden"
@@ -140,11 +188,13 @@ export function Timeline() {
               />
             </label>
             {newTweet.imageUrl && (
-              <p className="text-sm leading-relaxed text-[#828282]"> {newTweet.imageTitle}</p>
+              <p className="text-sm leading-relaxed text-[#828282]">
+                {newTweet.imageTitle}
+              </p>
             )}
             <button
               type="submit"
-              className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90  disabled:opacity-60 disabled:pointer-events-none"
+              className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90 disabled:opacity-60 disabled:pointer-events-none"
               disabled={newTweet.content.trim() === ""}
             >
               Tweet
@@ -156,23 +206,22 @@ export function Timeline() {
           {tweets.map((tweet) => (
             <Tweet
               key={tweet.id}
+              userAvatar={tweet.userAvatar}
+              userName={tweet.userName}
+              userLogin={tweet.userLogin}
               content={tweet.content}
-              id={tweet.id}
+              imageUrl={tweet.imageUrl}
               comments={tweet.comments}
               retweets={tweet.retweets}
-              userAvatar={tweet.userAvatar}
-              userLogin={tweet.userLogin}
               likes={tweet.likes}
-              userName={tweet.userName}
-              imageUrl={tweet.imageUrl}
+              id={tweet.id}
               views={tweet.views}
-              isLiked={tweet.isLiked}
             />
           ))}
         </>
       ) : (
         <div>
-          <p>Para navegar e ver os novos tweets, logue e fique por dentro!</p>
+          <p>Para navegar e ver os novos tweets, faça login e fique por dentro!</p>
           <Link to="/login">Logar</Link>
         </div>
       )}

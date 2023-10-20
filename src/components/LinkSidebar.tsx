@@ -8,12 +8,7 @@ interface LinkSidebarProps {
   isNotAlink?: boolean;
 }
 
-export function LinkSidebar({
-  path,
-  icon: Icon,
-  text,
-  isNotAlink,
-}: LinkSidebarProps) {
+export function LinkSidebar({ path, icon: Icon, text, isNotAlink}: LinkSidebarProps) {
   const location = useLocation();
   const isActive = location.pathname.split("/", 2).join("/") === path;
 
