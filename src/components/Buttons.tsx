@@ -1,146 +1,136 @@
-import React, { useState, useEffect } from "react";
-import { ChatCircle, ArrowClockwise, Heart, ChartLine, Export } from "@phosphor-icons/react";
+  import React, { useState, useEffect } from "react";
+  import { ChatCircle, ArrowClockwise, Heart, ChartLine, Export } from "@phosphor-icons/react";
+  import { addLike, getTweetLikes, getUserLikes, removeLike } from "../services/firebase";
 
-interface ButtonsProps {
-  id: string;
-  comments: number;
-  retweets: number;
-  likes: number;
-  views: number;
-}
-
-function Buttons(props: ButtonsProps) {
-  const [likes, setLikes] = useState(props.likes);
-  const [isLiked, setIsLiked] = useState(false);
-
-  useEffect(() => {
-    const savedLikeState = localStorage.getItem(`like_${props.id}`);
-    if (savedLikeState !== null) {
-      setIsLiked(JSON.parse(savedLikeState));
-    }
-
-    const savedLikes = localStorage.getItem(`likes_${props.id}`);
-    if (savedLikes !== null) {
-      setLikes(parseInt(savedLikes));
-    }
-  }, [props.id]);
-
-  function handleIncreaseLike(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    event.preventDefault();
-    const newLikeState = !isLiked;
-
-    setIsLiked(newLikeState);
-
-    const updatedLikes = newLikeState ? likes + 1 : likes - 1;
-
-    const likedTweets = JSON.parse(localStorage.getItem("likedTweets") || "[]");
-    if (newLikeState) {
-      likedTweets.push(props.id);
-    } else {
-      const index = likedTweets.indexOf(props.id);
-      if (index !== -1) {
-        likedTweets.splice(index, 1);
-      }
-    }
-    localStorage.setItem("likedTweets", JSON.stringify(likedTweets));
-
-    localStorage.setItem(`like_${props.id}`, JSON.stringify(newLikeState));
-    localStorage.setItem(`likes_${props.id}`, updatedLikes.toString());
-
-    setLikes(updatedLikes);
+  interface ButtonsProps {
+    id: string;
+    comments: number;
+    retweets: number;
+    likes: number;
+    views: number;
   }
 
-  return (
-    <div className="flex items-center gap-12 sm:gap-0 sm:justify-between mt-3">
-      <button
-        title="comment"
-        type="button"
-        onClick={(event) => {
-          event.preventDefault();
+  function Buttons(props: ButtonsProps) {
+    const [likes, setLikes] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
+  
+    useEffect(() => {
+      const loadData = async () => {
+        const userLikes = await getUserLikes("ID_DO_USUARIO_ATUAL");
+        setIsLiked(userLikes.includes(props.id));
+  
+        const tweetLikes = await getTweetLikes(props.id);
+        setLikes(tweetLikes);
+      };
+  
+      loadData();
+    }, [props.id]);
+  
+    const handleIncreaseLike = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+    
+      if (isLiked) {
+        setIsLiked(false);
+        setLikes((prevLikes) => prevLikes - 1);
+        await removeLike(props.id, "ID_DO_USUARIO_ATUAL");
+      } else {
+        setIsLiked(true);
+        setLikes((prevLikes) => prevLikes + 1);
+        await addLike(props.id, "ID_DO_USUARIO_ATUAL");
+      }
+    };
+    ;
+  
 
-          console.log(`Abrir comentários para o tweet com ID: ${props.id}`);
-        }}
-        className="flex items-center gap-3 text-sm text-slate-400 group"
-      >
-        <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
-          <ChatCircle size={20} />
-        </div>
-        <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
-          {props.comments.toString()}
-        </p>
-      </button>
+    return (
+      <div className="flex items-center gap-12 sm:gap-0 sm:justify-between mt-3">
+        <button
+          title="comment"
+          type="button"
+          onClick={(event) => {
+            event.preventDefault();
 
-      <button
-        title="retweet"
-        type="button"
-        onClick={(event) => {
-          event.preventDefault();
-          console.log(`Retuitar o tweet com ID: ${props.id}`);
-        }}
-        className="flex items-center gap-2 text-sm text-slate-400 group "
-      >
-        <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-retweetGreen hover:text-retweetGreen group-hover:bg-retweetGreen/10 -m-2 transition-colors duration-200 ">
-          <ArrowClockwise size={20} />
-        </div>
-        <p className=" group-hover:text-retweetGreen transition-colors duration-200 ">
-          {props.retweets.toString()}
-        </p>
-      </button>
+            console.log(`Abrir comentários para o tweet com ID: ${props.id}`);
+          }}
+          className="flex items-center gap-3 text-sm text-slate-400 group"
+        >
+          <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
+            <ChatCircle size={20} />
+          </div>
+          <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
+            {props.comments.toString()}
+          </p>
+        </button>
 
-      <button
-        title="like/unlike"
-        type="button"
-        onClick={handleIncreaseLike}
-        className="flex items-center gap-2 text-sm text-slate-400 group"
-      >
-        <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-likePink hover:text-likePink group-hover:bg-likePink/10 -m-2 transition-colors duration-200 ">
-          {isLiked ? (
-            <Heart size={18.75} weight="fill" color="#f00" />
-          ) : (
-            <Heart size={18.75} />
-          )}
-        </div>
-        <p className=" group-hover:text-likePink transition-colors duration-200 ">
-          {likes}
-        </p>
-      </button>
+        <button
+          title="retweet"
+          type="button"
+          onClick={(event) => {
+            event.preventDefault();
+            console.log(`Retuitar o tweet com ID: ${props.id}`);
+          }}
+          className="flex items-center gap-2 text-sm text-slate-400 group "
+        >
+          <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-retweetGreen hover:text-retweetGreen group-hover:bg-retweetGreen/10 -m-2 transition-colors duration-200 ">
+            <ArrowClockwise size={20} />
+          </div>
+          <p className=" group-hover:text-retweetGreen transition-colors duration-200 ">
+            {props.retweets.toString()}
+          </p>
+        </button>
 
-      <button
-        title="views"
-        type="button"
-        onClick={(event) => {
-          event.preventDefault();
+        <button
+          title="like/unlike"
+          type="button"
+          onClick={handleIncreaseLike}
+          className="flex items-center gap-2 text-sm text-slate-400 group"
+        >
+          <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-likePink hover:text-likePink group-hover:bg-likePink/10 -m-2 transition-colors duration-200 ">
+            {isLiked ? (
+              <Heart size={18.75} weight="fill" color="#f00" />
+            ) : (
+              <Heart size={18.75} />
+            )}
+          </div>
+          <p className=" group-hover:text-likePink transition-colors duration-200 ">
+            {likes}
+          </p>
+        </button>
 
-          console.log(`Ação do botão ChartLine`);
-        }}
-        className="flex items-center gap-2 text-sm text-slate-400 group"
-      >
-        <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
-          <ChartLine size={20} />
-        </div>
-        <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
-          {props.views}
-        </p>
-      </button>
+        <button
+          title="views"
+          type="button"
+          onClick={(event) => {
+            event.preventDefault();
 
-      <button
-        title="share"
-        type="button"
-        onClick={(event) => {
-          event.preventDefault();
+            console.log(`Ação do botão ChartLine`);
+          }}
+          className="flex items-center gap-2 text-sm text-slate-400 group"
+        >
+          <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
+            <ChartLine size={20} />
+          </div>
+          <p className=" group-hover:text-twitterBlue transition-colors duration-200 ">
+            {props.views}
+          </p>
+        </button>
 
-          console.log(`Ação do botão Export`);
-        }}
-        className="flex items-center gap-2 text-sm text-slate-400 group ml-auto sm:hidden"
-      >
-        <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
-          <Export size={20} />
-        </div>
-      </button>
-    </div>
-  );
-}
+        <button
+          title="share"
+          type="button"
+          onClick={(event) => {
+            event.preventDefault();
 
-export default Buttons;
+            console.log(`Ação do botão Export`);
+          }}
+          className="flex items-center gap-2 text-sm text-slate-400 group ml-auto sm:hidden"
+        >
+          <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-twitterBlue hover:text-twitterBlue group-hover:bg-twitterBlue/10 -m-2 transition-colors duration-200 ">
+            <Export size={20} />
+          </div>
+        </button>
+      </div>
+    );
+  }
+
+  export default Buttons;

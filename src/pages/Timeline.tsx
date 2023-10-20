@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
 import { Image } from "@phosphor-icons/react";
-import { addTweet, getTweets, uploadImage } from "../services/firebase";
+import { addTweet, getTweetLikes, getTweets, uploadImage } from "../services/firebase";
 import { initialTweets } from "../utils/InitialTweets";
 
 export interface TweetProps {
@@ -44,9 +44,22 @@ export function Timeline() {
 
   async function fetchTweets() {
     const tweetsFromFirestore = await getTweets();
-    const mergedTweets = [ ...tweetsFromFirestore,...initialTweets,];
-    setTweets(mergedTweets);
+    
+    // Merge user's tweets with initial tweets
+    const mergedTweets = [...tweetsFromFirestore, ...initialTweets];
+  
+    // Update the likes count for each tweet
+    const tweetsWithLikes = await Promise.all(
+      mergedTweets.map(async (tweet) => {
+        const tweetLikes = await getTweetLikes(tweet.id);
+        return { ...tweet, likes: tweetLikes };
+      })
+    );
+  
+    setTweets(tweetsWithLikes);
   }
+  
+  
 
   useEffect(() => {
     if (tweets.length === 0) {
