@@ -1,4 +1,4 @@
-<h1 align="center"> Hydra Page </h1>
+<h1 align="center"> Twitter-Clone-UI </h1>
 
 <p align="center">
 O desafio é criar a tela do twitter utilizando seus conhecimentos.Esse projeto foi criado e foi incluido várias melhorias, recursos adicionais e deixando o mais parecido possível com o Twitter original. <br/>
@@ -13,19 +13,22 @@ O desafio é criar a tela do twitter utilizando seus conhecimentos.Esse projeto 
 <br>
 
 <p align="center">
-  <img src="https://github.com/pablokaliel/hydrapage/assets/104238801/63a57183-8bcb-417e-ac9a-87f633b2ad3d" width="100%">
+  <img src="https://github.com/pablokaliel/twitter-clone/assets/104238801/6f37d42d-79d0-4079-849b-5ed1953b9bf7" width="100%">
 </p>
 
 ## 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-- Vite e Styled-Components
+- Vite e tailwind
 - Phosphor-Icon
 - Git e Github
-- Figma
+- react-router-dom
+- firebase
+- framer-motion
+- lottie
+- react-uuid
 
 ## 🔖 Layout
 
-Você pode visualizar o Resultado do projeto através [HydraPage](https://hydrapage.vercel.app/). <br/>
-Você pode visualizar o layout do projeto através [DESSE LINK](https://www.figma.com/community/file/1196146735025729739).
+O projeto esta passando por diversas mudanças, mas você pode ver o que foi desenvolvido até o momento: [Twitter](https://twitterclone-ui.vercel.app/).
