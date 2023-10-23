@@ -132,7 +132,7 @@ function InitalLogin() {
           to="/"
           className="absolute left-[10px] text-black dark:text-white hover:bg-gray-800/20 p-[10px] rounded-full top-[10px] "
         >
-          <X  size={18} />
+          <X size={18} />
         </Link>
       </motion.div>
     </div>

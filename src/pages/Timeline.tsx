@@ -26,6 +26,7 @@ export interface TweetProps {
 
 export function Timeline() {
   const { isAuthenticated } = useAuth();
+
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
     userAvatar: "https://github.com/pablokaliel.png",
@@ -44,22 +45,18 @@ export function Timeline() {
 
   async function fetchTweets() {
     const tweetsFromFirestore = await getTweets();
-    
-    // Merge user's tweets with initial tweets
+
     const mergedTweets = [...tweetsFromFirestore, ...initialTweets];
-  
-    // Update the likes count for each tweet
+
     const tweetsWithLikes = await Promise.all(
       mergedTweets.map(async (tweet) => {
         const tweetLikes = await getTweetLikes(tweet.id);
         return { ...tweet, likes: tweetLikes };
       })
     );
-  
+
     setTweets(tweetsWithLikes);
   }
-  
-  
 
   useEffect(() => {
     if (tweets.length === 0) {
@@ -69,19 +66,21 @@ export function Timeline() {
 
   async function createNewTweet(e: FormEvent) {
     e.preventDefault();
-  
+
     if (newTweet.content.trim() === "") {
       return;
     }
-  
+
     try {
-      const isDuplicate = tweets.some((tweet) => tweet.content === newTweet.content);
-  
+      const isDuplicate = tweets.some(
+        (tweet) => tweet.content === newTweet.content
+      );
+
       if (isDuplicate) {
         console.log("Este tweet já existe localmente.");
       } else {
         let imageUrl: string | null = null;
-  
+
         if (newTweet.imageUrl) {
           if (typeof newTweet.imageUrl === "string") {
             imageUrl = newTweet.imageUrl;
@@ -89,7 +88,7 @@ export function Timeline() {
             imageUrl = await uploadImage(newTweet.imageUrl);
           }
         }
-  
+
         const tweetToSave = {
           id: newTweet.id,
           userAvatar: newTweet.userAvatar,
@@ -102,11 +101,11 @@ export function Timeline() {
           likes: 0,
           views: 0,
         };
-  
+
         await addTweet(tweetToSave);
-  
+
         setTweets((prevTweets) => [tweetToSave, ...prevTweets]);
-  
+
         setNewTweet({
           id: uuidv4(),
           userAvatar: "https://github.com/pablokaliel.png",
@@ -117,30 +116,27 @@ export function Timeline() {
           retweets: 0,
           likes: 0,
           views: 0,
-          imageUrl: null, // Reset imageUrl to null
+          imageUrl: null,
           imageTitle: undefined,
         });
-  
+
         console.log("Tweet adicionado com sucesso.");
       }
     } catch (error) {
       console.error("Erro ao adicionar tweet: ", error);
     }
   }
-  
-  
-  
 
   function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    const input = e ? e.target : null; // Verificar se e é definido
-  
+    const input = e ? e.target : null;
+
     if (input && input.files && input.files[0]) {
       const file = input.files[0];
       const reader = new FileReader();
-  
+
       reader.onload = function (e) {
-        const imageUrl = e.target ? e.target.result as string : null; // Verificar se e.target é definido
+        const imageUrl = e.target ? (e.target.result as string) : null;
         if (imageUrl) {
           setNewTweet((prevTweet) => ({
             ...prevTweet,
@@ -149,16 +145,17 @@ export function Timeline() {
           }));
         }
       };
-  
+
       reader.readAsDataURL(file);
     }
   }
-  
-  
-  
 
   function handleHotKeySubmit(e: KeyboardEvent) {
-    if (e.key === "Enter" && (e.ctrlKey || e.metaKey) && newTweet.content.trim() !== "") {
+    if (
+      e.key === "Enter" &&
+      (e.ctrlKey || e.metaKey) &&
+      newTweet.content.trim() !== ""
+    ) {
       e.preventDefault();
       createNewTweet(e);
     }
@@ -169,7 +166,10 @@ export function Timeline() {
       <Header title="Home" />
       {isAuthenticated ? (
         <>
-          <form onSubmit={createNewTweet} className="py-6 px-5 flex flex-col gap-2">
+          <form
+            onSubmit={createNewTweet}
+            className="py-6 px-5 flex flex-col gap-2"
+          >
             <label htmlFor="tweet" className="flex gap-3">
               <img
                 src="https://github.com/pablokaliel.png"
@@ -190,7 +190,10 @@ export function Timeline() {
                 }
               />
             </label>
-            <label htmlFor="img" className="cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] w-fit p-2 rounded-full">
+            <label
+              htmlFor="img"
+              className="cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] w-fit p-2 rounded-full"
+            >
               <Image size={24} />
               <input
                 className="hidden"
@@ -234,7 +237,9 @@ export function Timeline() {
         </>
       ) : (
         <div>
-          <p>Para navegar e ver os novos tweets, faça login e fique por dentro!</p>
+          <p>
+            Para navegar e ver os novos tweets, faça login e fique por dentro!
+          </p>
           <Link to="/login">Logar</Link>
         </div>
       )}

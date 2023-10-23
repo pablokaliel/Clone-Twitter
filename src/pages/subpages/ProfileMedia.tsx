@@ -6,7 +6,6 @@ function ProfileMedia() {
   const { tweets } = useTweetContext();
   const userLogin = initialUser.login;
 
-  // Filter tweets with images
   const userTweetsWithMedia = tweets.filter(
     (tweet) => tweet.userLogin === userLogin && tweet.imageUrl
   );

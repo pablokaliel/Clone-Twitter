@@ -3,7 +3,6 @@ import { TweetProps } from "../pages/Timeline";
 import Buttons from "./Buttons";
 
 export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comments, retweets, likes, id, views }: TweetProps) {
-
   return (
     <Link
       to={`/status/${id}`}
@@ -43,6 +42,7 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
             </div>
           )}
         </div>
+
         <Buttons
           id={id}
           comments={comments}

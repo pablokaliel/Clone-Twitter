@@ -15,8 +15,8 @@ export function Default() {
           <div className="border-l-[1px] border-r-[1px] border-grayBorder w-full dark:border-grayBorderDark sm:border-none">
             <Outlet />
           </div>
-          <BottomMobile />
 
+          <BottomMobile />
         </ScrollDirectionProvider>
       </TweetProvider>
     </div>

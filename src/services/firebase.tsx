@@ -73,19 +73,17 @@ export async function uploadImage(imageFile: File): Promise<string> {
 
 export async function addLike(tweetId: string, userId: string): Promise<void> {
   try {
-    // Adicione o like ao Firestore associando-o ao tweet e ao usuário
     await addDoc(collection(db, "likes"), {
       tweetId,
       userId,
     });
 
-    // Atualize o número de likes no tweet associado no Firestore
     const tweetRef = doc(db, "tweets", tweetId);
     const tweetDoc = await getDoc(tweetRef);
 
     if (tweetDoc.exists()) {
       const currentLikes = tweetDoc.data().likes || 0;
-      await setDoc(tweetRef, { likes: currentLikes + 1 }, { merge: true }); // Atualiza o campo "likes"
+      await setDoc(tweetRef, { likes: currentLikes + 1 }, { merge: true });
     }
 
     console.log("Like adicionado com sucesso.");
@@ -94,24 +92,29 @@ export async function addLike(tweetId: string, userId: string): Promise<void> {
   }
 }
 
-export async function removeLike(tweetId: string, userId: string): Promise<void> {
+export async function removeLike(
+  tweetId: string,
+  userId: string
+): Promise<void> {
   try {
-    // Remova o like do Firestore com base no tweet e no usuário
     const likesRef = collection(db, "likes");
-    const q = query(likesRef, where("tweetId", "==", tweetId), where("userId", "==", userId));
+    const q = query(
+      likesRef,
+      where("tweetId", "==", tweetId),
+      where("userId", "==", userId)
+    );
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach(async (doc) => {
       await deleteDoc(doc.ref);
     });
 
-    // Atualize o número de likes no tweet associado no Firestore
     const tweetRef = doc(db, "tweets", tweetId);
     const tweetDoc = await getDoc(tweetRef);
 
     if (tweetDoc.exists()) {
       const currentLikes = tweetDoc.data().likes || 0;
-      await setDoc(tweetRef, { likes: currentLikes - 1 }, { merge: true }); // Atualiza o campo "likes"
+      await setDoc(tweetRef, { likes: currentLikes - 1 }, { merge: true });
     }
 
     console.log("Like removido com sucesso.");
@@ -120,15 +123,13 @@ export async function removeLike(tweetId: string, userId: string): Promise<void>
   }
 }
 
-   
-
 export async function getUserLikes(userId: string): Promise<string[]> {
   try {
     const likesRef = collection(db, "likes");
     const q = query(likesRef, where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
 
-    const userLikes: string[] = []; // Especificando o tipo como um array de strings
+    const userLikes: string[] = [];
 
     querySnapshot.forEach((doc) => {
       userLikes.push(doc.data().tweetId);
@@ -146,10 +147,10 @@ export async function getTweetLikes(tweetId: string): Promise<number> {
     const likesRef = collection(db, "likes");
     const q = query(likesRef, where("tweetId", "==", tweetId));
     const querySnapshot = await getDocs(q);
-    
-    return querySnapshot.size; // This gives the number of likes for the tweet
+
+    return querySnapshot.size;
   } catch (error) {
     console.error("Error getting tweet likes: ", error);
-    return 0; // Return 0 in case of an error
+    return 0;
   }
 }

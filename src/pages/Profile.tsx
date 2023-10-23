@@ -28,17 +28,17 @@ function Profile() {
     const likedTweetsIds = JSON.parse(
       localStorage.getItem("likedTweets") || "[]"
     );
-  
+
     if (!arraysAreEqual(likedTweetsIds, likedTweetIds)) {
       setLikedTweetIds(likedTweetsIds);
-  
+
       const likedTweets = userTweets.filter((tweet) =>
         likedTweetsIds.includes(tweet.id)
       );
       setLikedTweets(likedTweets);
     }
   }, [userTweets, likedTweetIds]);
-  
+
   function arraysAreEqual(arr1: any[], arr2: any[]): boolean {
     if (arr1.length !== arr2.length) return false;
     for (let i = 0; i < arr1.length; i++) {
@@ -143,7 +143,6 @@ function Profile() {
                     followers
                   </span>
                 </span>
-
               </div>
             </div>
 

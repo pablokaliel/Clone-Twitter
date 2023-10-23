@@ -11,19 +11,22 @@ function ProfileLikes() {
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
 
   useEffect(() => {
-    // Obtenha os IDs dos tweets curtidos pelo usuário atual
     const fetchLikedTweets = async () => {
-      const userId = "ID_DO_USUARIO_ATUAL"; // Substitua pelo ID do usuário atual
+      const userId = "ID_DO_USUARIO_ATUAL";
       const userLikes = await getUserLikes(userId);
 
-      // Filtrar apenas os tweets iniciais que foram curtidos
-      const initialTweetsLiked = initialTweets.filter((tweet) => userLikes.includes(tweet.id));
+      const initialTweetsLiked = initialTweets.filter((tweet) =>
+        userLikes.includes(tweet.id)
+      );
 
-      // Combine os IDs de todos os tweets curtidos com os IDs dos tweets do usuário
-      const allLikedTweetsIds = [...userLikes, ...tweets.map((tweet) => tweet.id)];
+      const allLikedTweetsIds = [
+        ...userLikes,
+        ...tweets.map((tweet) => tweet.id),
+      ];
 
-      // Filtrar os tweets do usuário e adicionar os tweets iniciais curtidos
-      const userLikedTweets = [...tweets, ...initialTweetsLiked].filter((tweet) => allLikedTweetsIds.includes(tweet.id));
+      const userLikedTweets = [...tweets, ...initialTweetsLiked].filter(
+        (tweet) => allLikedTweetsIds.includes(tweet.id)
+      );
 
       setLikedTweets(userLikedTweets);
     };
