@@ -14,7 +14,7 @@ function NotFound() {
         }}
       />
       <h1 className="text-xl">
-        Oops! Essa página não foi encontrada! <hr /> está página não foi
+        Oops! Essa página não foi encontrada! <br /> está página não foi
         encontrada ou talvez esteja em desenvolvimento.
       </h1>
       <Link
