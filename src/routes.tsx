@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Timeline } from "./pages/Timeline";
 import { Status } from "./pages/Status";
 import { Default } from "./layouts/Default";
@@ -21,94 +21,35 @@ import ProfileLikes from "./pages/subpages/ProfileLikes";
 import Mentions from "./pages/subpages/Mentions";
 import AllNotifications from "./pages/AllNotifications";
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Default />,
-    children: [
-      {
-        path: "/",
-        element: <Timeline />,
-      },
-      {
-        path: "/bookmarks",
-        element: <BookMarks />,
-      },
-      {
-        path: "/explorer",
-        element: <Explorer />,
-      },
-      {
-        path: "/lists",
-        element: <Lists />,
-      },
-      {
-        path: "/more",
-        element: <More />,
-      },
-      {
-        path: "/status/:id",
-        element: <Status />,
-      },
-      {
-        path: "/notifications",
-        element: <Notifications />,
-        children: [
-          {
-            path: "",
-          },
-          {
-            path: "verified",
-            element: <Verified />,
-          },
-          {
-            path: "all",
-            element: <AllNotifications />,
-          },
-          {
-            path: "mentions",
-            element: <Mentions />,
-          },
-        ],
-      },
-      {
-        path: "/messages",
-        element: <Messages />,
-      },
-      {
-        path: `/${initialUser.login}`,
-        element: <Profile />,
-        children: [
-          {
-            path: `/${initialUser.login}`,
-            element: <ProfilePosts />,
-          },
-          {
-            path: `/${initialUser.login}/with_replies`,
-            element: <ProfileReplies />,
-          },
-          {
-            path: `/${initialUser.login}/highlights`,
-            element: <ProfileHighlights />,
-          },
-          {
-            path: `/${initialUser.login}/media`,
-            element: <ProfileMedia />,
-          },
-          {
-            path: `/${initialUser.login}/likes`,
-            element: <ProfileLikes />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/login",
-    element: <InitalLogin />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
-]);
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Default />}>
+        <Route index element={<Timeline />} />
+        <Route path="bookmarks" element={<BookMarks />} />
+        <Route path="explorer" element={<Explorer />} />
+        <Route path="lists" element={<Lists />} />
+        <Route path="more" element={<More />} />
+        <Route path="status/:id" element={<Status />} />
+        <Route path="notifications" element={<Notifications />}>
+          <Route index />
+          <Route path="verified" element={<Verified />} />
+          <Route path="all" element={<AllNotifications />} />
+          <Route path="mentions" element={<Mentions />} />
+        </Route>
+        <Route path="messages" element={<Messages />} />
+        <Route path={initialUser.login} element={<Profile />}>
+          <Route index element={<ProfilePosts />} />
+          <Route path="with_replies" element={<ProfileReplies />} />
+          <Route path="highlights" element={<ProfileHighlights />} />
+          <Route path="media" element={<ProfileMedia />} />
+          <Route path="likes" element={<ProfileLikes />} />
+        </Route>
+      </Route>
+      <Route path="login" element={<InitalLogin />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
+export default AppRoutes;

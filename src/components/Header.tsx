@@ -190,7 +190,7 @@ export function Header({ title }: HeaderProps) {
                         {links.map((link) => (
                           <NavLink
                             key={link.id}
-                            className="flex gap-5 w-full text-xl font-bold py-2 px-2 hover:bg-zinc-100 md:px-5 active:text-twitterBlue"
+                            className="flex gap-5 w-full text-xl font-bold py-2 px-2 dark:hover:bg-black/30 hover:bg-zinc-100 md:px-5 active:text-twitterBlue"
                             to={link.id === "TwitterBlue" ? "/" : `/${link.id}`}
                             onFocus={() => handleLinkFocus(link.id)}
                             onBlur={() => handleLinkBlur(link.id)}
