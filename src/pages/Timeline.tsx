@@ -5,7 +5,7 @@ import Separator from "../components/Separator";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
-import { Image } from "@phosphor-icons/react";
+import { Image, X } from "@phosphor-icons/react";
 import { addTweet, getTweetLikes, getTweets, uploadImage } from "../services/firebase";
 import { initialTweets } from "../utils/InitialTweets";
 
@@ -22,6 +22,7 @@ export interface TweetProps {
   views: number;
   isLiked?: number;
   imageTitle?: string;
+  imagePreview?: string,
 }
 
 export function Timeline() {
@@ -39,6 +40,7 @@ export function Timeline() {
     views: 0,
     imageUrl: undefined,
     imageTitle: undefined,
+    imagePreview: undefined,
   });
 
   const [tweets, setTweets] = useState<TweetProps[]>([]);
@@ -142,6 +144,7 @@ export function Timeline() {
             ...prevTweet,
             imageUrl: imageUrl,
             imageTitle: file.name,
+            imagePreview: imageUrl,
           }));
         }
       };
@@ -190,6 +193,35 @@ export function Timeline() {
                 }
               />
             </label>
+            {newTweet.imageUrl && (
+             <>
+                <div className="w-full rounded-2xl overflow-hidden max-h-[400px] relative sm:ml-0">
+                <img
+                  src={newTweet.imagePreview}
+                  alt="Imagem pré-visualizada"
+                  className="aspect-video object-contain mb-2"
+                />
+
+          <div
+             onClick={() =>
+              setNewTweet((prevTweet) => ({
+                ...prevTweet,
+                imageUrl: undefined,
+                imageTitle: undefined,
+                imagePreview: undefined,
+              }))
+            }
+            className="absolute top-1 right-1 w-[30.4px] h-[30.4px] text-white grid place-items-center backdrop-blur-sm bg-[#0f1419bf] rounded-full cursor-pointer transition-all duration-200 data-[istouchsupported=false]:hover:brightness-150"
+          >
+            <X size={18} />
+          </div>
+        </div></>
+            )}
+             {newTweet.imageUrl && (
+              <p className="text-sm leading-relaxed text-[#828282]">
+                {newTweet.imageTitle}
+              </p>
+            )}
             <label
               htmlFor="img"
               className="cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] w-fit p-2 rounded-full"
@@ -203,11 +235,7 @@ export function Timeline() {
                 onChange={(e) => handleImageUpload(e)}
               />
             </label>
-            {newTweet.imageUrl && (
-              <p className="text-sm leading-relaxed text-[#828282]">
-                {newTweet.imageTitle}
-              </p>
-            )}
+
             <button
               type="submit"
               className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90 disabled:opacity-60 disabled:pointer-events-none"
