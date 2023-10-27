@@ -5,7 +5,7 @@ import Separator from "../components/Separator";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
-import { Image, X } from "@phosphor-icons/react";
+import { CalendarBlank, Gif, Image, ListBullets, MapPin, Smiley, X } from "@phosphor-icons/react";
 import { addTweet, getTweetLikes, getTweets, uploadImage } from "../services/firebase";
 import { initialTweets } from "../utils/InitialTweets";
 
@@ -22,7 +22,7 @@ export interface TweetProps {
   views: number;
   isLiked?: number;
   imageTitle?: string;
-  imagePreview?: string,
+  imagePreview?: string;
 }
 
 export function Timeline() {
@@ -194,54 +194,72 @@ export function Timeline() {
               />
             </label>
             {newTweet.imageUrl && (
-             <>
+              <>
                 <div className="w-full rounded-2xl overflow-hidden max-h-[400px] relative sm:ml-0">
-                <img
-                  src={newTweet.imagePreview}
-                  alt="Imagem pré-visualizada"
-                  className="aspect-video object-contain mb-2"
-                />
+                  <img
+                    src={newTweet.imagePreview}
+                    alt="Imagem pré-visualizada"
+                    className="aspect-video object-contain mb-2"
+                  />
 
-          <div
-             onClick={() =>
-              setNewTweet((prevTweet) => ({
-                ...prevTweet,
-                imageUrl: undefined,
-                imageTitle: undefined,
-                imagePreview: undefined,
-              }))
-            }
-            className="absolute top-1 right-1 w-[30.4px] h-[30.4px] text-white grid place-items-center backdrop-blur-sm bg-[#0f1419bf] rounded-full cursor-pointer transition-all duration-200 data-[istouchsupported=false]:hover:brightness-150"
-          >
-            <X size={18} />
-          </div>
-        </div></>
+                  <div
+                    onClick={() =>
+                      setNewTweet((prevTweet) => ({
+                        ...prevTweet,
+                        imageUrl: undefined,
+                        imageTitle: undefined,
+                        imagePreview: undefined,
+                      }))
+                    }
+                    className="absolute top-1 right-1 w-[30.4px] h-[30.4px] text-white grid place-items-center backdrop-blur-sm bg-[#0f1419bf] rounded-full cursor-pointer transition-all duration-200 data-[istouchsupported=false]:hover:brightness-150"
+                  >
+                    <X size={18} />
+                  </div>
+                </div>
+              </>
             )}
-             {newTweet.imageUrl && (
+            {newTweet.imageUrl && (
               <p className="text-sm leading-relaxed text-[#828282]">
                 {newTweet.imageTitle}
               </p>
             )}
-            <label
-              htmlFor="img"
-              className="cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] w-fit p-2 rounded-full"
-            >
-              <Image size={24} />
-              <input
-                className="hidden"
-                type="file"
-                accept="image/*"
-                id="img"
-                onChange={(e) => handleImageUpload(e)}
-              />
-            </label>
+            <div className="flex gap-2 items-center">
+              <label
+                htmlFor="img"
+                className="cursor-pointer hover:text-twitterBlue hover:bg-black/[0.08] dark:hover:bg-white/[0.1] p-2 rounded-full"
+              >
+                <Image size={20} />
+                <input
+                  className="hidden"
+                  type="file"
+                  accept="image/*"
+                  id="img"
+                  onChange={(e) => handleImageUpload(e)}
+                />
+              </label>
+              <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
+                <Gif size={20} />{" "}
+              </div>
+              <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
+                <ListBullets size={20} />{" "}
+              </div>
+              <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
+                <Smiley size={20} />{" "}
+              </div>
+              <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
+                <CalendarBlank size={20} />{" "}
+              </div>
+              <div className="p-2 rounded-full opacity-40">
+                <MapPin size={20} />{" "}
+              </div>
+            </div>
 
             <button
               type="submit"
-              className="ml-auto bg-twitterBlue rounded-full py-3 px-6 text-white font-black hover:brightness-90 disabled:opacity-60 disabled:pointer-events-none"
+              className="ml-auto bg-twitterBlue rounded-full py-2 px-6 text-white font-black hover:brightness-90 disabled:opacity-60 disabled:pointer-events-none"
               disabled={newTweet.content.trim() === ""}
             >
-              Tweet
+              post
             </button>
           </form>
 
