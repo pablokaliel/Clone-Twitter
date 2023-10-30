@@ -4,14 +4,11 @@ import { House, MagnifyingGlass, Bell, BookmarkSimple, User, DotsThreeCircle, Do
 import { useAuth } from "../utils/AuthContext";
 import { LinkSidebar } from "./LinkSidebar";
 import { initialUser } from "../utils/InitialUser";
+import { useUser } from "../context/UserContext";
 
-interface SideBarProps {
-  userName: string | null;
-  userLogin: string | null;
-}
-
-function SideBar(props: SideBarProps) {
+function SideBar() {
   const { logout } = useAuth();
+  const { userInfo } = useUser();
   const isAuthenticated = useAuth().isAuthenticated;
   const [showModal, setShowModal] = useState(false);
 
@@ -96,15 +93,15 @@ function SideBar(props: SideBarProps) {
         {isAuthenticated ? (
           <>
             <img
-              src="https://github.com/pabloKaliel.png"
+              src={userInfo.avatar}
               alt="Foto de perfil do usuário"
               className="w-10 h-10 rounded-full"
             />
             <div className="flex flex-1 justify-between items-center md:hidden">
               <div className="flex flex-col flex-shrink-0 text-sm">
-                <span className="font-bold">{props.userName}</span>
+                <span className="font-bold">{userInfo.name}</span>
                 <span className="opacity-70 dark:opacity-50">
-                  @{props.userLogin}
+                  @{userInfo.login}
                 </span>
               </div>
 

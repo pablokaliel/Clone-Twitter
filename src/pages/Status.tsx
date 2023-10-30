@@ -7,6 +7,7 @@ import NotFound from "./NotFound";
 import Separator from "../components/Separator";
 import { useTweetContext } from "../context/TweetContext";
 import { v4 as uuidv4 } from "uuid";
+import { initialTweets } from "../utils/InitialTweets";
 
 interface AnswerProps {
   userAvatar: string;
@@ -94,7 +95,7 @@ export function Status() {
   if (!tweets) {
     return <div>Carregando...</div>;
   }
-  const tweet = tweets.find((tweet) => tweet.id === id);
+  const tweet = tweets.find((tweet) => tweet.id === id) || initialTweets.find((tweet) => tweet.id === id);
   if (!tweet) {
     return <NotFound />;
   }

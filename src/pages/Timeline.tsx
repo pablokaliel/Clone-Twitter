@@ -122,7 +122,7 @@ export function Timeline() {
           imageUrl: null,
           imageTitle: undefined,
         });
-
+        window.location.reload();
         console.log("Tweet adicionado com sucesso.");
       }
     } catch (error) {
