@@ -1,4 +1,3 @@
-// profileLikes.tsx
 import { useEffect, useState } from "react";
 import { useTweetContext } from "../../context/TweetContext";
 import { Tweet } from "../../components/Tweet";

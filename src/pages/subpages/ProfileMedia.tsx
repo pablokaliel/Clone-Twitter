@@ -1,15 +1,15 @@
 import { useTweetContext } from "../../context/TweetContext";
 import { Tweet } from "../../components/Tweet";
-import { initialUser } from "../../utils/InitialUser";
+import { useUser } from "../../context/UserContext";
 
 function ProfileMedia() {
   const { tweets } = useTweetContext();
-  const userLogin = initialUser.login;
+  const { userInfo } = useUser();
 
+ 
   const userTweetsWithMedia = tweets.filter(
-    (tweet) => tweet.userLogin === userLogin && tweet.imageUrl
+    (tweet) => tweet.userLogin === userInfo.login && tweet.imageUrl
   );
-
   return (
     <div className="min-h-[50vh]">
       <div>
