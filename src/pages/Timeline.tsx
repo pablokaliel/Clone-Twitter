@@ -27,13 +27,13 @@ export interface TweetProps {
 
 export function Timeline() {
   const { isAuthenticated } = useAuth();
-  const {userInfo} = useUser()
+  const { userInfo } = useUser();
 
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
-    userAvatar: "https://github.com/pablokaliel.png",
-    userName: "PabloKaliel",
-    userLogin: "pablokalyell",
+    userAvatar: userInfo.avatar,
+    userName: userInfo.name,
+    userLogin: userInfo.login,
     content: "",
     comments: 0,
     retweets: 0,
@@ -94,9 +94,9 @@ export function Timeline() {
 
         const tweetToSave = {
           id: newTweet.id,
-          userAvatar: userInfo.avatar, // Use a avatar atualizada do usuário
-          userName: userInfo.name, // Use o nome atualizado do usuário
-          userLogin: userInfo.login, // Use o login atualizado do usuário
+          userAvatar: userInfo.avatar,
+          userName: userInfo.name,
+          userLogin: userInfo.login,
           content: newTweet.content,
           imageUrl: imageUrl,
           comments: 0,
@@ -176,7 +176,7 @@ export function Timeline() {
           >
             <label htmlFor="tweet" className="flex gap-3">
               <img
-                src="https://github.com/pablokaliel.png"
+                src={userInfo.avatar}
                 alt="user"
                 className="w-12 h-12 rounded-full"
               />
@@ -194,6 +194,7 @@ export function Timeline() {
                 }
               />
             </label>
+
             {newTweet.imageUrl && (
               <>
                 <div className="w-full rounded-2xl overflow-hidden max-h-[400px] relative sm:ml-0">
@@ -219,6 +220,7 @@ export function Timeline() {
                 </div>
               </>
             )}
+
             {newTweet.imageUrl && (
               <p className="text-sm leading-relaxed text-[#828282]">
                 {newTweet.imageTitle}
@@ -268,17 +270,18 @@ export function Timeline() {
 
           {tweets.map((tweet) => (
             <Tweet
-          userAvatar={userInfo.avatar}
-          userName={userInfo.name}
-          userLogin={userInfo.login}
-          content={tweet.content}
-          imageUrl={tweet.imageUrl}
-          comments={tweet.comments}
-          retweets={tweet.retweets}
-          likes={tweet.likes}
-          id={tweet.id}
-          views={tweet.views}
-        />
+              key={tweet.id}
+              userAvatar={tweet.userAvatar}
+              userName={tweet.userName}
+              userLogin={tweet.userLogin}
+              content={tweet.content}
+              imageUrl={tweet.imageUrl}
+              comments={tweet.comments}
+              retweets={tweet.retweets}
+              likes={tweet.likes}
+              id={tweet.id}
+              views={tweet.views}
+            />
           ))}
         </>
       ) : (

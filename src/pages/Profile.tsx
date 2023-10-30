@@ -14,13 +14,12 @@ import { motion } from "framer-motion";
 import { useUser } from "../context/UserContext";
 import { saveUser } from "../utils/SaveUser";
 
-
 function Profile() {
-  const [imgFile, setImgFile] = useState<string | undefined>(
-    initialUser.avatarURL
-  );
+  const [imgFile, setImgFile] = useState<string | undefined>(initialUser.avatarURL);
   const { userInfo, setUserInfo } = useUser();
-  
+  const [editLoginValue, setEditLoginValue] = useState(userInfo.login);
+  const [editNameValue, setEditNameValue] = useState(userInfo.name);
+  const [editBioValue, setEditBioValue] = useState(userInfo.bio);
 
   const { tweets, setTweets } = useTweetContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +34,6 @@ function Profile() {
       transition: { type: "tween", duration: 0.3 },
     },
   };
-
-  const [editLoginValue, setEditLoginValue] = useState(userInfo.login);
-  const [editNameValue, setEditNameValue] = useState(userInfo.name);
-  const [editBioValue, setEditBioValue] = useState(userInfo.bio);
 
   function getImgFile(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -55,42 +50,47 @@ function Profile() {
   }
 
   function handleSaveNewInfo() {
-    setIsLoading(true);
+    if (editNameValue && editLoginValue) {
+      setIsLoading(true);
 
-    setTimeout(() => {
-      setShowModal(false);
-      setUserInfo({
-        ...userInfo,
-        avatar: imgFile as string,
-        name: editNameValue,
-        bio: editBioValue,
-        login:editLoginValue,
-      });
+      setTimeout(() => {
+        setShowModal(false);
+        setUserInfo({
+          ...userInfo,
+          avatar: imgFile as string,
+          name: editNameValue,
+          bio: editBioValue,
+          login: editLoginValue,
+        });
 
-      saveUser({
-        ...userInfo,
-        avatar: imgFile as string,
-        name: editNameValue,
-        bio: editBioValue,
-        login:editLoginValue,
-      });
+        saveUser({
+          ...userInfo,
+          avatar: imgFile as string,
+          name: editNameValue,
+          bio: editBioValue,
+          login: editLoginValue,
+        });
 
-      const updatedTweets = tweets.map((tweet) => {
-        if (tweet.userLogin === userInfo.login) {
-          return {
-            ...tweet,
-            userName: editNameValue,
-            userAvatar: imgFile as string,
-            userLogin:editLoginValue,
-          };
-        }
-        return tweet;
-      });
+        const updatedTweets = tweets.map((tweet) => {
+          if (tweet.userLogin === userInfo.login) {
+            return {
+              ...tweet,
+              userName: editNameValue,
+              userAvatar: imgFile as string,
+              userLogin: editLoginValue,
+            };
+          }
+          return tweet;
+        });
 
-      setTweets(updatedTweets);
-      setIsLoading(false);
-    }, 1500);
+        setTweets(updatedTweets);
+        setIsLoading(false);
+      }, 1500);
+    } else {
+      alert("Os campos não podem estar vazios.Preencha os campos!");
+    }
   }
+
   const [showModal, setShowModal] = useState(false);
 
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
@@ -327,9 +327,10 @@ function Profile() {
                       <div>
                         <input
                           className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Name"
+                          placeholder="Nome (obrigatório)"
                           maxLength={50}
                           value={editNameValue}
+                          required
                           onChange={(e) => {
                             setEditNameValue(e.target.value);
                           }}
@@ -338,8 +339,9 @@ function Profile() {
 
                         <input
                           className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Login"
+                          placeholder="Login (obrigatório)"
                           maxLength={160}
+                          required
                           value={editLoginValue}
                           onChange={(e) => {
                             setEditLoginValue(e.target.value);
@@ -348,7 +350,7 @@ function Profile() {
                         />
                         <input
                           className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Bio"
+                          placeholder="Bio (opcional)"
                           maxLength={160}
                           value={editBioValue}
                           onChange={(e) => {

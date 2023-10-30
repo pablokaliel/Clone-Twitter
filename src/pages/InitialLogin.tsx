@@ -42,13 +42,25 @@ function InitalLogin() {
       setAppleErrorMessage("");
     }, 2000);
   };
+  
+  const drawerVariants = {
+    open: {
+      scale: 1,
+      transition: { type: "tween", duration: 0.3 },
+    },
+    closed: {
+      scale: 0,
+      transition: { type: "tween", duration: 0.3 },
+    },
+  };
 
   return (
     <div className="w-full h-screen dark:bg-slate-900/40 bg-[#999] flex items-center justify-center">
       <motion.div
-        initial={{ scale: 0.3, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.7 }}
+      initial="closed"
+      animate="open"
+      exit="closed"
+      variants={drawerVariants}
         className="bg-white dark:bg-bodyDark sm:w-full sm:h-full sm:rounded-none w-[600px] h-[650px] rounded-3xl relative"
       >
         <header className="p-4 flex items-center justify-center">
