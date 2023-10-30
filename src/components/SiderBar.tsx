@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { House, MagnifyingGlass, Bell, BookmarkSimple, User, DotsThreeCircle, DotsThree, TwitterLogo, Pencil, FileText, Envelope } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 import { LinkSidebar } from "./LinkSidebar";
-import { initialUser } from "../utils/InitialUser";
 import { useUser } from "../context/UserContext";
 
 function SideBar() {
@@ -76,7 +75,7 @@ function SideBar() {
           />
           <LinkSidebar path="/lists" icon={FileText} text="Lists" />
           <LinkSidebar
-            path={`/${initialUser.login}`}
+            path={`/${userInfo.login}`}
             icon={User}
             text="Profile"
           />
