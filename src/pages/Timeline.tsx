@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { CalendarBlank, Gif, Image, ListBullets, MapPin, Smiley, X } from "@phosphor-icons/react";
 import { addTweet, getTweetLikes, getTweets, uploadImage } from "../services/firebase";
 import { initialTweets } from "../utils/InitialTweets";
-
+import { useUser } from "../context/UserContext";
 export interface TweetProps {
   id: string;
   userAvatar: string;
@@ -27,6 +27,7 @@ export interface TweetProps {
 
 export function Timeline() {
   const { isAuthenticated } = useAuth();
+  const {userInfo} = useUser()
 
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
@@ -93,9 +94,9 @@ export function Timeline() {
 
         const tweetToSave = {
           id: newTweet.id,
-          userAvatar: newTweet.userAvatar,
-          userName: newTweet.userName,
-          userLogin: newTweet.userLogin,
+          userAvatar: userInfo.avatar, // Use a avatar atualizada do usuário
+          userName: userInfo.name, // Use o nome atualizado do usuário
+          userLogin: userInfo.login, // Use o login atualizado do usuário
           content: newTweet.content,
           imageUrl: imageUrl,
           comments: 0,
@@ -267,18 +268,17 @@ export function Timeline() {
 
           {tweets.map((tweet) => (
             <Tweet
-              key={tweet.id}
-              userAvatar={tweet.userAvatar}
-              userName={tweet.userName}
-              userLogin={tweet.userLogin}
-              content={tweet.content}
-              imageUrl={tweet.imageUrl}
-              comments={tweet.comments}
-              retweets={tweet.retweets}
-              likes={tweet.likes}
-              id={tweet.id}
-              views={tweet.views}
-            />
+          userAvatar={userInfo.avatar}
+          userName={userInfo.name}
+          userLogin={userInfo.login}
+          content={tweet.content}
+          imageUrl={tweet.imageUrl}
+          comments={tweet.comments}
+          retweets={tweet.retweets}
+          likes={tweet.likes}
+          id={tweet.id}
+          views={tweet.views}
+        />
           ))}
         </>
       ) : (
