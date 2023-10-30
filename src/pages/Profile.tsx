@@ -1,6 +1,6 @@
 import { PersonalLink } from "../components/Link";
 import { useAuth } from "../utils/AuthContext";
-import { ArrowLeft, CalendarCheck, CameraPlus, CircleNotch, X } from "@phosphor-icons/react";
+import { ArrowLeft, CalendarCheck } from "@phosphor-icons/react";
 import { initialUser } from "../utils/InitialUser";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useTweetContext } from "../context/TweetContext";
@@ -10,12 +10,13 @@ import { initialTweets } from "../utils/InitialTweets";
 import { useScrollDirection } from "../context/ScrollContext";
 import { AnimatePresence } from "framer-motion";
 
-import { motion } from "framer-motion";
 import { useUser } from "../context/UserContext";
 import { saveUser } from "../utils/SaveUser";
+import EditProfileModal from "../components/EditProfileModal";
 
 function Profile() {
-  const [imgFile, setImgFile] = useState<string | undefined>(initialUser.avatarURL);
+  const [bannerColor, setBannerColor] = useState("#015b5d");
+  const [imgFile, setImgFile] = useState<string | undefined>( initialUser.avatarURL );
   const { userInfo, setUserInfo } = useUser();
   const [editLoginValue, setEditLoginValue] = useState(userInfo.login);
   const [editNameValue, setEditNameValue] = useState(userInfo.name);
@@ -24,16 +25,9 @@ function Profile() {
   const { tweets, setTweets } = useTweetContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  const drawerVariants = {
-    open: {
-      scale: 1,
-      transition: { type: "tween", duration: 0.3 },
-    },
-    closed: {
-      scale: 0,
-      transition: { type: "tween", duration: 0.3 },
-    },
-  };
+  function isWhitespace(str: string) {
+    return !str || str.trim() === "";
+  }
 
   function getImgFile(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -44,51 +38,50 @@ function Profile() {
         const imageUrl = e.target?.result as string;
         setImgFile(imageUrl);
       };
-
       reader.readAsDataURL(file);
     }
   }
 
   function handleSaveNewInfo() {
-    if (editNameValue && editLoginValue) {
-      setIsLoading(true);
-
-      setTimeout(() => {
-        setShowModal(false);
-        setUserInfo({
-          ...userInfo,
-          avatar: imgFile as string,
-          name: editNameValue,
-          bio: editBioValue,
-          login: editLoginValue,
-        });
-
-        saveUser({
-          ...userInfo,
-          avatar: imgFile as string,
-          name: editNameValue,
-          bio: editBioValue,
-          login: editLoginValue,
-        });
-
-        const updatedTweets = tweets.map((tweet) => {
-          if (tweet.userLogin === userInfo.login) {
-            return {
-              ...tweet,
-              userName: editNameValue,
-              userAvatar: imgFile as string,
-              userLogin: editLoginValue,
-            };
-          }
-          return tweet;
-        });
-
-        setTweets(updatedTweets);
-        setIsLoading(false);
-      }, 1500);
-    } else {
-      alert("Os campos não podem estar vazios.Preencha os campos!");
+    if (isWhitespace(editNameValue) || isWhitespace(editLoginValue)) {
+      alert("Os campos não podem estar vazios. Preencha os campos!");
+      return;
     }
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setShowModal(false);
+      setUserInfo({
+        ...userInfo,
+        avatar: imgFile as string,
+        name: editNameValue,
+        bio: editBioValue,
+        login: editLoginValue,
+      });
+
+      saveUser({
+        ...userInfo,
+        avatar: imgFile as string,
+        name: editNameValue,
+        bio: editBioValue,
+        login: editLoginValue,
+      });
+
+      const updatedTweets = tweets.map((tweet) => {
+        if (tweet.userLogin === userInfo.login) {
+          return {
+            ...tweet,
+            userName: editNameValue,
+            userAvatar: imgFile as string,
+            userLogin: editLoginValue,
+          };
+        }
+        return tweet;
+      });
+
+      setTweets(updatedTweets);
+      setIsLoading(false);
+    }, 1500);
   }
 
   const [showModal, setShowModal] = useState(false);
@@ -159,6 +152,13 @@ function Profile() {
     return true;
   }
 
+  useEffect(() => {
+    const savedBannerColor = localStorage.getItem("bannerColor");
+    if (savedBannerColor) {
+      setBannerColor(savedBannerColor);
+    }
+  }, []);
+
   const allLikedTweets = likedTweets.concat(
     initialTweets.filter((tweet) => likedTweetIds.includes(tweet.id))
   );
@@ -205,7 +205,10 @@ function Profile() {
 
         {isAuthenticated ? (
           <div className="w-full">
-            <div className="w-full h-52 bg-[#015b5d] flex-shrink-0" />
+            <div
+              className="w-full h-52 flex-shrink-0"
+              style={{ backgroundColor: bannerColor }}
+            />
 
             <div className="grid items-start relative min-h-[48px] p-4">
               <div className="w-[135px] dark:bg-bodyDark ml-4 absolute h-[135px] rounded-full bg-white p-1 -translate-y-[52%]">
@@ -277,105 +280,21 @@ function Profile() {
             >
               {showModal && (
                 <div className="fixed top-0 left-0 w-full h-screen backdrop-blur-sm z-50 flex items-center justify-center">
-                  <motion.div
-                    initial="closed"
-                    animate="open"
-                    exit="closed"
-                    variants={drawerVariants}
-                    className="w-full max-w-[600px] min-h-[400px] mx-5 py-4 px-4 bg-white dark:bg-bodyDark shadow-menu rounded-2xl flex flex-col md:max-w-none md:mx-0 md:max-h-none md:h-full md:shadow-none md:rounded-none"
-                  >
-                    <header className="flex items-center justify-between mb-5">
-                      <div className="flex items-center">
-                        <button
-                          onClick={toggleModal}
-                          className="w-9 h-9 rounded-full grid place-items-center mr-5 hover:bg-black/10 dark:hover:bg-white/10"
-                          title="Fechar"
-                        >
-                          <X size={20} weight="bold" />
-                        </button>
-
-                        <h2 className="text-xl font-bold dark:text-textDark">
-                          Edit profile
-                        </h2>
-                      </div>
-                    </header>
-
-                    <div>
-                      <div className="relative w-fit mt-12 mb-5">
-                        <img
-                          src={imgFile}
-                          alt="User profile image"
-                          className="rounded-full w-28 h-28 object-cover brightness-90"
-                        />
-                        <label
-                          htmlFor="avatarInput"
-                          title="Add photo"
-                          className="cursor-pointer w-10 h-10 grid place-items-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-full transition-all duration-200 bg-black/60 hover:bg-black/40"
-                        >
-                          <CameraPlus size={24} color="#fff" />
-                        </label>
-
-                        <input
-                          type="file"
-                          id="avatarInput"
-                          className="hidden"
-                          accept="image/*"
-                          onChange={getImgFile}
-                        />
-                      </div>
-
-                      <div>
-                        <input
-                          className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Nome (obrigatório)"
-                          maxLength={50}
-                          value={editNameValue}
-                          required
-                          onChange={(e) => {
-                            setEditNameValue(e.target.value);
-                          }}
-                          type="editName"
-                        />
-
-                        <input
-                          className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Login (obrigatório)"
-                          maxLength={160}
-                          required
-                          value={editLoginValue}
-                          onChange={(e) => {
-                            setEditLoginValue(e.target.value);
-                          }}
-                          type="editBio"
-                        />
-                        <input
-                          className={`w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30`}
-                          placeholder="Bio (opcional)"
-                          maxLength={160}
-                          value={editBioValue}
-                          onChange={(e) => {
-                            setEditBioValue(e.target.value);
-                          }}
-                          type="editBio"
-                        />
-                      </div>
-
-                      <button
-                        className="rounded-full w-16 h-8 font-bold text-sm grid transition-all duration-200 place-items-center bg-twitterBlue text-white dark:bg-textDark dark:text-bodyDark mt-6"
-                        onClick={handleSaveNewInfo}
-                      >
-                        {!isLoading ? (
-                          "Save"
-                        ) : (
-                          <CircleNotch
-                            size={18}
-                            weight="bold"
-                            className="animate-spin"
-                          />
-                        )}
-                      </button>
-                    </div>
-                  </motion.div>
+                  <EditProfileModal
+                    imgFile={imgFile!}
+                    getImgFile={getImgFile}
+                    editNameValue={editNameValue}
+                    setEditNameValue={setEditNameValue}
+                    editLoginValue={editLoginValue}
+                    setEditLoginValue={setEditLoginValue}
+                    editBioValue={editBioValue}
+                    setEditBioValue={setEditBioValue}
+                    handleSaveNewInfo={handleSaveNewInfo}
+                    isLoading={isLoading}
+                    toggleModal={toggleModal}
+                    bannerColor={bannerColor}
+                    setBannerColor={setBannerColor}
+                  />
                 </div>
               )}
             </AnimatePresence>
