@@ -1,39 +1,68 @@
 import { AppleLogo, GoogleLogo, TwitterLogo, X } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleAuthProvider, browserLocalPersistence, getAuth, setPersistence, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useAuth } from "../utils/AuthContext";
 
 function InitalLogin() {
-  const [googleErrorMessage, setGoogleErrorMessage] = useState("");
+  const [googleErrorMessage] = useState("");
   const [appleErrorMessage, setAppleErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
+  const auth = getAuth();
+  setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+    })
+    .catch((error) => {
+      console.error("Erro ao configurar persistência de sessão:", error);
+    });
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      login();
+    }
+  }, [isAuthenticated, login]);
 
   const handleAdvanceClick = () => {
-    const emailInput = document.getElementById(
-      "emailInput"
-    ) as HTMLInputElement | null;
-    if (emailInput) {
+    const emailInput = document.getElementById( "emailInput" ) as HTMLInputElement | null;
+    const passwordInput = document.getElementById( "passwordInput" ) as HTMLInputElement | null;
+
+    if (emailInput && passwordInput) {
       const email = emailInput.value;
-      if (email === "twitterlogin@gmail.com") {
-        login();
-        navigate("/");
-      } else {
-        setEmailError("Email incorreto. Tente novamente.");
-      }
+      const password = passwordInput.value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Usuário autenticado com sucesso:", user);
+          login();
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Erro ao autenticar com e-mail e senha:", error);
+          setEmailError("E-mail ou senha incorretos. Tente novamente.");
+        });
     } else {
-      setEmailError("Campo de email não encontrado.");
+      setEmailError("Campos de e-mail e senha não encontrados.");
     }
   };
 
   const handleGoogleLogin = () => {
-    setGoogleErrorMessage("Temporariamente indisponível");
-    setTimeout(() => {
-      setGoogleErrorMessage("");
-    }, 2000);
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("Usuário autenticado com sucesso:", user);
+
+        login();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Erro ao autenticar com o Google:", error);
+      });
   };
 
   const handleAppleLogin = () => {
@@ -42,25 +71,13 @@ function InitalLogin() {
       setAppleErrorMessage("");
     }, 2000);
   };
-  
-  const drawerVariants = {
-    open: {
-      scale: 1,
-      transition: { type: "tween", duration: 0.3 },
-    },
-    closed: {
-      scale: 0,
-      transition: { type: "tween", duration: 0.3 },
-    },
-  };
 
   return (
     <div className="w-full h-screen dark:bg-slate-900/40 bg-[#999] flex items-center justify-center">
       <motion.div
-      initial="closed"
-      animate="open"
-      exit="closed"
-      variants={drawerVariants}
+        initial={{ scale: 0.3, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.7 }}
         className="bg-white dark:bg-bodyDark sm:w-full sm:h-full sm:rounded-none w-[600px] h-[650px] rounded-3xl relative"
       >
         <header className="p-4 flex items-center justify-center">
@@ -110,11 +127,19 @@ function InitalLogin() {
               <input
                 id="emailInput"
                 className="border rounded-md border-grayBorderLight hover:bg-grayBorderLight/20 bg-transparent w-full px-2 py-4 h-[58px] focus:outline-none"
-                placeholder="celular,e-mail ou nome de usuário"
+                placeholder="celular, e-mail ou nome de usuário"
               />
               {emailError && (
                 <div className="text-red-500 mt-1 text-xs">{emailError}</div>
               )}
+            </div>
+            <div>
+              <input
+                id="passwordInput"
+                type="password"
+                className="border rounded-md border-grayBorderLight hover:bg-grayBorderLight/20 bg-transparent w-full px-2 py-4 h-[58px] focus:outline-none"
+                placeholder="senha"
+              />
             </div>
 
             <div className="flex flex-col gap-6">
@@ -132,9 +157,9 @@ function InitalLogin() {
             <div className="mt-3">
               <span className="font-bold text-">
                 Não tem conta?{" "}
-                <a className="text-twitterBlue hover:underline" href="#">
+                <Link to="/createpassword" className="text-twitterBlue hover:underline">
                   inscreva-se
-                </a>{" "}
+                </Link>{" "}
               </span>
             </div>
           </div>

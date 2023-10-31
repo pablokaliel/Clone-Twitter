@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { CameraPlus, CircleNotch, X } from "@phosphor-icons/react";
+import { useUser } from "../context/UserContext";
 
 interface EditProfileModalProps {
   imgFile: string;
@@ -49,7 +50,7 @@ function EditProfileModal({
     localStorage.setItem("bannerColor", bannerColor);
   }, [bannerColor]);
   
-
+const {userInfo} = useUser()
   const isFormValid =
     editNameValue.trim() !== "" && editLoginValue.trim() !== "";
 
@@ -60,6 +61,10 @@ function EditProfileModal({
       "Save"
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem(`bannerColor-${userInfo.login}`, bannerColor);
+  }, [bannerColor, userInfo.login]);
 
   const inputClass = "w-full h-10 rounded border-gray-600 border outline-none mt-6 px-2 text-sm bg-white/30";
 

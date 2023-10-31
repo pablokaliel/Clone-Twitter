@@ -22,6 +22,7 @@ import Mentions from "./pages/subpages/Mentions";
 import AllNotifications from "./pages/AllNotifications";
 import { useUser } from "./context/UserContext";
 import { ProfilePosts } from "./pages/subpages/ProfilePosts";
+import CreatePassword from "./pages/CreatePassword";
 
 export function AppRoutes() {
   const {userInfo} = useUser()
@@ -49,7 +50,8 @@ export function AppRoutes() {
           <Route path="likes" element={<ProfileLikes />} />
         </Route>
       </Route>
-      <Route path="login" element={<InitalLogin />} />
+      <Route path="login" element={<InitalLogin />}/>
+      <Route path="createpassword" element={<CreatePassword/>}/>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { House, MagnifyingGlass, Bell, BookmarkSimple, User, DotsThreeCircle, DotsThree, TwitterLogo, Pencil, FileText, Envelope } from "@phosphor-icons/react";
 import { useAuth } from "../utils/AuthContext";
 import { LinkSidebar } from "./LinkSidebar";
@@ -10,7 +10,7 @@ function SideBar() {
   const { userInfo } = useUser();
   const isAuthenticated = useAuth().isAuthenticated;
   const [showModal, setShowModal] = useState(false);
-
+  const navigate = useNavigate();
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
   useEffect(() => {
@@ -43,6 +43,7 @@ function SideBar() {
 
   const handleLogout = () => {
     logout();
+    navigate("/login");
     setShowModal(!showModal);
   };
 

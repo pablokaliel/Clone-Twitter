@@ -152,12 +152,13 @@ function Profile() {
     return true;
   }
 
+
   useEffect(() => {
-    const savedBannerColor = localStorage.getItem("bannerColor");
+    const savedBannerColor = localStorage.getItem(`bannerColor-${userInfo.login}`);
     if (savedBannerColor) {
       setBannerColor(savedBannerColor);
     }
-  }, []);
+  }, [userInfo.login]);
 
   const allLikedTweets = likedTweets.concat(
     initialTweets.filter((tweet) => likedTweetIds.includes(tweet.id))
