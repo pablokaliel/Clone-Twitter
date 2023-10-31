@@ -76,7 +76,7 @@ function SideBar() {
           />
           <LinkSidebar path="/lists" icon={FileText} text="Lists" />
           <LinkSidebar
-            path={`/${userInfo.login}`}
+            path="profile"
             icon={User}
             text="Profile"
           />

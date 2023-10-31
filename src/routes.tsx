@@ -20,12 +20,11 @@ import ProfileMedia from "./pages/subpages/ProfileMedia";
 import ProfileLikes from "./pages/subpages/ProfileLikes";
 import Mentions from "./pages/subpages/Mentions";
 import AllNotifications from "./pages/AllNotifications";
-import { useUser } from "./context/UserContext";
 import { ProfilePosts } from "./pages/subpages/ProfilePosts";
 import CreatePassword from "./pages/CreatePassword";
 
 export function AppRoutes() {
-  const {userInfo} = useUser()
+
   return (
     <Routes>
       <Route path="/" element={<Default />}>
@@ -42,7 +41,7 @@ export function AppRoutes() {
           <Route path="mentions" element={<Mentions />} />
         </Route>
         <Route path="messages" element={<Messages />} />
-        <Route path={userInfo.login} element={<Profile />}>
+        <Route path="profile" element={<Profile />}>
           <Route index element={<ProfilePosts />} />
           <Route path="with_replies" element={<ProfileReplies />} />
           <Route path="highlights" element={<ProfileHighlights />} />

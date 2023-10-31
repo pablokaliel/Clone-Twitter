@@ -35,6 +35,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated(true);
     // Salvar o estado de autenticação no armazenamento local
     localStorage.setItem("isAuthenticated", "true");
+    const user = {
+      name: "Nome do Usuário",
+      avatar: "URL do Avatar",
+      login: "login",
+    };
+  
+    // Salve os dados do usuário no armazenamento local
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = () => {

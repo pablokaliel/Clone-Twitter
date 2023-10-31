@@ -9,16 +9,26 @@ function InitalLogin() {
   const [googleErrorMessage] = useState("");
   const [appleErrorMessage, setAppleErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
-  const auth = getAuth();
+  const auth = getAuth(); 
+ const { login, isAuthenticated } = useAuth();
+
   setPersistence(auth, browserLocalPersistence)
     .then(() => {
     })
     .catch((error) => {
       console.error("Erro ao configurar persistência de sessão:", error);
     });
-
+  
+    useEffect(() => {
+      setPersistence(auth, browserLocalPersistence)
+        .then(() => {})
+        .catch((error) => {
+          console.error("Erro ao configurar persistência de sessão:", error);
+        });
+    }, [auth]);
+    
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+
   useEffect(() => {
     if (isAuthenticated) {
       login();
