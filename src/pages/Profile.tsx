@@ -16,8 +16,8 @@ import EditProfileModal from "../components/EditProfileModal";
 
 function Profile() {
   const [bannerColor, setBannerColor] = useState("#015b5d");
-  const [imgFile, setImgFile] = useState<string | undefined>(initialUser.avatarURL);
   const { userInfo, setUserInfo } = useUser();
+  const [imgFile, setImgFile] = useState<string | undefined>(userInfo.avatar);
   const [editLoginValue, setEditLoginValue] = useState(userInfo.login);
   const [editNameValue, setEditNameValue] = useState(userInfo.name);
   const [editBioValue, setEditBioValue] = useState(userInfo.bio);
@@ -167,10 +167,10 @@ function Profile() {
 
   const tweetsWithImages = allLikedTweets.filter((tweet) => tweet.imageUrl);
 
-  if (location === `/media`) {
+  if (location === `/profile/media`) {
     message = tweetsWithImages.length === 1 ? "Foto e vídeo" : "Fotos e vídeos";
     number = tweetsWithImages.length;
-  } else if (location === `/likes`) {
+  } else if (location === `/profile/likes`) {
     message = allLikedTweets.length === 1 ? "Curtida" : "Curtidas";
     number = allLikedTweets.length;
   } else {
