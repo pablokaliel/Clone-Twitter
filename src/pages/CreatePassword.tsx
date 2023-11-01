@@ -84,8 +84,7 @@ function CreatePassword() {
               disabled={
                 (steps === 1 &&
                   (userInfo.name.trim() === "" ||
-                    userInfo.login.trim() === "")) ||
-                (steps === 2 && userInfo.avatar === "")
+                    userInfo.login.trim() === ""))
               }
             >
               {steps === 1 ? "Next" : "Create"}
