@@ -166,10 +166,10 @@ function Profile() {
 
   const tweetsWithImages = allLikedTweets.filter((tweet) => tweet.imageUrl);
 
-  if (location === `/${userInfo.login}/media`) {
+  if (location === `/media`) {
     message = tweetsWithImages.length === 1 ? "Foto e vídeo" : "Fotos e vídeos";
     number = tweetsWithImages.length;
-  } else if (location === `/${userInfo.login}/likes`) {
+  } else if (location === `/likes`) {
     message = allLikedTweets.length === 1 ? "Curtida" : "Curtidas";
     number = allLikedTweets.length;
   } else {
@@ -263,17 +263,17 @@ function Profile() {
             </div>
 
             <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
-              <PersonalLink path={`/${userInfo.login}`} name="Posts" />
+              <PersonalLink path={`/profile`} name="Posts" />
               <PersonalLink
-                path={`/${userInfo.login}/with_replies`}
+                path={`/profile/with_replies`}
                 name="Replies"
               />
               <PersonalLink
-                path={`/${userInfo.login}/highlights`}
+                path={`/profile/highlights`}
                 name="Highlights"
               />
-              <PersonalLink path={`/${userInfo.login}/media`} name="Media" />
-              <PersonalLink path={`/${userInfo.login}/likes`} name="Likes" />
+              <PersonalLink path={`/profile/media`} name="Media" />
+              <PersonalLink path={`/profile/likes`} name="Likes" />
             </nav>
             <Outlet />
             <AnimatePresence

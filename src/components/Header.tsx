@@ -7,6 +7,7 @@ import { useAuth } from "../utils/AuthContext";
 import { initialUser } from "../utils/InitialUser";
 import { useScrollDirection } from "../context/ScrollContext";
 import { loadDarkModeValue, saveDarkModeValue } from "../utils/DarkModeUtils";
+import { useUser } from "../context/UserContext";
 
 interface HeaderProps extends React.HTMLProps<HTMLDivElement> {
   title: string;
@@ -24,6 +25,8 @@ const links = [
 export function Header({ title }: HeaderProps) {
   const [showModal, setShowModal] = useState(false);
   const scrollDirection = useScrollDirection();
+
+  const { userInfo } = useUser();
 
   const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
     {}
@@ -128,7 +131,7 @@ export function Header({ title }: HeaderProps) {
         <button onClick={toggleModal}>
           <img
             className="w-10 h-10 rounded-full"
-            src="https://github.com/pablokaliel.png"
+            src={userInfo.avatar}
             alt=""
           />
         </button>
@@ -154,7 +157,7 @@ export function Header({ title }: HeaderProps) {
                   <div className="pt-4 px-4 flex justify-between">
                     <img
                       className="w-10 h-10 rounded-full"
-                      src="https://github.com/pablokaliel.png"
+                      src={userInfo.avatar}
                       alt=""
                     />
                     <div className="w-8 h-8 rounded-full border flex items-center justify-center">

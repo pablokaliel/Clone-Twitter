@@ -19,9 +19,10 @@ import ProfileHighlights from "./pages/subpages/ProfileHighlights";
 import ProfileMedia from "./pages/subpages/ProfileMedia";
 import ProfileLikes from "./pages/subpages/ProfileLikes";
 import Mentions from "./pages/subpages/Mentions";
-import AllNotifications from "./pages/AllNotifications";
+
 import { ProfilePosts } from "./pages/subpages/ProfilePosts";
 import CreatePassword from "./pages/CreatePassword";
+import AllNotifications from "./pages/AllNotifications";
 
 export function AppRoutes() {
 

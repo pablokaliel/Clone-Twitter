@@ -20,13 +20,12 @@ function InitalLogin() {
     });
   
     useEffect(() => {
-      setPersistence(auth, browserLocalPersistence)
-        .then(() => {})
-        .catch((error) => {
-          console.error("Erro ao configurar persistência de sessão:", error);
-        });
-    }, [auth]);
-    
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {})
+      .catch((error) => {
+        console.error("Erro ao configurar persistência de sessão:", error);
+      });
+  }, [auth]);
   const navigate = useNavigate();
 
   useEffect(() => {

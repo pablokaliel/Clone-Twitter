@@ -14,6 +14,13 @@ function SideBar() {
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
   useEffect(() => {
+    if (!userInfo.name && !userInfo.login && !userInfo.avatar) {
+      alert("Bem-vindo! Parece que você não preencheu suas informações no perfil ainda. Recomendamos que você faça isso para tornar a sua experiência melhor.");
+    }
+  }, [userInfo]);
+
+
+  useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowModal(false);

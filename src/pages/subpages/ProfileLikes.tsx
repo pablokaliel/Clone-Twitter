@@ -13,26 +13,14 @@ function ProfileLikes() {
     const fetchLikedTweets = async () => {
       const userId = "ID_DO_USUARIO_ATUAL";
       const userLikes = await getUserLikes(userId);
+      const allTweets = [...tweets, ...initialTweets];
+      const updatedLikedTweets = allTweets.filter((tweet) => userLikes.includes(tweet.id));
 
-      const initialTweetsLiked = initialTweets.filter((tweet) =>
-        userLikes.includes(tweet.id)
-      );
-
-      const allLikedTweetsIds = [
-        ...userLikes,
-        ...tweets.map((tweet) => tweet.id),
-      ];
-
-      const userLikedTweets = [...tweets, ...initialTweetsLiked].filter(
-        (tweet) => allLikedTweetsIds.includes(tweet.id)
-      );
-
-      setLikedTweets(userLikedTweets);
+      setLikedTweets(updatedLikedTweets);
     };
 
     fetchLikedTweets();
-  }, [tweets]);
-
+  }, [tweets, initialTweets]);
   return (
     <div className="min-h-[50vh]">
       {likedTweets.length > 0 ? (
