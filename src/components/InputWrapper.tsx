@@ -46,7 +46,7 @@ export function InputWrapper(props: InputWrapperProps) {
       className={`relative border-[2px] focus-within:border-twitterBlue group rounded mb-6 dark:bg-bodyDark dark:border-grayBorderDark dark:focus-within:border-twitterBlue ${ props.type != "editBio" ? "h-14" : "h-fit" }`}
       onClick={handleClick}
     >
-      <label htmlFor={`user${props.inputName}Input`} className="sr-only">
+      <label htmlFor={`user${props.inputName}Input`} className="sr-only dark:bg-gray-800">
         {props.inputName}
       </label>
       {props.type != "editBio" ? (
