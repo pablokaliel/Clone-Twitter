@@ -2,7 +2,6 @@ import { CameraPlus } from "@phosphor-icons/react";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { UserInfo } from "../context/UserContext";
 
-
 interface StepsTwoProps {
   setUserInfo: Dispatch<SetStateAction<UserInfo>>;
   userInfo: UserInfo;
@@ -43,7 +42,7 @@ export function StepTwo({ setUserInfo, userInfo }: StepsTwoProps) {
         <label
           htmlFor="avatarInput"
           title="Add photo"
-          className="cursor-pointer w-11 h-11 grid place-items-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-full transition-all duration-200 bg-black/60 data-[istouchsupported=false]:hover:bg-black/40"
+          className="cursor-pointer w-11 h-11 grid place-items-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-full transition-all duration-200 bg-black/60 hover:bg-black/40"
         >
           <CameraPlus size={24} color="#fff" />
         </label>

@@ -28,9 +28,7 @@ export function Header({ title }: HeaderProps) {
 
   const { userInfo } = useUser();
 
-  const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  const [focusedLinks, setFocusedLinks] = useState<{ [key: string]: boolean }>( {} );
   const { logout } = useAuth();
 
   const [isDark, setIsDark] = useState<boolean>(loadDarkModeValue());
@@ -132,13 +130,13 @@ export function Header({ title }: HeaderProps) {
           <img
             className="w-10 h-10 rounded-full"
             src={userInfo.avatar}
-            alt=""
+            alt="image user"
           />
         </button>
 
         <AnimatePresence onExitComplete={() => setIsEscapeKeyPressed(false)}>
           {showModal && (
-            <div className="h-screen w-full  bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
+            <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
               <motion.div
                 className="bg-white  dark:bg-bodyDark dark:shadow-zinc-800 h-screen w-[70%] rounded-lg  "
                 initial="closed"
@@ -309,7 +307,7 @@ export function Header({ title }: HeaderProps) {
         <button
           className="outline cursor-pointer outline-transparent outline-8 hover:outline-twitterBlue/10 hover:bg-twitterBlue/10 rounded-full"
         >
-        <Sparkle className="w-6 h-6 text-twitterBlue sm:hidden " />
+        <Sparkle className="w-6 h-6 text-twitterBlue sm:hidden" />
         </button>
       </div>
     </div>

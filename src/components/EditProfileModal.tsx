@@ -45,12 +45,13 @@ function EditProfileModal({
       transition: { type: "tween", duration: 0.3 },
     },
   };
-  
+
   useEffect(() => {
     localStorage.setItem("bannerColor", bannerColor);
   }, [bannerColor]);
-  
-const {userInfo} = useUser()
+
+  const { userInfo } = useUser();
+
   const isFormValid =
     editNameValue.trim() !== "" && editLoginValue.trim() !== "";
 

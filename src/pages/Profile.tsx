@@ -16,7 +16,7 @@ import EditProfileModal from "../components/EditProfileModal";
 
 function Profile() {
   const [bannerColor, setBannerColor] = useState("#015b5d");
-  const [imgFile, setImgFile] = useState<string | undefined>( initialUser.avatarURL );
+  const [imgFile, setImgFile] = useState<string | undefined>(initialUser.avatarURL);
   const { userInfo, setUserInfo } = useUser();
   const [editLoginValue, setEditLoginValue] = useState(userInfo.login);
   const [editNameValue, setEditNameValue] = useState(userInfo.name);
@@ -152,9 +152,10 @@ function Profile() {
     return true;
   }
 
-
   useEffect(() => {
-    const savedBannerColor = localStorage.getItem(`bannerColor-${userInfo.login}`);
+    const savedBannerColor = localStorage.getItem(
+      `bannerColor-${userInfo.login}`
+    );
     if (savedBannerColor) {
       setBannerColor(savedBannerColor);
     }
@@ -188,7 +189,7 @@ function Profile() {
         >
           <button
             onClick={() => window.history.back()}
-            className="w-9 h-9 grid place-items-center rounded-full :hover-bg-black/10 "
+            className="w-9 h-9 grid place-items-center rounded-full hover-bg-black/10 "
           >
             <ArrowLeft size={20} weight="bold" />
           </button>
@@ -264,14 +265,8 @@ function Profile() {
 
             <nav className="flex mt-4 h-[53px] items-center justify-around border-b border-grayBorder dark:border-grayBorderDark">
               <PersonalLink path={`/profile`} name="Posts" />
-              <PersonalLink
-                path={`/profile/with_replies`}
-                name="Replies"
-              />
-              <PersonalLink
-                path={`/profile/highlights`}
-                name="Highlights"
-              />
+              <PersonalLink path={`/profile/with_replies`} name="Replies" />
+              <PersonalLink path={`/profile/highlights`} name="Highlights" />
               <PersonalLink path={`/profile/media`} name="Media" />
               <PersonalLink path={`/profile/likes`} name="Likes" />
             </nav>

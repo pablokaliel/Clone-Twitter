@@ -21,6 +21,7 @@ function ProfileLikes() {
 
     fetchLikedTweets();
   }, [tweets, initialTweets]);
+
   return (
     <div className="min-h-[50vh]">
       {likedTweets.length > 0 ? (

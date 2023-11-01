@@ -15,10 +15,11 @@ function SideBar() {
 
   useEffect(() => {
     if (!userInfo.name && !userInfo.login && !userInfo.avatar) {
-      alert("Bem-vindo! Parece que você não preencheu suas informações no perfil ainda. Recomendamos que você faça isso para tornar a sua experiência melhor.");
+      alert(
+        "Bem-vindo! Parece que você não preencheu suas informações no perfil ainda. Recomendamos que você faça isso para tornar a sua experiência melhor."
+      );
     }
   }, [userInfo]);
-
 
   useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent) => {
@@ -74,7 +75,11 @@ function SideBar() {
             icon={MagnifyingGlass}
             text="Explorer"
           />
-          <LinkSidebar path="/notifications/all" icon={Bell} text="Notifications" />
+          <LinkSidebar
+            path="/notifications/all"
+            icon={Bell}
+            text="Notifications"
+          />
           <LinkSidebar path="/messages" icon={Envelope} text="Messages" />
           <LinkSidebar
             path="/bookmarks"
@@ -82,15 +87,11 @@ function SideBar() {
             text="Bookmarks"
           />
           <LinkSidebar path="/lists" icon={FileText} text="Lists" />
-          <LinkSidebar
-            path="profile"
-            icon={User}
-            text="Profile"
-          />
+          <LinkSidebar path="profile" icon={User} text="Profile" />
           <LinkSidebar path="/more" icon={DotsThreeCircle} text="More" />
         </div>
 
-        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 data-[istouchsupported=false]:hover:brightness-90">
+        <button className="bg-twitterBlue rounded-full flex justify-center items-center w-full h-14 text-white text-xl font-black md:p-2 md:w-10 md:h-10 hover:brightness-90">
           <Pencil className="w-6 h-6 hidden md:block" />
           <span className="md:hidden">Tweet</span>
         </button>

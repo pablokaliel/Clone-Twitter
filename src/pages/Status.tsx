@@ -8,6 +8,7 @@ import Separator from "../components/Separator";
 import { useTweetContext } from "../context/TweetContext";
 import { v4 as uuidv4 } from "uuid";
 import { initialTweets } from "../utils/InitialTweets";
+import { useUser } from "../context/UserContext";
 
 interface AnswerProps {
   userAvatar: string;
@@ -24,6 +25,7 @@ interface AnswerProps {
 export function Status() {
   const { id } = useParams();
   const { tweets } = useTweetContext();
+  const {userInfo}= useUser()
 
   const [newAnswer, setNewAnswer] = useState("");
   const [answers, setAnswers] = useState<AnswerProps[]>([
@@ -128,13 +130,13 @@ export function Status() {
           className="flex items-center gap-3 flex-1 sm:w-full"
         >
           <img
-            src="https://github.com/pablokaliel.png"
-            alt="Maik Emanoel"
+            src={userInfo.avatar}
+            alt={`foto do usuário ${userInfo.name}`}
             className="w-12 h-12 rounded-full sm:w-10 sm:h-10 object-cover"
           />
           <textarea
             id="tweet"
-            placeholder="Tweet your answer"
+            placeholder="Tweet sua resposta"
             value={newAnswer}
             onKeyDown={handleHotKeySubmit}
             className="flex-1 text-xl font-medium mt-5 resize-none focus:outline-none placeholder:text-[#5b7073] placeholder:dark:text-[#828282] sm:placeholder:text-base"

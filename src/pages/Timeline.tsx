@@ -80,8 +80,9 @@ export function Timeline() {
       );
 
       if (isDuplicate) {
-        console.log("Este tweet já existe localmente.");
+        alert("Oopss, não podemos postar o seu tweet. Isso é feito para evitar o excesso de mensagens repetidas e garantir uma experiência melhor para todos, revise seu tweet. Agradecemos a sua compreensão!")
       } else {
+
         let imageUrl: string | null = null;
 
         if (newTweet.imageUrl) {
@@ -111,9 +112,9 @@ export function Timeline() {
 
         setNewTweet({
           id: uuidv4(),
-          userAvatar: "https://github.com/pablokaliel.png",
-          userName: "PabloKaliel",
-          userLogin: "pablokalyell",
+          userAvatar: userInfo.avatar,
+          userName: userInfo.name,
+          userLogin: userInfo.login,
           content: "",
           comments: 0,
           retweets: 0,
@@ -241,19 +242,19 @@ export function Timeline() {
                 />
               </label>
               <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
-                <Gif size={20} />{" "}
+                <Gif size={20} />
               </div>
               <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
-                <ListBullets size={20} />{" "}
+                <ListBullets size={20} />
               </div>
               <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
-                <Smiley size={20} />{" "}
+                <Smiley size={20} />
               </div>
               <div className="p-2 rounded-full cursor-pointer dark:hover:bg-white/[0.1] hover:bg-black/[0.1] hover:text-twitterBlue transition-all duration-150 ">
-                <CalendarBlank size={20} />{" "}
+                <CalendarBlank size={20} />
               </div>
               <div className="p-2 rounded-full opacity-40">
-                <MapPin size={20} />{" "}
+                <MapPin size={20} />
               </div>
             </div>
 

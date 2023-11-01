@@ -1,4 +1,3 @@
-
 import { Dispatch, SetStateAction } from "react";
 import { InputWrapper } from "./InputWrapper";
 import { UserInfo } from "../context/UserContext";
@@ -9,8 +8,6 @@ interface StepsOneProps {
 }
 
 export function StepOne({ setUserInfo, userInfo }: StepsOneProps) {
- 
-
   return (
     <div className="pb-6">
       <div>

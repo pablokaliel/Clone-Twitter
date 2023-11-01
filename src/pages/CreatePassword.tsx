@@ -78,13 +78,13 @@ function CreatePassword() {
                 <StepTwo setUserInfo={setUserInfo} userInfo={userInfo} />
               )}
             </div>
+
             <button
               onClick={handleSteps}
               className="w-full max-w-[440px] h-[52px] mx-auto mb-2 rounded-full bg-twitterBlue text-white text-xl font-bold disabled:opacity-80 md:max-w-[600px]"
               disabled={
-                (steps === 1 &&
-                  (userInfo.name.trim() === "" ||
-                    userInfo.login.trim() === ""))
+                steps === 1 &&
+                (userInfo.name.trim() === "" || userInfo.login.trim() === "")
               }
             >
               {steps === 1 ? "Next" : "Create"}

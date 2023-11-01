@@ -9,23 +9,23 @@ function InitalLogin() {
   const [googleErrorMessage] = useState("");
   const [appleErrorMessage, setAppleErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
-  const auth = getAuth(); 
- const { login, isAuthenticated } = useAuth();
+  const auth = getAuth();
+  const { login, isAuthenticated } = useAuth();
 
   setPersistence(auth, browserLocalPersistence)
-    .then(() => {
-    })
+    .then(() => {})
     .catch((error) => {
       console.error("Erro ao configurar persistência de sessão:", error);
     });
-  
-    useEffect(() => {
+
+  useEffect(() => {
     setPersistence(auth, browserLocalPersistence)
       .then(() => {})
       .catch((error) => {
         console.error("Erro ao configurar persistência de sessão:", error);
       });
   }, [auth]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,8 +35,12 @@ function InitalLogin() {
   }, [isAuthenticated, login]);
 
   const handleAdvanceClick = () => {
-    const emailInput = document.getElementById( "emailInput" ) as HTMLInputElement | null;
-    const passwordInput = document.getElementById( "passwordInput" ) as HTMLInputElement | null;
+    const emailInput = document.getElementById(
+      "emailInput"
+    ) as HTMLInputElement | null;
+    const passwordInput = document.getElementById(
+      "passwordInput"
+    ) as HTMLInputElement | null;
 
     if (emailInput && passwordInput) {
       const email = emailInput.value;
@@ -166,7 +170,10 @@ function InitalLogin() {
             <div className="mt-3">
               <span className="font-bold text-">
                 Não tem conta?{" "}
-                <Link to="/createpassword" className="text-twitterBlue hover:underline">
+                <Link
+                  to="/createpassword"
+                  className="text-twitterBlue hover:underline"
+                >
                   inscreva-se
                 </Link>{" "}
               </span>

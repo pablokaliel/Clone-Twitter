@@ -86,6 +86,7 @@ export function InputWrapper(props: InputWrapperProps) {
               props.setEditNameValue(inputRef.current?.value);
             }
           }}
+
           onBlur={() => {
             if (inputRef.current) {
               if (inputRef.current?.value.length > 0) {
@@ -115,6 +116,7 @@ export function InputWrapper(props: InputWrapperProps) {
               props.setEditBioValue(textareaRef.current?.value);
             }
           }}
+
           onBlur={() => {
             if (textareaRef.current) {
               if (textareaRef.current?.value.length > 0) {
@@ -127,6 +129,7 @@ export function InputWrapper(props: InputWrapperProps) {
           }}
         />
       )}
+
       <span
         data-isfocused={isFocused}
         className="absolute opacity-70 px-2 pt-4 left-0 transition-all duration-200 data-[isfocused=true]:text-twitterBlue data-[isfocused=true]:text-xs data-[isfocused=true]:pt-2 data-[isfocused=hasCaracters]:text-xs data-[isfocused=hasCaracters]:pt-2"

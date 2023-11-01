@@ -6,10 +6,7 @@ function ProfileMedia() {
   const { tweets } = useTweetContext();
   const { userInfo } = useUser();
 
- 
-  const userTweetsWithMedia = tweets.filter(
-    (tweet) => tweet.userLogin === userInfo.login && tweet.imageUrl
-  );
+  const userTweetsWithMedia = tweets.filter((tweet) => tweet.userLogin === userInfo.login && tweet.imageUrl);
   return (
     <div className="min-h-[50vh]">
       <div>
@@ -32,7 +29,7 @@ function ProfileMedia() {
         ) : (
           <div className="min-h-[50vh] grid place-content-center">
             <h1 className="dark:text-muteDark">
-              No tweets with images found in your profile.
+            Nenhum tweet com imagens encontrado em seu perfil, eles aparecerão aqui.
             </h1>
           </div>
         )}
