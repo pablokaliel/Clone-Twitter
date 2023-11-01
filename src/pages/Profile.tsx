@@ -1,7 +1,6 @@
 import { PersonalLink } from "../components/Link";
 import { useAuth } from "../utils/AuthContext";
 import { ArrowLeft, CalendarCheck } from "@phosphor-icons/react";
-import { initialUser } from "../utils/InitialUser";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useTweetContext } from "../context/TweetContext";
 import { ChangeEvent, useEffect, useState } from "react";
