@@ -23,7 +23,9 @@ function More() {
             </Link>
           </div>
         ) : (
-          <Link to="/Login">Logar</Link>
+          <div className="bg-twitterBlue rounded-full mt-5 flex justify-center items-center w-fit px-4 h-10 text-white md:p-2 md:w-10 md:h-10 hover:brightness-90">
+          <Link to="/login">Logar</Link>
+          </div>
         )}
       </div>
     </main>

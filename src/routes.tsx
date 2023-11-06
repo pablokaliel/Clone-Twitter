@@ -24,6 +24,7 @@ import ProfileReplies from "./pages/subpages/ProfileReplies";
 import ProfileHighlights from "./pages/subpages/ProfileHighlights";
 import ProfileMedia from "./pages/subpages/ProfileMedia";
 import ProfileLikes from "./pages/subpages/ProfileLikes";
+import CreateTweetMobile from "./components/CreateTweetMobile";
 
 export function AppRoutes() {
 
@@ -54,6 +55,7 @@ export function AppRoutes() {
         </Route>
       </Route>
 
+      <Route path="createtweet" element={<CreateTweetMobile />}/>
       <Route path="login" element={<InitalLogin />}/>
       <Route path="createpassword" element={<CreatePassword/>}/>
       <Route path="*" element={<NotFound />} />

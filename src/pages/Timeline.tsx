@@ -5,10 +5,11 @@ import Separator from "../components/Separator";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../utils/AuthContext";
 import { Link } from "react-router-dom";
-import { CalendarBlank, Gif, Image, ListBullets, MapPin, Smiley, X } from "@phosphor-icons/react";
+import { CalendarBlank, Gif, Image, ListBullets, MapPin, Pencil, Smiley, X } from "@phosphor-icons/react";
 import { addTweet, getTweetLikes, getTweets, uploadImage } from "../services/firebase";
 import { initialTweets } from "../utils/InitialTweets";
 import { useUser } from "../context/UserContext";
+import { useScrollDirection } from "../context/ScrollContext";
 export interface TweetProps {
   id: string;
   userAvatar: string;
@@ -28,6 +29,8 @@ export interface TweetProps {
 export function Timeline() {
   const { isAuthenticated } = useAuth();
   const { userInfo } = useUser();
+
+  const scrollDirection = useScrollDirection();
 
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
@@ -73,16 +76,16 @@ export function Timeline() {
     if (newTweet.content.trim() === "") {
       return;
     }
-
     try {
       const isDuplicate = tweets.some(
         (tweet) => tweet.content === newTweet.content
       );
 
       if (isDuplicate) {
-        alert("Oopss, não podemos postar o seu tweet. Isso é feito para evitar o excesso de mensagens repetidas e garantir uma experiência melhor para todos, revise seu tweet. Agradecemos a sua compreensão!")
+        alert(
+          "Oopss, não podemos postar o seu tweet. Isso é feito para evitar o excesso de mensagens repetidas e garantir uma experiência melhor para todos, revise seu tweet. Agradecemos a sua compreensão!"
+        );
       } else {
-
         let imageUrl: string | null = null;
 
         if (newTweet.imageUrl) {
@@ -284,13 +287,19 @@ export function Timeline() {
               views={tweet.views}
             />
           ))}
+
+          <Link data-isscrolldown={scrollDirection === "down"} to="createtweet" className="fixed right-4 bottom-20 sm:flex items-center justify-center bg-twitterBlue w-14 h-14 rounded-full shadow-floatButton hidden transition-opacity duration-200 data-[isscrolldown=true]:opacity-30">
+            <Pencil size={24} color="white" className="mx-auto" />
+          </Link>
         </>
       ) : (
-        <div>
+        <div className="w-full h-screen">
           <p>
             Para navegar e ver os novos tweets, faça login e fique por dentro!
           </p>
+          <div className="bg-twitterBlue rounded-full mt-5 flex justify-center items-center w-fit px-4 h-10 text-white md:p-2 md:w-10 md:h-10 hover:brightness-90">
           <Link to="/login">Logar</Link>
+          </div>
         </div>
       )}
     </main>

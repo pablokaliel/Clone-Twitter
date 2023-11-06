@@ -11,7 +11,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
       <UserProvider>
-        
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>

@@ -63,14 +63,7 @@ export function Header({ title }: HeaderProps) {
 
   const toggleModal = () => {
     setShowModal(!showModal);
-    const html = document.querySelector("html");
-    if (html) {
-      if (showModal) {
-        html.style.overflow = "auto";
-      } else {
-        html.style.overflow = "hidden";
-      }
-    }
+ 
   };
 
   const handleLinkFocus = (linkId: string) => {
