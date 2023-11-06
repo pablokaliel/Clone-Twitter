@@ -84,12 +84,20 @@ function Profile() {
   }
 
   const [showModal, setShowModal] = useState(false);
-
   const [isEscapeKeyPressed, setIsEscapeKeyPressed] = useState(false);
 
   const toggleModal = () => {
     setShowModal(!showModal);
+    const html = document.querySelector("html");
+    if (html) {
+      if (showModal) {
+        html.style.overflow = "auto";
+      } else {
+        html.style.overflow = "hidden";
+      }
+    }
   };
+
 
   useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent) => {
@@ -98,11 +106,9 @@ function Profile() {
         setIsEscapeKeyPressed(false);
       }
     };
-
     if (showModal) {
       window.addEventListener("keydown", closeModalOnEscape);
     }
-
     return () => {
       window.removeEventListener("keydown", closeModalOnEscape);
     };
@@ -132,10 +138,8 @@ function Profile() {
     const likedTweetsIds = JSON.parse(
       localStorage.getItem("likedTweets") || "[]"
     );
-
     if (!arraysAreEqual(likedTweetsIds, likedTweetIds)) {
       setLikedTweetIds(likedTweetsIds);
-
       const likedTweets = userTweets.filter((tweet) =>
         likedTweetsIds.includes(tweet.id)
       );

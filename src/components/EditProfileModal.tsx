@@ -20,20 +20,22 @@ interface EditProfileModalProps {
 }
 
 function EditProfileModal({
-  imgFile,
-  getImgFile,
-  editNameValue,
-  setEditNameValue,
-  editLoginValue,
-  setEditLoginValue,
-  editBioValue,
-  setEditBioValue,
-  handleSaveNewInfo,
-  isLoading,
-  toggleModal,
-  bannerColor,
-  setBannerColor,
+imgFile,
+getImgFile,
+editNameValue,
+setEditNameValue,
+editLoginValue,
+setEditLoginValue,
+editBioValue,
+setEditBioValue,
+handleSaveNewInfo,
+isLoading,
+toggleModal,
+bannerColor,
+setBannerColor,
 }: EditProfileModalProps) {
+
+  const { userInfo } = useUser();
 
   const drawerVariants = {
     open: {
@@ -49,8 +51,6 @@ function EditProfileModal({
   useEffect(() => {
     localStorage.setItem("bannerColor", bannerColor);
   }, [bannerColor]);
-
-  const { userInfo } = useUser();
 
   const isFormValid =
     editNameValue.trim() !== "" && editLoginValue.trim() !== "";

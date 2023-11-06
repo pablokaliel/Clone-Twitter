@@ -21,9 +21,7 @@ export function Accordion({ children, title }: AccordionProps) {
       >
         <span className="font-bold text-base">{title}</span>
         <CaretDown
-          className={`${
-            sectionIsVisible ? "rotate-180 text-twitterBlue" : ""
-          } transition-transform duration-150`}
+          className={`${ sectionIsVisible ? "rotate-180 text-twitterBlue" : "" } transition-transform duration-150`}
         />
       </div>
 

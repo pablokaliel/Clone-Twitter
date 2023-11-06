@@ -12,9 +12,7 @@ export function PersonalLink({ path, name }: LinkProps) {
   return (
     <NavLink
       to={path}
-      className={`w-full h-full grid place-items-center text-inherit relative ${
-        isActive ? "dark:text-white" : "text-zinc-400 dark:text-white/40"
-      } ${"hover:bg-zinc-100 hover:dark:bg-white/10"}`}
+      className={`w-full h-full grid place-items-center text-inherit relative ${ isActive ? "dark:text-white" : "text-zinc-400 dark:text-white/40" } ${"hover:bg-zinc-100 hover:dark:bg-white/10"}`}
     >
       <span className={`text-sm ${isActive ? "font-bold" : "font-medium"}`}>
         {name}

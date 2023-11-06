@@ -15,7 +15,7 @@ interface HeaderProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 const links = [
-  { id: `${initialUser.login}`, name: "Profile", icon: <User size={24} /> },
+  { id: `profile`, name: "Profile", icon: <User size={24} /> },
   { id: "TwitterBlue", name: "TwitterBlue", icon: <TwitterLogo size={24} /> },
   { id: "lists", name: "Lists", icon: <File size={24} /> },
   { id: "bookmarks", name: "Bookmarks", icon: <BookmarkSimple size={24} /> },
@@ -63,6 +63,14 @@ export function Header({ title }: HeaderProps) {
 
   const toggleModal = () => {
     setShowModal(!showModal);
+    const html = document.querySelector("html");
+    if (html) {
+      if (showModal) {
+        html.style.overflow = "auto";
+      } else {
+        html.style.overflow = "hidden";
+      }
+    }
   };
 
   const handleLinkFocus = (linkId: string) => {
@@ -136,9 +144,9 @@ export function Header({ title }: HeaderProps) {
 
         <AnimatePresence onExitComplete={() => setIsEscapeKeyPressed(false)}>
           {showModal && (
-            <div className="h-screen w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
+            <div className="h-full w-full bg-gray-800/50 inset-0 absolute backdrop-blur-sm ">
               <motion.div
-                className="bg-white  dark:bg-bodyDark dark:shadow-zinc-800 h-screen w-[70%] rounded-lg  "
+                className="bg-white dark:bg-bodyDark dark:shadow-zinc-800 h-screen overflow-scroll w-[70%] rounded-lg  "
                 initial="closed"
                 animate="open"
                 exit="closed"

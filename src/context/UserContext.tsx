@@ -2,7 +2,6 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { loadUser } from "../utils/SaveUser";
 import { loadHasUser } from "../utils/HasUser";
 
-
 export interface UserInfo {
   name: string;
   login: string;
@@ -44,7 +43,6 @@ export function UserProvider({ children }: UserProviderProps) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {

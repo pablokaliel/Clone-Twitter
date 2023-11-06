@@ -8,7 +8,6 @@ interface InputWrapperProps {
   userInfo: UserInfo;
   value?: string;
   type?: string;
-
   setEditNameValue?: Dispatch<SetStateAction<string>>;
   setEditBioValue?: Dispatch<SetStateAction<string>>;
 }
@@ -94,7 +93,6 @@ export function InputWrapper(props: InputWrapperProps) {
                 return;
               }
             }
-
             setIsFocused(false);
           }}
         />
@@ -107,7 +105,6 @@ export function InputWrapper(props: InputWrapperProps) {
           maxLength={props.maxLengthCaracters}
           onChange={(e) => {
             setCaractersNumber(e.target.value.trim());
-
             if (
               props.type === "editBio" &&
               textareaRef.current &&
@@ -116,7 +113,6 @@ export function InputWrapper(props: InputWrapperProps) {
               props.setEditBioValue(textareaRef.current?.value);
             }
           }}
-
           onBlur={() => {
             if (textareaRef.current) {
               if (textareaRef.current?.value.length > 0) {
@@ -124,7 +120,6 @@ export function InputWrapper(props: InputWrapperProps) {
                 return;
               }
             }
-
             setIsFocused(false);
           }}
         />
