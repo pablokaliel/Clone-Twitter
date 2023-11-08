@@ -13,6 +13,7 @@ import { useAuth } from "../utils/AuthContext";
 function CreatePassword() {
   const [steps, setSteps] = useState<number>(1);
   const totalSteps = 2;
+
   const navigate = useNavigate();
   const { login } = useAuth();
 

@@ -1,4 +1,3 @@
-//SideBarLink.tsx
 import { IconProps } from "@phosphor-icons/react";
 import { NavLink, useLocation } from "react-router-dom";
 
