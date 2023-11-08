@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChatCircle, ArrowClockwise, Heart, ChartLine, Export } from "@phosphor-icons/react";
-import { addLike, getTweetLikes, getUserLikes, removeLike } from "../services/firebase";
+import { addLike, addRetweet, getTweetLikes, getTweetRetweets, getUserLikes, removeLike, removeRetweet } from "../services/firebase";
 import { useUser } from "../context/UserContext";
 
 interface ButtonsProps {
@@ -14,7 +14,21 @@ interface ButtonsProps {
 function Buttons(props: ButtonsProps) {
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const {userInfo} =useUser()
+  const [isRetweeted, setIsRetweeted] = useState(false);
+  const [retweetsCount, setRetweetsCount] = useState(props.retweets);
+  const { userInfo } = useUser();
+
+  const handleRetweet = async () => {
+    if (isRetweeted) {
+      setIsRetweeted(false);
+      setRetweetsCount((count) => count - 1);
+      await removeRetweet(props.id, userInfo.name);
+    } else {
+      setIsRetweeted(true);
+      setRetweetsCount((count) => count + 1);
+      await addRetweet(props.id, userInfo.name);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -23,8 +37,19 @@ function Buttons(props: ButtonsProps) {
 
       const tweetLikes = await getTweetLikes(props.id);
       setLikes(tweetLikes);
+
+      const tweetRetweets = await getTweetRetweets(props.id);
+      setIsRetweeted(tweetRetweets > 0);
     };
     loadData();
+  }, [props.id]);
+
+  useEffect(() => {
+    const loadRetweetsCount = async () => {
+      const tweetRetweets = await getTweetRetweets(props.id);
+      setRetweetsCount(tweetRetweets);
+    };
+    loadRetweetsCount();
   }, [props.id]);
 
   const handleIncreaseLike = async (
@@ -48,8 +73,7 @@ function Buttons(props: ButtonsProps) {
       <button
         title="comment"
         type="button"
-        onClick={(event) => {
-          event.preventDefault();
+        onClick={() => {
           console.log(`Abrir comentários para o tweet com ID: ${props.id}`);
         }}
         className="flex items-center gap-3 text-sm text-slate-400 group"
@@ -67,15 +91,17 @@ function Buttons(props: ButtonsProps) {
         type="button"
         onClick={(event) => {
           event.preventDefault();
-          console.log(`Retuitar o tweet com ID: ${props.id}`);
+          handleRetweet();
         }}
-        className="flex items-center gap-2 text-sm text-slate-400 group "
+        className={`flex items-center gap-2 text-sm text-slate-400 group ${
+          isRetweeted ? "text-retweetGreen group-hover:text-retweetGreen" : ""
+        }`}
       >
         <div className="w-[34.75px] h-[34.75px] grid place-items-center rounded-full group-hover:text-retweetGreen hover:text-retweetGreen group-hover:bg-retweetGreen/10 -m-2 transition-colors duration-200 ">
           <ArrowClockwise size={20} />
         </div>
         <p className="group-hover:text-retweetGreen transition-colors duration-200 ">
-          {props.retweets.toString()}
+          {retweetsCount}
         </p>
       </button>
 

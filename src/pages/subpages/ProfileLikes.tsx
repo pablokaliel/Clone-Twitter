@@ -4,14 +4,16 @@ import { Tweet } from "../../components/Tweet";
 import { getUserLikes } from "../../services/firebase";
 import { TweetProps } from "../Timeline";
 import { initialTweets } from "../../utils/InitialTweets";
+import { useUser } from "../../context/UserContext";
 
 function ProfileLikes() {
   const { tweets } = useTweetContext();
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
+  const {userInfo} = useUser()
 
   useEffect(() => {
     const fetchLikedTweets = async () => {
-      const userId = "ID_DO_USUARIO_ATUAL";
+      const userId = userInfo.name;
       const userLikes = await getUserLikes(userId);
       const allTweets = [...tweets, ...initialTweets];
       const updatedLikedTweets = allTweets.filter((tweet) => userLikes.includes(tweet.id));

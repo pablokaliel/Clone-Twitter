@@ -143,3 +143,142 @@ export async function getTweetLikes(tweetId: string): Promise<number> {
     return 0;
   }
 }
+
+export async function addRetweet(
+  tweetId: string,
+  userId: string
+): Promise<void> {
+  try {
+    const retweetsRef = collection(db, "retweets");
+    const retweetQuery = query(
+      retweetsRef,
+      where("tweetId", "==", tweetId),
+      where("userId", "==", userId)
+    );
+    const retweetQuerySnapshot = await getDocs(retweetQuery);
+
+    if (retweetQuerySnapshot.empty) {
+      await addDoc(collection(db, "retweets"), {
+        tweetId,
+        userId,
+      });
+
+      const tweetRef = doc(db, "tweets", tweetId);
+      const tweetDoc = await getDoc(tweetRef);
+
+      if (tweetDoc.exists()) {
+        const currentRetweets = tweetDoc.data().retweets || 0;
+        await setDoc(
+          tweetRef,
+          { retweets: currentRetweets + 1 },
+          { merge: true }
+        );
+      }
+      const retweetCountRef = doc(db, "retweetsCount", tweetId);
+      const retweetCountDoc = await getDoc(retweetCountRef);
+
+      if (retweetCountDoc.exists()) {
+        const currentCount = retweetCountDoc.data().count || 0;
+        await setDoc(
+          retweetCountRef,
+          { count: currentCount + 1 },
+          { merge: true }
+        );
+      } else {
+        await setDoc(retweetCountRef, { count: 1 });
+      }
+
+      console.log("Retweet adicionado com sucesso.");
+    }
+  } catch (error) {
+    console.error("Erro ao adicionar retweet: ", error);
+  }
+}
+
+export async function removeRetweet(
+  tweetId: string,
+  userId: string
+): Promise<void> {
+  try {
+    const retweetsRef = collection(db, "retweets");
+    const retweetQuery = query(
+      retweetsRef,
+      where("tweetId", "==", tweetId),
+      where("userId", "==", userId)
+    );
+    const retweetQuerySnapshot = await getDocs(retweetQuery);
+
+    if (!retweetQuerySnapshot.empty) {
+      retweetQuerySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+      const tweetRef = doc(db, "tweets", tweetId);
+      const tweetDoc = await getDoc(tweetRef);
+
+      if (tweetDoc.exists()) {
+        const currentRetweets = tweetDoc.data().retweets || 0;
+        await setDoc(
+          tweetRef,
+          { retweets: currentRetweets - 1 },
+          { merge: true }
+        );
+      }
+      const retweetCountRef = doc(db, "retweetsCount", tweetId);
+      const retweetCountDoc = await getDoc(retweetCountRef);
+
+      if (retweetCountDoc.exists()) {
+        const currentCount = retweetCountDoc.data().count || 0;
+        if (currentCount > 1) {
+          await setDoc(
+            retweetCountRef,
+            { count: currentCount - 1 },
+            { merge: true }
+          );
+        } else {
+          await deleteDoc(retweetCountRef);
+        }
+      }
+
+      console.log("Retweet removido com sucesso.");
+    }
+  } catch (error) {
+    console.error("Erro ao remover retweet: ", error);
+  }
+}
+
+export async function getTweetRetweets(tweetId: string): Promise<number> {
+  try {
+    const retweetCountRef = doc(db, "retweetsCount", tweetId);
+    const retweetCountDoc = await getDoc(retweetCountRef);
+
+    if (retweetCountDoc.exists()) {
+      return retweetCountDoc.data().count || 0;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    console.error("Erro ao obter a contagem de retweets do tweet: ", error);
+    return 0;
+  }
+}
+
+export async function getUserRetweets(userId: string): Promise<string[]> {
+  try {
+    const userRetweetsRef = collection(db, "userRetweets");
+    const querySnapshot = await getDocs(
+      query(userRetweetsRef, where("userId", "==", userId))
+    );
+
+    const userRetweets: string[] = [];
+
+    querySnapshot.forEach((doc) => {
+      userRetweets.push(doc.data().tweetId);
+    });
+
+    return userRetweets;
+  } catch (error) {
+    console.error("Erro ao obter os retweets do usuário: ", error);
+    return [];
+  }
+}
