@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { TweetProps } from "../pages/Timeline";
 import Buttons from "./Buttons";
+import { DotsThree } from "@phosphor-icons/react";
+import { Menu } from "./Menu";
+import { useState } from "react";
 
 export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comments, retweets, likes, id, views }: TweetProps) {
-
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   return (
     <Link
       to={`/status/${id}`}
@@ -17,13 +20,32 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
 
       <div className="flex flex-col gap-[2px] w-full">
         <div className="flex items-center justify-between relative">
-          <div className="flex items-center gap-1">
-            <strong>{userName}</strong>
-            <span className="text-sm text-[#89a2b8] dark:text-[#828282]">
-              @{userLogin}
-            </span>
+          <div className="flex justify-between w-full items-center gap-1">
+            <div className="flex items-center gap-1">
+              <strong>{userName}</strong>
+              <span className="text-sm text-[#89a2b8] dark:text-[#828282]">
+                @{userLogin}
+              </span>
+            </div>
+
+            <button   onClick={(e) => {
+              e.preventDefault();
+              setIsMenuVisible(true);
+            }}
+            className="hover:bg-gray-400/30 flex items-center justify-center rounded-full w-6 h-6">
+              <DotsThree size={18} />
+            </button>
           </div>
+          {isMenuVisible && (
+            <Menu
+              setIsMenuVisible={setIsMenuVisible}
+              isMenuVisible={isMenuVisible}
+              tweetId={id}
+              userLogin={userLogin}
+            />
+          )}
         </div>
+
 
         <div className="w-full">
           <p

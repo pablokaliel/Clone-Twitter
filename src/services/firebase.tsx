@@ -266,3 +266,19 @@ export async function getUserRetweets(userId: string): Promise<string[]> {
     return [];
   }
 }
+
+export async function deleteTweet(tweetId: string, setTweets: React.Dispatch<React.SetStateAction<Tweet[]>>): Promise<void> {
+  try {
+    const tweetRef = doc(db, "tweets", tweetId);
+    await deleteDoc(tweetRef);
+
+    // Aguarde a exclusão bem-sucedida antes de atualizar o estado
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Adicione um pequeno atraso (1 segundo) como precaução
+    console.log("Tweet excluído com sucesso.");
+
+    // Atualize o estado local removendo o tweet excluído
+    setTweets((prevTweets: Tweet[]) => prevTweets.filter((tweet: Tweet) => tweet.id !== tweetId));
+  } catch (error) {
+    console.error("Erro ao excluir tweet: ", error);
+  }
+}
