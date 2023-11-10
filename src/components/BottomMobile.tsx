@@ -32,7 +32,7 @@ export function BottomMobile() {
       <div className="flex items-center h-full justify-around">
         <NavLinkMobile to="/" icon={House} />
         <NavLinkMobile to="/explorer" icon={MagnifyingGlass} />
-        <NavLinkMobile to="/notifications" icon={Bell} />
+        <NavLinkMobile to="/notifications/all" icon={Bell} />
         <NavLinkMobile to="/messages" icon={EnvelopeSimple} />
       </div>
     </nav>

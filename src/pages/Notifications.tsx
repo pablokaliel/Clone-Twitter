@@ -20,7 +20,7 @@ export default function Notifications() {
             <Outlet />
           </>
         ) : (
-          <div className="bg-twitterBlue rounded-full mt-5 flex justify-center items-center w-fit px-4 h-10 text-white md:p-2 md:w-10 md:h-10 hover:brightness-90">
+          <div className="bg-twitterBlue rounded-full mt-5 flex justify-center items-center w-fit px-4 h-10 text-white md:p-2 md:w-10 md:h-10 hover:brightness-90 max-sm:w-14">
           <Link to="/login">Logar</Link>
           </div>
         )}

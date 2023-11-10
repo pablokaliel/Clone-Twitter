@@ -48,7 +48,6 @@ export async function getTweets(): Promise<Tweet[]> {
     const tweet = doc.data() as Tweet;
     tweets.push(tweet);
   });
-
   return tweets;
 }
 
@@ -74,17 +73,13 @@ export async function addLike(tweetId: string, userId: string): Promise<void> {
       const currentLikes = tweetDoc.data().likes || 0;
       await setDoc(tweetRef, { likes: currentLikes + 1 }, { merge: true });
     }
-
     console.log("Like adicionado com sucesso.");
   } catch (error) {
     console.error("Erro ao adicionar like: ", error);
   }
 }
 
-export async function removeLike(
-  tweetId: string,
-  userId: string
-): Promise<void> {
+export async function removeLike( tweetId: string, userId: string ): Promise<void> {
   try {
     const likesRef = collection(db, "likes");
     const q = query(
@@ -93,7 +88,6 @@ export async function removeLike(
       where("userId", "==", userId)
     );
     const querySnapshot = await getDocs(q);
-
     querySnapshot.forEach(async (doc) => {
       await deleteDoc(doc.ref);
     });
@@ -105,7 +99,6 @@ export async function removeLike(
       const currentLikes = tweetDoc.data().likes || 0;
       await setDoc(tweetRef, { likes: currentLikes - 1 }, { merge: true });
     }
-
     console.log("Like removido com sucesso.");
   } catch (error) {
     console.error("Erro ao remover like: ", error);
@@ -119,7 +112,6 @@ export async function getUserLikes(userId: string): Promise<string[]> {
     const querySnapshot = await getDocs(q);
 
     const userLikes: string[] = [];
-
     querySnapshot.forEach((doc) => {
       userLikes.push(doc.data().tweetId);
     });
@@ -144,10 +136,7 @@ export async function getTweetLikes(tweetId: string): Promise<number> {
   }
 }
 
-export async function addRetweet(
-  tweetId: string,
-  userId: string
-): Promise<void> {
+export async function addRetweet( tweetId: string, userId: string ): Promise<void> {
   try {
     const retweetsRef = collection(db, "retweets");
     const retweetQuery = query(
@@ -156,7 +145,6 @@ export async function addRetweet(
       where("userId", "==", userId)
     );
     const retweetQuerySnapshot = await getDocs(retweetQuery);
-
     if (retweetQuerySnapshot.empty) {
       await addDoc(collection(db, "retweets"), {
         tweetId,
@@ -187,7 +175,6 @@ export async function addRetweet(
       } else {
         await setDoc(retweetCountRef, { count: 1 });
       }
-
       console.log("Retweet adicionado com sucesso.");
     }
   } catch (error) {
@@ -195,10 +182,7 @@ export async function addRetweet(
   }
 }
 
-export async function removeRetweet(
-  tweetId: string,
-  userId: string
-): Promise<void> {
+export async function removeRetweet( tweetId: string, userId: string ): Promise<void> {
   try {
     const retweetsRef = collection(db, "retweets");
     const retweetQuery = query(
