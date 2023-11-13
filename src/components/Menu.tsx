@@ -1,20 +1,5 @@
-// menu.tsx
-import {
-  ChartBar,
-  ChatCircle,
-  Code,
-  FlagPennant,
-  IconProps,
-  ListPlus,
-  Prohibit,
-  PushPinSimple,
-  Sparkle,
-  SpeakerX,
-  Trash,
-  UserMinus,
-} from "@phosphor-icons/react";
+import { ChartBar, ChatCircle, Code, FlagPennant, IconProps, ListPlus, Prohibit, PushPinSimple, Sparkle, SpeakerX, Trash, UserMinus } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
-import { useTweetContext } from "../context/TweetContext";
 import { useUser } from "../context/UserContext";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -33,20 +18,13 @@ interface MenuProps {
 }
 
 function MenuItem(props: MenuItemProps) {
-  const { tweets, setTweets } = useTweetContext();
-
   return (
     <div
       data-isdeletebutton={props.isDeleteButton}
-      className="py-3 px-4 flex items-center gap-2 
-      data-[isdeletebutton=true]:text-red-600  hover:bg-black/[0.1] dark:hover:bg-white/[0.1]"
-      onClick={() => {
-        if (props.isDeleteButton) {
-          const updatedTweets = tweets.filter(
-            (tweet) => props.tweetId !== tweet.id
-          );
-          setTweets(updatedTweets);
-        }
+      className="py-3 px-4 flex items-center gap-2 data-[isdeletebutton=true]:text-red-600 hover:bg-black/[0.1] dark:hover:bg-white/[0.1]"
+      onClick={(event) => {
+        event.preventDefault();
+        console.log(`Ação do botão Delete`);
       }}
     >
       <props.icon size={18.75} />
