@@ -1,41 +1,110 @@
 import { Link } from "react-router-dom";
 import { TweetProps } from "../pages/Timeline";
-import Buttons from "./Buttons";
+
 import { DotsThree } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
 import { Menu } from "./Menu";
-import { useState } from "react";
+import { ProfileInfo } from "./ProfileInfo";
+import Buttons from "./Buttons";
+import { isTouchSupported } from "../utils/TouchUtils";
 
 export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comments, retweets, likes, id, views }: TweetProps) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isProfileInfoVisible, setIsProfileInfoVisible] = useState(false);
+  const profileInfoRef = useRef<null | HTMLDivElement>(null);
+
+  const path = window.location.pathname;
+
+  function handleMouseEnter() {
+    if (path != "/") return;
+
+    setTimeout(() => {
+      setIsProfileInfoVisible(true);
+    }, 500);
+  }
+
+  let timeout: NodeJS.Timeout | number;
+
+
+  function handleMouseLeave() {
+    if (path != "/") return;
+    if (profileInfoRef.current) {
+      setIsProfileInfoVisible(true)
+
+      profileInfoRef.current.onmouseenter = () => {
+        clearTimeout(timeout)
+      }
+
+      profileInfoRef.current.onmouseleave = () => {
+        setTimeout(() => {
+          setIsProfileInfoVisible(false)
+        }, 500)
+      }
+    }
+
+    timeout = setTimeout(() => {
+      setIsProfileInfoVisible(false)
+    }, 1000)
+  }
+
   return (
     <Link
       to={`/status/${id}`}
-      className="w-full py-6 px-5 grid grid-cols-[max-content_1fr] hover:bg-black/[0.03] hover:dark:bg-white/[0.05] gap-3 border-b-[1px] border-grayBorder transition-colors duration-200 dark:border-grayBorderDark "
+      data-istouchsupported={isTouchSupported}
+      className="w-full py-6 px-5 grid grid-cols-[max-content_1fr] gap-3 border-b border-grayBorder transition-[background] duration-200 dark:border-grayBorderDark relative 
+      data-[istouchsupported=false]:hover:bg-black/[0.03] 
+      data-[istouchsupported=false]:hover:dark:bg-white/[0.03]"
     >
       <img
         src={userAvatar}
         alt={userName}
-        className="w-10 h-10 rounded-full object-cover"
+        className="w-10 h-10 rounded-full object-cover object-top"
+        loading="lazy"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       />
 
-      <div className="flex flex-col gap-[2px] w-full">
-        <div className="flex items-center justify-between relative">
-          <div className="flex justify-between w-full items-center gap-1">
-            <div className="flex items-center gap-1">
-              <strong>{userName}</strong>
-              <span className="text-sm text-[#89a2b8] dark:text-[#828282]">
-                @{userLogin}
-              </span>
-            </div>
+      <div className="flex flex-col flex-1 gap-[2px]">
+        <div
+          data-ismenuvisible={isMenuVisible}
+          className="flex items-center justify-between relative
+          sm:data-[ismenuvisible=true]:static"
+        >
+          <div className="w-full grid grid-cols-[auto,1fr] gap-x-1 pr-8 sm:gap-0 overflow-hidden">
+            <strong
+              className="whitespace-nowrap w-full overflow-hidden text-ellipsis leading-5 sm:mr-1"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {userName}
+            </strong>
+            <span
+              className="text-sm text-[#89a2b8] dark:text-[#828282] w-fit"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              @{userLogin}
+            </span>
+          </div>
 
-            <button   onClick={(e) => {
+          <div
+            data-istouchsupported={isTouchSupported}
+            className="absolute -top-2 right-0 w-[34.75px] h-[34.75px] group rounded-full grid place-items-center 
+            data-[istouchsupported=false]:hover:bg-twitterBlue/10"
+            onClick={(e) => {
               e.preventDefault();
               setIsMenuVisible(true);
             }}
-            className="hover:bg-gray-400/30 flex items-center justify-center rounded-full w-6 h-6">
-              <DotsThree size={18} />
-            </button>
+            title="Menu"
+          >
+            <DotsThree
+              weight="bold"
+              size={18.75}
+              data-istouchsupported={isTouchSupported}
+              className="text-black/50 dark:text-white/50 data-[istouchsupported=false]:group-hover:text-twitterBlue"
+            />
           </div>
+
           {isMenuVisible && (
             <Menu
               setIsMenuVisible={setIsMenuVisible}
@@ -46,8 +115,7 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
           )}
         </div>
 
-
-        <div className="w-full">
+        <div>
           <p
             className="leading-5 dark:text-tweetColor w-full whitespace-pre-line"
             style={{ overflowWrap: "anywhere" }}
@@ -55,11 +123,10 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
             {content}
           </p>
           {imageUrl && (
-            <div className=" w-full mt-2">
+            <div className="w-full mt-2 min-w-0">
               <img
-                loading="lazy"
                 src={imageUrl}
-                alt=" imagem de um tweet"
+                alt="Imagem aleatória"
                 className="rounded-2xl aspect-square w-full object-cover"
               />
             </div>
@@ -74,6 +141,15 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
           views={views}
         />
       </div>
+
+      {isProfileInfoVisible && (
+        <ProfileInfo
+          profileInfoRef={profileInfoRef}
+          userAvatar={userAvatar}
+          userName={userName}
+          userLogin={userLogin}
+        />
+      )}
     </Link>
   );
 }
