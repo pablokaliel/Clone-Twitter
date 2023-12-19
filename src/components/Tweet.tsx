@@ -13,10 +13,18 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
   const [isProfileInfoVisible, setIsProfileInfoVisible] = useState(false);
   const profileInfoRef = useRef<null | HTMLDivElement>(null);
 
-  const dataEhoraAtual = (dataehora: Date | string) => {
-    const nowTime = new Date();
-    const postDate = new Date(dataehora);
+  const dataEhoraAtual = (dataehora: Date | string | undefined) => {
+    if (!dataehora) {
+      return "";
+    }
+    let postDate: Date;
+    if (typeof dataehora === "string") {
+      postDate = new Date(dataehora);
+    } else {
+      postDate = dataehora;
+    }
 
+    const nowTime = new Date();
     const timeChange = nowTime.getTime() - postDate.getTime();
 
     const seconds = Math.floor(timeChange / 1000);
@@ -25,26 +33,24 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
     const day = Math.floor(hour / 24);
 
     if (day > 0) {
-      return `${day} day${day > 1 ? 's' : ''} ago`;
+      return `${day} dia${day > 1 ? "s" : ""} atrás`;
     }
     if (hour > 0) {
-      return `${hour} hour${hour > 1 ? 's' : ''} ago`;
+      return `${hour} hora${hour > 1 ? "s" : ""} atrás`;
     }
     if (minutes > 0) {
-      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      return `${minutes} minuto${minutes > 1 ? "s" : ""} atrás`;
     }
     if (seconds >= 0) {
-      return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+      return `${seconds} segundo${seconds > 1 ? "s" : ""} atrás`;
     }
-    return '';
+    return "Sem data";
   };
-
 
   const path = window.location.pathname;
 
   function handleMouseEnter() {
     if (path != "/") return;
-
     setTimeout(() => {
       setIsProfileInfoVisible(true);
     }, 500);
@@ -52,26 +58,25 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
 
   let timeout: NodeJS.Timeout | number;
 
-
   function handleMouseLeave() {
     if (path != "/") return;
     if (profileInfoRef.current) {
-      setIsProfileInfoVisible(true)
+      setIsProfileInfoVisible(true);
 
       profileInfoRef.current.onmouseenter = () => {
-        clearTimeout(timeout)
-      }
+        clearTimeout(timeout);
+      };
 
       profileInfoRef.current.onmouseleave = () => {
         setTimeout(() => {
-          setIsProfileInfoVisible(false)
-        }, 500)
-      }
+          setIsProfileInfoVisible(false);
+        }, 500);
+      };
     }
 
     timeout = setTimeout(() => {
-      setIsProfileInfoVisible(false)
-    }, 1000)
+      setIsProfileInfoVisible(false);
+    }, 1000);
   }
 
   return (
@@ -97,24 +102,26 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
           className="flex items-center justify-between relative
           sm:data-[ismenuvisible=true]:static"
         >
-          <div className="w-full grid grid-cols-[auto,1fr] gap-x-1 pr-8 sm:gap-0 overflow-hidden">
-            <strong
-              className="whitespace-nowrap w-full overflow-hidden text-ellipsis leading-5 sm:mr-1"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              {userName}
-            </strong>
-            <span
-              className="text-sm text-[#89a2b8] dark:text-[#828282] w-fit"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              @{userLogin}
-            </span>
+          <div >
+            <div className="w-full items-center grid grid-cols-[auto,1fr] gap-x-1 pr-8 sm:gap-0 overflow-hidden">
+              <strong
+                className="whitespace-nowrap w-full overflow-hidden text-ellipsis leading-5 sm:mr-1"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                {userName}
+              </strong>
+              <span
+                className="text-sm text-[#89a2b8] dark:text-[#828282] w-fit"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                @{userLogin}
+              </span>
+            </div>
             <span className="text-xs text-stone-600 mb-4">
-          {dataEhoraAtual(createdAt)}
-        </span>
+              {dataEhoraAtual(createdAt)}
+            </span>
           </div>
 
           <div

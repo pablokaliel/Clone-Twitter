@@ -20,12 +20,8 @@ function ProfileLikes() {
       const allTweets = [...tweets, ...initialTweets];
       const updatedLikedTweets = allTweets.filter((tweet) =>
       userLikes.includes(tweet.id)
-    ).map((tweet) => ({
-      ...tweet,
-      createdAt: new Date().toISOString(), // Add createdAt property
-    }));
-    setLikedTweets(updatedLikedTweets);
-    
+      );
+      setLikedTweets(updatedLikedTweets);
       setLoading(false);
     };
     fetchLikedTweets();
