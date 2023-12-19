@@ -50,6 +50,7 @@ function ProfileLikes() {
             likes={tweet.likes}
             id={tweet.id}
             views={tweet.views}
+            createdAt={tweet.createdAt}
           />
         ))
       ) : (

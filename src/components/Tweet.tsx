@@ -8,10 +8,37 @@ import { ProfileInfo } from "./ProfileInfo";
 import Buttons from "./Buttons";
 import { isTouchSupported } from "../utils/TouchUtils";
 
-export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comments, retweets, likes, id, views }: TweetProps) {
+export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comments, retweets, likes, id, views, createdAt }: TweetProps) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isProfileInfoVisible, setIsProfileInfoVisible] = useState(false);
   const profileInfoRef = useRef<null | HTMLDivElement>(null);
+
+  const dataEhoraAtual = (dataehora: Date | string) => {
+    const nowTime = new Date();
+    const postDate = new Date(dataehora);
+
+    const timeChange = nowTime.getTime() - postDate.getTime();
+
+    const seconds = Math.floor(timeChange / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hour = Math.floor(minutes / 60);
+    const day = Math.floor(hour / 24);
+
+    if (day > 0) {
+      return `${day} day${day > 1 ? 's' : ''} ago`;
+    }
+    if (hour > 0) {
+      return `${hour} hour${hour > 1 ? 's' : ''} ago`;
+    }
+    if (minutes > 0) {
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    }
+    if (seconds >= 0) {
+      return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+    }
+    return '';
+  };
+
 
   const path = window.location.pathname;
 
@@ -85,6 +112,9 @@ export function Tweet({ userAvatar, userName, userLogin, content, imageUrl, comm
             >
               @{userLogin}
             </span>
+            <span className="text-xs text-stone-600 mb-4">
+          {dataEhoraAtual(createdAt)}
+        </span>
           </div>
 
           <div

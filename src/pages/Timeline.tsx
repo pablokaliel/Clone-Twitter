@@ -24,6 +24,7 @@ export interface TweetProps {
   isLiked?: number;
   imageTitle?: string;
   imagePreview?: string;
+  createdAt: Date | string;
 }
 
 export function Timeline() {
@@ -31,6 +32,7 @@ export function Timeline() {
   const { userInfo } = useUser();
 
   const scrollDirection = useScrollDirection();
+  const dataHoraAtual = new Date();
 
   const [newTweet, setNewTweet] = useState<TweetProps>({
     id: uuidv4(),
@@ -45,6 +47,7 @@ export function Timeline() {
     imageUrl: undefined,
     imageTitle: undefined,
     imagePreview: undefined,
+    createdAt: dataHoraAtual.toISOString(),
   });
 
   const [tweets, setTweets] = useState<TweetProps[]>([]);
@@ -57,10 +60,11 @@ export function Timeline() {
     const tweetsWithLikes = await Promise.all(
       mergedTweets.map(async (tweet) => {
         const tweetLikes = await getTweetLikes(tweet.id);
+        
         return { ...tweet, likes: tweetLikes };
       })
     );
-
+    
     setTweets(tweetsWithLikes);
   }
 
@@ -107,6 +111,7 @@ export function Timeline() {
           retweets: 0,
           likes: 0,
           views: 0,
+          createdAt: dataHoraAtual.toISOString(),
         };
 
         await addTweet(tweetToSave);
@@ -125,6 +130,7 @@ export function Timeline() {
           views: 0,
           imageUrl: null,
           imageTitle: undefined,
+          createdAt: dataHoraAtual.toISOString(),
         });
         window.location.reload();
         console.log("Tweet adicionado com sucesso.");
@@ -286,6 +292,7 @@ export function Timeline() {
               likes={tweet.likes}
               id={tweet.id}
               views={tweet.views}
+              createdAt={tweet.createdAt} 
             />
           ))}
 
