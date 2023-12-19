@@ -24,7 +24,7 @@ export interface TweetProps {
   isLiked?: number;
   imageTitle?: string;
   imagePreview?: string;
-  createdAt: Date | string;
+  createdAt?: Date | string;
 }
 
 export function Timeline() {

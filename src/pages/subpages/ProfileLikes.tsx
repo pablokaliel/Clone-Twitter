@@ -19,10 +19,13 @@ function ProfileLikes() {
       const userLikes = await getUserLikes(userId);
       const allTweets = [...tweets, ...initialTweets];
       const updatedLikedTweets = allTweets.filter((tweet) =>
-        userLikes.includes(tweet.id)
-      );
-
-      setLikedTweets(updatedLikedTweets);
+      userLikes.includes(tweet.id)
+    ).map((tweet) => ({
+      ...tweet,
+      createdAt: new Date().toISOString(), // Add createdAt property
+    }));
+    setLikedTweets(updatedLikedTweets);
+    
       setLoading(false);
     };
     fetchLikedTweets();
